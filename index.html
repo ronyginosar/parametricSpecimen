@@ -36,15 +36,14 @@
             <h2 contenteditable="true" >החתול גידל כלב בדג תחת הגדר ביהודה</h2>
           </div>
           <div class="colorControlers">
-            <input type="image" src="data/color.png" class="icon" onclick="bgColorSelector()">
+            <input type="image" src="data/color.png" class="icon" onclick="bgColorSelector()" id="color-bg-icon">
               <div id="color-bg-container"></div>
             </input>
             <input type="image" src="data/bwicon.png" class="icon" onclick="colorinvert()"></input>
-            <input type="image" src="data/rgb.png" class="icon" onclick="textColorSelector()">
+            <input type="image" src="data/rgb.png" class="icon" onclick="textColorSelector()" id="color-text-icon">
               <div id="color-text-container"></div>
             </input>
             <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input>
-            <!-- <input type="image" src="data/replay.png" class="icon" id="random"></input> -->
           </div>
         </div>
         <script type="text/javascript">
@@ -85,9 +84,18 @@
             }
           }
 
-          // var currBg = document.body.style.getPropertyValue('--bg-color').toString();
-          // var currElem = document.body.style.getPropertyValue('--element-color');
+          function randomColors(){
+            // 16777215 == ffffff in decimal
+            // 16 -> hex val of number
+            var randomElement = Math.floor(Math.random()*16777215).toString(16);
+            if (randomElement.length != 6) randomElement = Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.setProperty('--element-color' , "#"+randomElement );
+            var randomBackground = Math.floor(Math.random()*16777215).toString(16);
+            if (randomBackground.length != 6) randomBackground = Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.setProperty('--bg-color' , "#"+randomBackground );
+          }
 
+          //  color selection functions
 
           // set background colorPicker
           var bgcolorPicker = new iro.ColorPicker("#color-bg-container", {
@@ -108,8 +116,6 @@
             sliderMargin:7
           });
 
-          //  color selection functions
-
           function bgColorSelector(){
             // toggle selector
             var selectorDiv = document.getElementById("color-bg-container");
@@ -121,15 +127,23 @@
             // hide other selector
             document.getElementById("color-text-container").style.display = "none";
 
-            // set initial color to current color
+            // set initial color to current color (if not first time defining color)
             var currBgColor = document.body.style.getPropertyValue('--bg-color');
-            bgcolorPicker.color.set(currBgColor);
+            if (currBgColor != "") bgcolorPicker.color.set(currBgColor);
 
             // change color on traverse
             bgcolorPicker.on(["color:init", "color:change"], function(color){
               var bgCurrColor = bgcolorPicker.color.hexString; // already string ready
               document.body.style.setProperty('--bg-color' , bgCurrColor );
             });
+            // TODO: optional - hide panel if clicked outside div
+            // hide when clicked outside
+            // document.onclick = function(e){
+            //    if((e.target.id !== "color-bg-icon") && (e.target.id !== "color-bg-container")){
+            //      // console.log("HIDE");
+            //      selectorDiv.style.display = 'none';
+            //    }
+            // };
           }
 
           function textColorSelector(){
@@ -143,26 +157,15 @@
             // hide other selector
             document.getElementById("color-bg-container").style.display = "none";
 
-            // set initial color to current color
+            // set initial color to current color (if not first time defining color)
             var currElemColor = document.body.style.getPropertyValue('--element-color');
-            textcolorPicker.color.set(currElemColor);
+            if (currElemColor != "") textcolorPicker.color.set(currElemColor);
 
             // change color on traverse
             textcolorPicker.on(["color:init", "color:change"], function(color){
               var elemCurrColor = textcolorPicker.color.hexString; // already string ready
               document.body.style.setProperty('--element-color' , elemCurrColor );
             });
-          }
-
-          function randomColors(){
-            // 16777215 == ffffff in decimal
-            // 16 -> hex val of number
-            var randomElement = Math.floor(Math.random()*16777215).toString(16);
-            if (randomElement.length != 6) randomElement = Math.floor(Math.random()*16777215).toString(16);
-            document.body.style.setProperty('--element-color' , "#"+randomElement );
-            var randomBackground = Math.floor(Math.random()*16777215).toString(16);
-            if (randomBackground.length != 6) randomBackground = Math.floor(Math.random()*16777215).toString(16);
-            document.body.style.setProperty('--bg-color' , "#"+randomBackground );
           }
 
           // note: In chrome apps, Content Security Policy does not allow inline javascript.
