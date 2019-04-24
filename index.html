@@ -6,7 +6,8 @@
     <meta name="description" content="A new platform for open-source fonts in a noise-free environment, to highlight their beauty, extend functionality and encourage further exploration.">
     <link rel="stylesheet" media="all" href="styles.css"/>
     <link rel="stylesheet" media="all" href="css/controlers.css"/>
-    <link rel="preload" href="font/NoordzijTributev2GX.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="font/NoordzijTributev2GX.ttf" as="font" type="font/ttf">
+    <!-- <link rel="preload" href="font/NoordzijTributev2GX.ttf" as="font" type="font/ttf" crossorigin> -->
     <!-- <script src="js/iro.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro/dist/iro.min.js"></script>
   </head>
@@ -43,6 +44,7 @@
               <div id="color-text-container"></div>
             </input>
             <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input>
+            <!-- <input type="image" src="data/replay.png" class="icon" id="random"></input> -->
           </div>
         </div>
         <script type="text/javascript">
@@ -118,10 +120,14 @@
             }
             // hide other selector
             document.getElementById("color-text-container").style.display = "none";
+
+            // set initial color to current color
+            var currBgColor = document.body.style.getPropertyValue('--bg-color');
+            bgcolorPicker.color.set(currBgColor);
+
             // change color on traverse
             bgcolorPicker.on(["color:init", "color:change"], function(color){
               var bgCurrColor = bgcolorPicker.color.hexString; // already string ready
-              // console.log(bgCurrColor);
               document.body.style.setProperty('--bg-color' , bgCurrColor );
             });
           }
@@ -137,21 +143,30 @@
             // hide other selector
             document.getElementById("color-bg-container").style.display = "none";
 
+            // set initial color to current color
+            var currElemColor = document.body.style.getPropertyValue('--element-color');
+            textcolorPicker.color.set(currElemColor);
+
             // change color on traverse
             textcolorPicker.on(["color:init", "color:change"], function(color){
               var elemCurrColor = textcolorPicker.color.hexString; // already string ready
-              // console.log(bgCurrColor);
               document.body.style.setProperty('--element-color' , elemCurrColor );
             });
           }
 
-          // function randomColors(){
-          //   var randomElement = Math.floor(Math.random()*16777215).toString(16);
-          //   document.body.style.setProperty('--element-color' , randomElement );
-          //   console.log();
-          //   // var randomBackground = Math.floor(Math.random()*16777215).toString(16);
-          //   // document.body.style.setProperty('--bg-color' , randomBackground );
-          // }
+          function randomColors(){
+            // 16777215 == ffffff in decimal
+            // 16 -> hex val of number
+            var randomElement = Math.floor(Math.random()*16777215).toString(16);
+            if (randomElement.length != 6) randomElement = Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.setProperty('--element-color' , "#"+randomElement );
+            var randomBackground = Math.floor(Math.random()*16777215).toString(16);
+            if (randomBackground.length != 6) randomBackground = Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.setProperty('--bg-color' , "#"+randomBackground );
+          }
+
+          // note: In chrome apps, Content Security Policy does not allow inline javascript.
+          // https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox/36349056
 
         </script>
       </section>

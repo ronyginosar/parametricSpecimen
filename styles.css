@@ -1,6 +1,5 @@
 * {
     box-sizing: border-box;
-    /* font-family: 'NarkisBlock'; */
     font-family: 'Noordzij';
     font-variation-settings: "wght" 140, "ctrs" 100, "styl" 0;
 }
@@ -13,15 +12,17 @@
 
 /* font declerations */
 @font-face {
-    font-family: 'NarkisBlock';
-    src: url('font/VC_NarkisBlock-Regular.otf');
-}
-@font-face {
   font-family: 'Noordzij';
   src: url('font/NoordzijTributev2GX.ttf');
 }
+
 .Noordzij{
   font-family: 'Noordzij';
+}
+/* numeric font */
+@font-face {
+    font-family: 'NarkisBlock';
+    src: url('font/VC_NarkisBlock-Regular.otf');
 }
 
 body{
