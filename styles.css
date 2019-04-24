@@ -1,5 +1,8 @@
 * {
     box-sizing: border-box;
+    /* font-family: 'NarkisBlock'; */
+    font-family: 'Noordzij';
+    font-variation-settings: "wght" 140, "ctrs" 100, "styl" 0;
 }
 
 /* declaring global CSS variables */
@@ -11,21 +14,17 @@
 /* font declerations */
 @font-face {
     font-family: 'NarkisBlock';
-    src: url('data/VC_NarkisBlock-Regular.otf');
+    src: url('font/VC_NarkisBlock-Regular.otf');
 }
 @font-face {
   font-family: 'Noordzij';
-  src: url('data/NoordzijTributev2GX.ttf');
+  src: url('font/NoordzijTributev2GX.ttf');
 }
 .Noordzij{
   font-family: 'Noordzij';
 }
 
 body{
-  /* font-family: 'NarkisBlock'; */
-  font-family: 'Noordzij';
-  font-variation-settings: "wght" 140, "ctrs" 100, "styl" 0;
-
   margin: 0;
   direction: rtl;
   background-color: var(--bg-color);
@@ -107,7 +106,7 @@ h2::selection {
 
 #color-bg-container{
   position: absolute;
-  left: 100px;
+  left: 120px;
   display:none;
 }
 #color-text-container{
