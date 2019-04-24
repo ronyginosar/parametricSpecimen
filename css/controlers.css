@@ -1,0 +1,108 @@
+/* TEXT CONTROLLERS */
+
+.controlers{
+  display: flex;
+  direction: ltr; /* for correct slider direction */
+  flex-direction: row-reverse; /* for correct slider-label oreder */
+  justify-content: space-between;
+  /* TODO how to make sure dont overlay above text */
+  align-items: center;
+  /* opacity: 0; */
+  bottom: 5px;
+  position: relative;
+  z-index: 60;
+  margin-top: 10px;
+}
+
+
+input[type=range].styleslider {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 11px;
+  margin-right: 0px;
+}
+
+input[type=range].styleslider:focus {
+    outline: 0px solid transparent;
+}
+
+input[type=range].styleslider::-webkit-slider-runnable-track {
+  width: 50%;
+  height: 1px;
+  cursor: cell;
+  background: var(--element-color);
+  border-radius: 0px;
+  border: 0px solid var(--element-color);
+}
+
+input[type=range].styleslider::-webkit-slider-thumb {
+  border: 0px solid rgba(0, 0, 0, 0);
+  height: 10px;
+  width: 10px;
+  border-radius: 30px;
+  /* background: #000000; */
+  background: var(--element-color);
+  cursor: cell;
+  -webkit-appearance: none;
+  margin-top: -4.1px;
+}
+
+/* TODO hover tag next to thumb */
+/* input[type=range].styleslider::-webkit-slider-thumb:hover {
+  position: absolute;
+  font-family: Roboto Slab;
+  /* top: -49px; */
+  /* background: #3f51b5; */
+  /* padding: 8px 0 3px; */
+  /* font-size: 14px; */
+  /* width: 30px; */
+  /* text-align: center;
+  border-radius: 100% 100% 0 0
+ } */
+
+.stylesliderLabel{
+/* input[type=range].styleslider::-webkit-slider-thumb:hover{ */
+    /* direction: rtl; */
+    position: relative;
+    color: var(--element-color);
+    /* position: absolute; */
+    font-family: 'NarkisBlock';
+    font-weight: 100;
+    border-radius: 10px;
+    margin-left: 10px;
+    /* display: inline-block; */
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: normal;
+    line-height: normal;
+    /* line-height: 12px; */
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transform: translate(0px,-10%);
+    transition: opacity .2s ease,transform .2s ease;
+    opacity: 0;
+    width:50px; /* placeholder so '-' won't whange margins*/
+  }
+
+/* Hovering */
+.styleslider.heightInput:hover ~ .stylesliderLabel.heightLabel{
+    opacity:1;
+}
+.styleslider.spacingInput:hover ~ .stylesliderLabel.spacingLabel{
+    opacity:1;
+}
+.styleslider.sizeInput:hover ~ .stylesliderLabel.sizeLabel{
+    opacity:1;
+}
+/* .block1:hover .controlers{
+  opacity: 1;
+}
+.block2:hover .controlers{
+  opacity: 1;
+}
+.block3:hover .controlers{
+  opacity: 1;
+} */

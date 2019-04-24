@@ -1,0 +1,164 @@
+<html lang="he">
+<!-- <a href=”https://en.wikipedia.org/wiki/Markup_language”> text </a> -->
+  <head>
+    <title> Type </title>
+    <meta charset="UTF-8" dir="rtl">
+    <meta name="description" content="A new platform for open-source fonts in a noise-free environment, to highlight their beauty, extend functionality and encourage further exploration.">
+    <link rel="stylesheet" media="all" href="styles.css"/>
+    <link rel="stylesheet" media="all" href="css/controlers.css"/>
+    <script src="js/iro.min.js"></script>
+  </head>
+  <body>
+    <section class = "top">
+      <header>
+      <!-- TODO? -->
+      </header>
+    </section>
+    <section class="main">
+      <section class = "textTester">
+        <div class=”container”>
+          <!-- text blocks to test, each shows controler on hover -->
+          <div class="block1">
+            <div class="controlers">
+              <input class="styleslider sizeInput" type="range" min="12" max="120" value="5vw" oninput="updateSize('block1')">
+                <div class="stylesliderLabel sizeLabel">23</div>
+              </input>
+              <input class="styleslider spacingInput" type="range" min="-8" max="8" value="1" oninput="updateSpacing('block1')">
+                <div class="stylesliderLabel spacingLabel">1</div>
+              </input>
+              <input class="styleslider heightInput" type="range" min="12" max="150" value="6vw" oninput="updateHeight('block1')">
+                <div class="stylesliderLabel heightLabel">30</div>
+              </input>
+            </div>
+            <h2 contenteditable="true" >החתול גידל כלב בדג תחת הגדר ביהודה</h2>
+          </div>
+          <div class="colorControlers">
+            <input type="image" src="data/color.png" class="icon" onclick="bgColorSelector()">
+              <div id="color-bg-container"></div>
+            </input>
+            <input type="image" src="data/bwicon.png" class="icon" onclick="colorinvert()"></input>
+            <input type="image" src="data/rgb.png" class="icon" onclick="textColorSelector()">
+              <div id="color-text-container"></div>
+            </input>
+            <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input>
+          </div>
+        </div>
+        <script type="text/javascript">
+
+          function updateSize(c) {
+            var currclass = document.getElementsByClassName(c)[0]
+            var v = currclass.getElementsByClassName("sizeInput")[0].value;
+            currclass.style.fontSize = v + "px"; // update value
+            currclass.getElementsByClassName("sizeLabel")[0].innerHTML = v; // update label
+            // update line height upon size update
+            var updatedHeight = +v + +10;
+            currclass.style.lineHeight = updatedHeight + "px"; // update value
+            currclass.getElementsByClassName("heightLabel")[0].innerHTML = updatedHeight; // update label
+            currclass.getElementsByClassName("heightInput")[0].value = updatedHeight;
+          }
+
+          function updateSpacing(c) {
+            var currclass = document.getElementsByClassName(c)[0]
+            var v = currclass.getElementsByClassName("spacingInput")[0].value;
+            currclass.style.letterSpacing = v + "px"; // update value
+            currclass.getElementsByClassName("spacingLabel")[0].innerHTML = v; // update label
+          }
+
+          function updateHeight(c) {
+            var currclass = document.getElementsByClassName(c)[0]
+            var v = currclass.getElementsByClassName("heightInput")[0].value;
+            currclass.style.lineHeight = v + "px"; // update value
+            currclass.getElementsByClassName("heightLabel")[0].innerHTML = v; // update label
+          }
+
+          function colorinvert(){
+            if (document.body.style.getPropertyValue('--bg-color') != "black"){
+              document.body.style.setProperty('--bg-color' , "black" );
+              document.body.style.setProperty('--element-color' , "white" );
+            } else {
+              document.body.style.setProperty('--bg-color' , "white" );
+              document.body.style.setProperty('--element-color' , "black" );
+            }
+          }
+
+          // var currBg = document.body.style.getPropertyValue('--bg-color').toString();
+          // var currElem = document.body.style.getPropertyValue('--element-color');
+
+
+          // set background colorPicker
+          var bgcolorPicker = new iro.ColorPicker("#color-bg-container", {
+            width: 100,
+            color: '#ffffff', //initial color
+            wheelLightness: false,
+            handleRadius:7,
+            sliderHeight:7,
+            sliderMargin:7
+          });
+          // set text colorPicker
+          var textcolorPicker = new iro.ColorPicker("#color-text-container", {
+            width: 100,
+            color: '#000000', //initial color
+            wheelLightness: false,
+            handleRadius:7,
+            sliderHeight:7,
+            sliderMargin:7
+          });
+
+          //  color selection functions
+
+          function bgColorSelector(){
+            // toggle selector
+            var selectorDiv = document.getElementById("color-bg-container");
+            if (selectorDiv.style.display != "block") {
+              selectorDiv.style.display = "block";
+            } else {
+              selectorDiv.style.display = "none";
+            }
+            // hide other selector
+            document.getElementById("color-text-container").style.display = "none";
+            // change color on traverse
+            bgcolorPicker.on(["color:init", "color:change"], function(color){
+              var bgCurrColor = bgcolorPicker.color.hexString; // already string ready
+              // console.log(bgCurrColor);
+              document.body.style.setProperty('--bg-color' , bgCurrColor );
+            });
+          }
+
+          function textColorSelector(){
+            // toggle selector
+            var selectorDiv = document.getElementById("color-text-container");
+            if (selectorDiv.style.display != "block") {
+              selectorDiv.style.display = "block";
+            } else {
+              selectorDiv.style.display = "none";
+            }
+            // hide other selector
+            document.getElementById("color-bg-container").style.display = "none";
+
+            // change color on traverse
+            textcolorPicker.on(["color:init", "color:change"], function(color){
+              var elemCurrColor = textcolorPicker.color.hexString; // already string ready
+              // console.log(bgCurrColor);
+              document.body.style.setProperty('--element-color' , elemCurrColor );
+            });
+          }
+
+          function randomColors(){
+            var randomElement = Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.setProperty('--element-color' , randomElement );
+            console.log();
+            // var randomBackground = Math.floor(Math.random()*16777215).toString(16);
+            // document.body.style.setProperty('--bg-color' , randomBackground );
+          }
+
+        </script>
+      </section>
+      <section class = "LEFTfontList">
+          <!-- TODO -->
+      </section>
+    </section>
+    <footer>
+      <!-- TODO credits -->
+    </footer>
+  </body>
+</html>
