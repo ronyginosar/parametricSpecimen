@@ -8,6 +8,7 @@
 :root {
   --element-color: black;
   --bg-color: white;
+  --page-margins: 3%;
 }
 
 /* font declerations */
@@ -50,8 +51,8 @@ body{
   flex-direction:row;
   justify-content: center;
   /* background-color: red; */
-  padding-right: 2%;
-  padding-left: 2%;
+  padding-right: var(--page-margins);
+  padding-left: var(--page-margins);
 }
 
 /* .bottomcontainer{
@@ -62,8 +63,8 @@ body{
 /* TEXT TESTER*/
 
 .textTester{
-  padding-right: 2%;
-  padding-left: 2%;
+  padding-right: var(--page-margins);
+  padding-left: var(--page-margins);
   /* flex-direction: column; */
   flex: 70%;
   justify-content: flex-end;
@@ -96,6 +97,9 @@ p{
   /* background-color: green; */
 }
 .colorControlers{
+  position: absolute;
+  left: var(--page-margins);
+  bottom: var(--page-margins);
   display: flex;
   flex-direction: column;
   /* background-color: blue; */
