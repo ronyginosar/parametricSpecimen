@@ -3,13 +3,15 @@
   <head>
     <title> Type </title>
     <meta charset="UTF-8" dir="rtl">
-    <meta name="description" content="A new platform for open-source fonts in a noise-free environment, to highlight their beauty, extend functionality and encourage further exploration.">
-    <link rel="stylesheet" media="all" href="styles.css"/>
-    <link rel="stylesheet" media="all" href="css/controlers.css"/>
+    <meta name="description" content="A suggestion of a Parametric Type specimine, to highlight it's extended features and encourage exploration of the available parameters.">
+    <!-- NOTE order is relevant -->
     <link rel="preload" href="font/NoordzijTributev2GX.ttf" as="font" type="font/ttf">
     <!-- <link rel="preload" href="font/NoordzijTributev2GX.ttf" as="font" type="font/ttf" crossorigin> -->
-    <!-- <script src="js/iro.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro/dist/iro.min.js"></script>
+    <link rel="stylesheet" media="all" href="styles.css"/>
+    <link rel="stylesheet" media="all" href="css/controlers.css"/>
+    <script src="js/iro.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@jaames/iro/dist/iro.min.js"></script> -->
+    <script src="js/controlerFunctions.js" type="text/javascript"></script>
   </head>
   <body>
     <section class = "top">
@@ -20,22 +22,38 @@
     <section class="main">
       <section class = "textTester">
         <div class=”container”>
-          <!-- text blocks to test, each shows controler on hover -->
+          <div class="controlers">
+            <input class="styleslider sizeInput" type="range" min="12" max="120" value="5vw" orient="vertical" oninput="updateSize('controlers','block1')">
+              <div class="stylesliderLabel sizeLabel">23</div>
+            </input>
+            <input class="styleslider spacingInput" type="range" min="-8" max="8" value="1" oninput="updateSpacing('controlers','block1')">
+              <div class="stylesliderLabel spacingLabel">1</div>
+            </input>
+            <input class="styleslider heightInput" type="range" min="12" max="150" value="6vw" oninput="updateHeight('controlers','block1')">
+              <div class="stylesliderLabel heightLabel">30</div>
+            </input>
+          </div>
           <div class="block1">
-            <div class="controlers">
-              <input class="styleslider sizeInput" type="range" min="12" max="120" value="5vw" oninput="updateSize('block1')">
-                <div class="stylesliderLabel sizeLabel">23</div>
-              </input>
-              <input class="styleslider spacingInput" type="range" min="-8" max="8" value="1" oninput="updateSpacing('block1')">
-                <div class="stylesliderLabel spacingLabel">1</div>
-              </input>
-              <input class="styleslider heightInput" type="range" min="12" max="150" value="6vw" oninput="updateHeight('block1')">
-                <div class="stylesliderLabel heightLabel">30</div>
-              </input>
-            </div>
             <h2 contenteditable="true" >החתול גידל כלב בדג תחת הגדר ביהודה</h2>
           </div>
+          <!-- <div class="colorControlers">
+            <!-- NOTE: dont put anything after "onclick" -->
+            <!-- <input type="image" src="data/color.png" class="icon" onclick="bgColorSelector()">
+              <div id="color-bg-container"></div>
+            </input>
+            <input type="image" src="data/bwicon.png" class="icon" onclick="colorinvert()"></input>
+            <input type="image" src="data/rgb.png" class="icon" onclick="textColorSelector()">
+              <div id="color-text-container"></div>
+            </input>
+            <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input>
+          </div>  -->
+        </div>
+      </section>
+      <section class = "bottomSection">
+          <!-- TODO -->
+          <p>hi</p>
           <div class="colorControlers">
+            <!-- NOTE: dont put anything after "onclick" -->
             <input type="image" src="data/color.png" class="icon" onclick="bgColorSelector()">
               <div id="color-bg-container"></div>
             </input>
@@ -45,136 +63,6 @@
             </input>
             <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input>
           </div>
-        </div>
-        <script type="text/javascript">
-
-          function updateSize(c) {
-            var currclass = document.getElementsByClassName(c)[0]
-            var v = currclass.getElementsByClassName("sizeInput")[0].value;
-            currclass.style.fontSize = v + "px"; // update value
-            currclass.getElementsByClassName("sizeLabel")[0].innerHTML = v; // update label
-            // update line height upon size update
-            var updatedHeight = +v + +10;
-            currclass.style.lineHeight = updatedHeight + "px"; // update value
-            currclass.getElementsByClassName("heightLabel")[0].innerHTML = updatedHeight; // update label
-            currclass.getElementsByClassName("heightInput")[0].value = updatedHeight;
-          }
-
-          function updateSpacing(c) {
-            var currclass = document.getElementsByClassName(c)[0]
-            var v = currclass.getElementsByClassName("spacingInput")[0].value;
-            currclass.style.letterSpacing = v + "px"; // update value
-            currclass.getElementsByClassName("spacingLabel")[0].innerHTML = v; // update label
-          }
-
-          function updateHeight(c) {
-            var currclass = document.getElementsByClassName(c)[0]
-            var v = currclass.getElementsByClassName("heightInput")[0].value;
-            currclass.style.lineHeight = v + "px"; // update value
-            currclass.getElementsByClassName("heightLabel")[0].innerHTML = v; // update label
-          }
-
-          function colorinvert(){
-            if (document.body.style.getPropertyValue('--bg-color') != "black"){
-              document.body.style.setProperty('--bg-color' , "black" );
-              document.body.style.setProperty('--element-color' , "white" );
-            } else {
-              document.body.style.setProperty('--bg-color' , "white" );
-              document.body.style.setProperty('--element-color' , "black" );
-            }
-          }
-
-          function randomColors(){
-            // 16777215 == ffffff in decimal
-            // 16 -> hex val of number
-            var randomElement = Math.floor(Math.random()*16777215).toString(16);
-            if (randomElement.length != 6) randomElement = Math.floor(Math.random()*16777215).toString(16);
-            document.body.style.setProperty('--element-color' , "#"+randomElement );
-            var randomBackground = Math.floor(Math.random()*16777215).toString(16);
-            if (randomBackground.length != 6) randomBackground = Math.floor(Math.random()*16777215).toString(16);
-            document.body.style.setProperty('--bg-color' , "#"+randomBackground );
-          }
-
-          //  color selection functions
-
-          // set background colorPicker
-          var bgcolorPicker = new iro.ColorPicker("#color-bg-container", {
-            width: 100,
-            color: '#ffffff', //initial color
-            wheelLightness: false,
-            handleRadius:7,
-            sliderHeight:7,
-            sliderMargin:7
-          });
-          // set text colorPicker
-          var textcolorPicker = new iro.ColorPicker("#color-text-container", {
-            width: 100,
-            color: '#000000', //initial color
-            wheelLightness: false,
-            handleRadius:7,
-            sliderHeight:7,
-            sliderMargin:7
-          });
-
-          function bgColorSelector(){
-            // toggle selector
-            var selectorDiv = document.getElementById("color-bg-container");
-            if (selectorDiv.style.display != "block") {
-              selectorDiv.style.display = "block";
-            } else {
-              selectorDiv.style.display = "none";
-            }
-            // hide other selector
-            document.getElementById("color-text-container").style.display = "none";
-
-            // set initial color to current color (if not first time defining color)
-            var currBgColor = document.body.style.getPropertyValue('--bg-color');
-            if (currBgColor != "") bgcolorPicker.color.set(currBgColor);
-
-            // change color on traverse
-            bgcolorPicker.on(["color:init", "color:change"], function(color){
-              var bgCurrColor = bgcolorPicker.color.hexString; // already string ready
-              document.body.style.setProperty('--bg-color' , bgCurrColor );
-            });
-            // TODO: optional - hide panel if clicked outside div
-            // hide when clicked outside
-            // document.onclick = function(e){
-            //    if((e.target.id !== "color-bg-icon") && (e.target.id !== "color-bg-container")){
-            //      // console.log("HIDE");
-            //      selectorDiv.style.display = 'none';
-            //    }
-            // };
-          }
-
-          function textColorSelector(){
-            // toggle selector
-            var selectorDiv = document.getElementById("color-text-container");
-            if (selectorDiv.style.display != "block") {
-              selectorDiv.style.display = "block";
-            } else {
-              selectorDiv.style.display = "none";
-            }
-            // hide other selector
-            document.getElementById("color-bg-container").style.display = "none";
-
-            // set initial color to current color (if not first time defining color)
-            var currElemColor = document.body.style.getPropertyValue('--element-color');
-            if (currElemColor != "") textcolorPicker.color.set(currElemColor);
-
-            // change color on traverse
-            textcolorPicker.on(["color:init", "color:change"], function(color){
-              var elemCurrColor = textcolorPicker.color.hexString; // already string ready
-              document.body.style.setProperty('--element-color' , elemCurrColor );
-            });
-          }
-
-          // note: In chrome apps, Content Security Policy does not allow inline javascript.
-          // https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox/36349056
-
-        </script>
-      </section>
-      <section class = "LEFTfontList">
-          <!-- TODO -->
       </section>
     </section>
     <footer>

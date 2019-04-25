@@ -39,36 +39,39 @@ body{
 /* MAIN */
 
 .main{
-  display: flex;
   height: 100%;
 }
 
-/* LEFT FONT LIST TODO*/
+/* bottomSection */
 
-.LEFTfontList{
-  flex: 30%;
+.bottomSection{
+  /* flex: 30%; */
+  display: flex;
+  flex-direction:row;
   justify-content: center;
+  /* background-color: red; */
+  padding-right: 2%;
+  padding-left: 2%;
 }
 
-#three_container{
-  position: relative;
-  flex: 30%;
-}
-/* .canvas{
-  position: relative;
+/* .bottomcontainer{
+  display:flex;
+  flex-direction:row;
 } */
 
-/* RIGTH TEXT TESTER*/
+/* TEXT TESTER*/
 
 .textTester{
   padding-right: 2%;
   padding-left: 2%;
-  flex-direction: column;
+  /* flex-direction: column; */
   flex: 70%;
+  justify-content: flex-end;
+
 }
 
 [contenteditable]:focus {
-    outline: 0px solid transparent;
+  outline: 0px solid transparent;
 }
 
 .block1{
@@ -80,6 +83,7 @@ h2{
   margin-top: 0;
   margin-bottom: 10%;
   color: var(--element-color);
+  /* background-color: pink; */
 }
 
 h2::selection {
@@ -87,17 +91,20 @@ h2::selection {
 }
 
 /* COLOR CONTROLLERS */
-
+p{
+  flex: 80%;
+  /* background-color: green; */
+}
 .colorControlers{
   display: flex;
-  justify-content: flex-end;
-  margin: 10 0 20 20px;
-  position: relative;
+  flex-direction: column;
+  /* background-color: blue; */
 }
 
 .icon{
-  height: 17px;
-  padding-left: 10px;
+  object-fit: contain;
+  height: 30px;
+  margin-bottom: 10px;
   cursor: cell;
 }
 
@@ -107,11 +114,11 @@ h2::selection {
 
 #color-bg-container{
   position: absolute;
-  left: 120px;
+  left: 100px;
   display:none;
 }
 #color-text-container{
   position: absolute;
-  top: 30px;
+  left: 100px;
   display:none;
 }
