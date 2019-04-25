@@ -7,7 +7,6 @@
   flex-direction: row-reverse; /* for correct slider-label oreder */
   justify-content: space-between;
   align-items: center;
-  /* opacity: 0; */
   bottom: 5px;
   position: relative;
   z-index: 600;
@@ -48,17 +47,14 @@ input[type=range].styleslider::-webkit-slider-thumb {
 .stylesliderLabel{
     position: relative;
     color: var(--element-color);
-    /* position: absolute; */
     font-family: 'NarkisBlock';
     font-weight: 100;
     border-radius: 10px;
     margin-left: 10px;
-    /* display: inline-block; */
     text-align: center;
     font-size: 15px;
     letter-spacing: normal;
     line-height: normal;
-    /* line-height: 12px; */
     white-space: nowrap;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -67,7 +63,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
     transform: translate(0px,-10%);
     transition: opacity .2s ease,transform .2s ease;
     opacity: 0;
-    width:50px; /* placeholder so '-' won't whange margins*/
+    width:50px; /* placeholder so '-' won't change margins*/
   }
 
 /* Hovering */
