@@ -85,6 +85,13 @@ h2{
   margin-bottom: 10%;
   color: var(--element-color);
   /* background-color: pink; */
+  display:inline;
+  background-color:green;
+  line-height: 0.5;
+}
+
+h2 span {
+    position: relative;
 }
 
 h2::selection {
