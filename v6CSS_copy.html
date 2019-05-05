@@ -76,7 +76,7 @@
 			var letterinstances = [];
 
 			var cubesize = 200;
-			var segments = 3;
+			var segments = 1;
 			var cubedata;
 			var vertices;
 
@@ -131,8 +131,8 @@
 					letter.textContent = message;
 					letter.setAttribute('contenteditable', 'true');
 
-					var wght = i*10;
-					var ctrs = i*10;
+					var wght = i*20;
+					var ctrs = i*20;
 					var styl = i%5;
 					letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
 					// console.log(letter.style.fontVariationSettings); // DEBUG
