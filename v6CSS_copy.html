@@ -128,13 +128,14 @@
 					var letter = document.createElement( 'div' );
 					letter.className = 'letter';
 					// letter.textContent = message+i; // DEBUG
-					letter.textContent = message;
+
 					letter.setAttribute('contenteditable', 'true');
 
 					var wght = i*20;
 					var ctrs = i*20;
-					//
 					var styl = i%5;
+
+					letter.textContent = message+wght.toString()+", "+ctrs.toString()+", "+styl.toString();
 					letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
 					// console.log(letter.style.fontVariationSettings); // DEBUG
 
