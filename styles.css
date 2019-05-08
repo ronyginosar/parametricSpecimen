@@ -1,24 +1,28 @@
 * {
     box-sizing: border-box;
     font-family: 'Noordzij';
-    font-variation-settings: "wght" 140, "ctrs" 100, "styl" 0;
 }
 
 /* declaring global CSS variables */
 :root {
-  --element-color: black;
-  --bg-color: white;
+  --element-color: #232323;
+  --bg-color: #f7f6f4;
   --page-margins: 3%;
+  --font-variation-settings: "wght" 1, "ctrs" 1, "styl" 1;
 }
 
 /* font declerations */
 @font-face {
   font-family: 'Noordzij';
   src: url('font/NoordzijTributev2GX.ttf');
+  /* INITIAL font-variation-settings, defining NORMAL */
+  font-weight: 10;
+  font-style: 1;
 }
 
 .Noordzij{
   font-family: 'Noordzij';
+
 }
 /* numeric font */
 @font-face {
@@ -28,9 +32,8 @@
 
 body{
   margin: 0;
-  direction: rtl;
   background-color: var(--bg-color);
-  height: 100%;
+  /* height: 100%; */
   overflow: hidden;
 }
 
@@ -40,16 +43,17 @@ body{
 /* MAIN */
 
 .main{
-  height: 100%;
+  /* height: 100%; */
+  margin-top: var(--page-margins);
 }
 
 /* bottomSection */
 
 .bottomSection{
   /* flex: 30%; */
-  display: flex;
-  flex-direction:row;
-  justify-content: center;
+  /* display: flex; */
+  /* flex-direction:row; */
+  /* justify-content: center; */
   /* background-color: red; */
   padding-right: var(--page-margins);
   padding-left: var(--page-margins);
@@ -66,8 +70,8 @@ body{
   padding-right: var(--page-margins);
   padding-left: var(--page-margins);
   /* flex-direction: column; */
-  flex: 30%;
-  justify-content: flex-end;
+  /* flex: 30%; */
+  /* justify-content: flex-end; */
 
 }
 
@@ -76,6 +80,7 @@ body{
 }
 
 .block1{
+  direction: rtl;
   font-size: 3vw;
   line-height: 4vw;
 }
@@ -99,10 +104,7 @@ h2::selection {
 }
 
 /* COLOR CONTROLLERS */
-p{
-  flex: 80%;
-  /* background-color: green; */
-}
+
 .colorControlers{
   position: absolute;
   left: var(--page-margins);
@@ -110,6 +112,7 @@ p{
   display: flex;
   flex-direction: column;
   /* background-color: blue; */
+  z-index: 100;
 }
 
 .icon{
@@ -132,4 +135,24 @@ p{
   position: absolute;
   left: 100px;
   display:none;
+}
+
+/* LETTER INSTANCES */
+
+#gridContainer{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.letter {
+    text-align: center;
+    cursor: default;
+    font-size: 20px;
+    font-family: 'Noordzij';
+    color: gray;
+
+}
+.letter:hover {
+  color: var(--element-color);
 }
