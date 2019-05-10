@@ -35,6 +35,7 @@ function init() {
 
   // CAMERA
   var fov = 15;
+  // camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000  );
   camera = new THREE.PerspectiveCamera( fov, width / height, 1, 100 );
   camera.position.z = 1000;
 
@@ -137,7 +138,7 @@ function drawLetters(){
       // DEBUG
       // letter.textContent = message + i + '/' + j;
       letter.textContent = message;
-      letter.setAttribute('contenteditable', 'true');
+      // letter.setAttribute('contenteditable', 'true');
 
       // parametric type settings, also use as id
       var wght = i*10;
