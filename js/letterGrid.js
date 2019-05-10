@@ -7,12 +7,15 @@ if ( WEBGL.isWebGLAvailable() === false ) {
 
 var container;
 var camera, scene, renderer;
-var controls;
+// var controls;
 var width = window.innerWidth;
 var height = window.innerHeight;
+var fov = 15;
+var near = 1;
+var far = 1000;
 // var raycaster;
 // var mouse = new THREE.Vector2(), INTERSECTED;
-var mesh, line;
+var zoom, view;
 
 var material;
 var message = "פ";
@@ -34,10 +37,9 @@ function init() {
   scene = new THREE.Scene();
 
   // CAMERA
-  var fov = 15;
   // camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000  );
-  camera = new THREE.PerspectiveCamera( fov, width / height, 1, 100 );
-  camera.position.z = 1000;
+  camera = new THREE.PerspectiveCamera( fov, width / height, near, far );
+  camera.position.z = far;
 
   // DRAWING
   drawLetters();
@@ -55,9 +57,24 @@ function init() {
 
   // CONTROLS
   // https://threejs.org/docs/index.html#examples/controls/OrbitControls
-  controls = new THREE.OrbitControls( camera );
+  // controls = new THREE.OrbitControls( camera );
 
   // Set up zoom behavior
+  zoom = d3.zoom()
+    .scaleExtent([getScaleFromZ(far), getScaleFromZ(near)])
+    .on('zoom', () =>  {
+      let d3_transform = d3.event.transform;
+      zoomHandler(d3_transform);
+    });
+  view = d3.select(renderer.domElement);
+  setUpZoom();
+  // camera.position.z = 1000;
+
+
+
+
+
+
   // https://codepen.io/anon/pen/LopPqR?editors=0010
   // https://blog.fastforwardlabs.com/2017/10/04/using-three-js-for-2d-data-visualization.html
   // const zoom = d3.zoom()
@@ -115,19 +132,65 @@ function init() {
   //       }
   //     }
   //   });
-    //
-    // // Add zoom listener
-    // const view = d3.select(renderer.domElement);
-    // view.call(zoom);
-    //
-    // // Disable double click to zoom because I'm not handling it in Three.js
-    // view.on('dblclick.zoom', null);
-    //
-    // // Sync d3 zoom with camera z position
-    // zoom.scaleTo(view, far);
-
+  //
+  //   // Add zoom listener
+  //   const view = d3.select(renderer.domElement);
+  //   view.call(zoom);
+  //
+  //   // Disable double click to zoom because I'm not handling it in Three.js
+  //   view.on('dblclick.zoom', null);
+  //
+  //   // Sync d3 zoom with camera z position
+  //   zoom.scaleTo(view, far);
 
 } //end init
+
+
+
+// Set up zoom behavior
+// https://observablehq.com/@grantcuster/using-three-js-for-2d-data-visualization
+
+function zoomHandler(d3_transform) {
+  let scale = d3_transform.k;
+  let x = -(d3_transform.x - width/2) / scale;
+  let y = (d3_transform.y - height/2) / scale;
+  let z = getZFromScale(scale);
+  camera.position.set(x, y, z);
+}
+
+function getScaleFromZ (camera_z_position) {
+  let half_fov = fov/2;
+  let half_fov_radians = toRadians(half_fov);
+  let half_fov_height = Math.tan(half_fov_radians) * camera_z_position;
+  let fov_height = half_fov_height * 2;
+  let scale = height / fov_height; // Divide visualization height by height derived from field of view
+  return scale;
+}
+
+function getZFromScale(scale) {
+  let half_fov = fov/2;
+  let half_fov_radians = toRadians(half_fov);
+  let scale_height = height / scale;
+  let camera_z_position = scale_height / (2 * Math.tan(half_fov_radians));
+  return camera_z_position;
+}
+
+function setUpZoom() {
+  view.call(zoom);
+  let initial_scale = getScaleFromZ(far);
+  var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
+  zoom.transform(view, initial_transform);
+  camera.position.set(0, 0, far);
+}
+
+function toRadians (angle) {
+  return angle * (Math.PI / 180);
+}
+
+
+
+
+
 
 function drawLetters(){
   for ( var i = 0; i < instances; i += 1 ) {
@@ -181,12 +244,12 @@ function drawLetters(){
 } // end drawLetters function
 
 // From https://github.com/anvaka/three.map.control, used for panning
-// function getCurrentScale() {
-//   var vFOV = camera.fov * Math.PI / 180
-//   var scale_height = 2 * Math.tan( vFOV / 2 ) * camera.position.z
-//   var currentScale = height / scale_height
-//   return currentScale
-// }
+function getCurrentScale() {
+  var vFOV = camera.fov * Math.PI / 180
+  var scale_height = 2 * Math.tan( vFOV / 2 ) * camera.position.z
+  var currentScale = height / scale_height
+  return currentScale
+}
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
