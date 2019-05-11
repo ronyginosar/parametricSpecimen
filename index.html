@@ -74,11 +74,15 @@
       <script type="text/javascript">
         // CHANGE FONT ON HOVER
         $(document).mouseover(function(e){
-          var targetSettings = $(e.target).css('font-variation-settings');
-          if (targetSettings){
-            document.body.style.setProperty('font-variation-settings' , targetSettings );
+          if($(e.target).css('opacity')!=0){ // only if curently displaying
+            var targetSettings = $(e.target).css('font-variation-settings');
+            if (targetSettings){
+              document.body.style.setProperty('font-variation-settings' , targetSettings );
+            }
           }
         });
+
+        
       </script>
     </section>
     <footer>

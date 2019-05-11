@@ -13,13 +13,13 @@ var width = window.innerWidth;
 var height = window.innerHeight;
 var fov = 15;
 var near = 1;
-var far = 1000;
+var far = 1700;
 var zoom, view;
 // letters
 var message = "פ";
 var letterinstances = [];
 var currentDisplay = [];
-var instances = 9;
+var instances = 18;
 // hex grid
 var hexRadius = 12;
 var hexHeight = hexRadius * 2;
@@ -77,6 +77,8 @@ function init() {
     });
   view = d3.select(renderer.domElement);
   setUpZoom();
+  // camera.position.set(instances*instances, instances*instances, far);
+
 } //end init
 
 
@@ -92,8 +94,10 @@ function drawLetters(){
       // letter.setAttribute('contenteditable', 'true');
 
       // parametric type settings, also use as id
-      var wght = i*10;
-      var ctrs = j*5;
+      // var wght = i*10;
+      // var ctrs = j*5;
+      var wght = i*5;
+      var ctrs = j*2.5;
       var styl = 4; // TODO: all styles
       letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
       letter.id = wght + ',' + ctrs + ',' + styl;
@@ -117,8 +121,8 @@ function drawLetters(){
         object.position.z = 0;
       }
 
-      object.translateX(-window.innerWidth/instances*0.3);
-			object.translateY(-window.innerHeight/instances);
+      // object.translateX(-window.innerWidth/instances*0.3);
+			// object.translateY(-window.innerHeight/instances);
 
       letterinstances.push( object );
       // scene.add( object );
@@ -135,53 +139,112 @@ function initLetters(){
 
   // initial letter view
   var totalInstances = instances*instances;
-  var centerLetter = letterinstances[Math.floor(totalInstances/2)];
-  currentDisplay.push(centerLetter);
-  var centerSettings = centerLetter.name.split(",");
+  console.log(totalInstances);
+  // var centerLetter = letterinstances[Math.floor(totalInstances/2)];
+  var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
+  centerLetter.element.style.color = 'blue';
+  console.log(centerLetter.name);
+  console.log(centerLetter.id);
+
   // var diffRadius = 2;
 
-  var n1 = (+centerSettings[0] + +centerSettings[0])+","+centerSettings[1]+","+centerSettings[2];
-  var l1 = scene.getObjectByName(n1);
-  currentDisplay.push(l1);
+  // var n1 = (+centerSettings[0] + +centerSettings[0])+","+centerSettings[1]+","+centerSettings[2];
+  // var l1 = scene.getObjectByName(n1);
+  // currentDisplay.push(l1);
+  // var n2 = (+centerSettings[0] + +centerSettings[0] - 20 )+","+(+centerSettings[1] + +centerSettings[1] - 5)+","+centerSettings[2];
+  // var l2 = scene.getObjectByName(n2);
+  // currentDisplay.push(l2);
+  // var n3 = (+centerSettings[0] - +centerSettings[0] + 20 )+","+(+centerSettings[1] + +centerSettings[1] - 5)+","+centerSettings[2];
+  // var l3 = scene.getObjectByName(n3);
+  // currentDisplay.push(l3);
+  // var n4 = (+centerSettings[0] - +centerSettings[0])+","+centerSettings[1]+","+centerSettings[2];
+  // var l4 = scene.getObjectByName(n4);
+  // currentDisplay.push(l4);
+  // var n5 = (+centerSettings[0] - +centerSettings[0] + 20 )+","+(+centerSettings[1] - +centerSettings[1] + 5)+","+centerSettings[2];
+  // var l5 = scene.getObjectByName(n5);
+  // currentDisplay.push(l5);
+  // var n6 = (+centerSettings[0] + +centerSettings[0] - 20 )+","+(+centerSettings[1] - +centerSettings[1] + 5)+","+centerSettings[2];
+  // var l6 = scene.getObjectByName(n6);
+  // currentDisplay.push(l6);
 
-  var n2 = (+centerSettings[0] + +centerSettings[0] - 20 )+","+(+centerSettings[1] + +centerSettings[1] - 5)+","+centerSettings[2];
-  var l2 = scene.getObjectByName(n2);
-  currentDisplay.push(l2);
-
-  var n3 = (+centerSettings[0] - +centerSettings[0] + 20 )+","+(+centerSettings[1] + +centerSettings[1] - 5)+","+centerSettings[2];
-  var l3 = scene.getObjectByName(n3);
-  currentDisplay.push(l3);
-
-  var n4 = (+centerSettings[0] - +centerSettings[0])+","+centerSettings[1]+","+centerSettings[2];
-  var l4 = scene.getObjectByName(n4);
-  currentDisplay.push(l4);
-
-  var n5 = (+centerSettings[0] - +centerSettings[0] + 20 )+","+(+centerSettings[1] - +centerSettings[1] + 5)+","+centerSettings[2];
-  var l5 = scene.getObjectByName(n5);
-  currentDisplay.push(l5);
-
-  var n6 = (+centerSettings[0] + +centerSettings[0] - 20 )+","+(+centerSettings[1] - +centerSettings[1] + 5)+","+centerSettings[2];
-  var l6 = scene.getObjectByName(n6);
-  currentDisplay.push(l6);
+  currentDisplay = getNthNeighbors(centerLetter.name,40,15,0);
+  currentDisplay.push(centerLetter);
 
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
     currentDisplay[i].element.style.opacity = 1;
   }
-
-
-  // based on position view:
-  // traverse neighboors
-  // if there is a letter from the current side
-  // show letter (push to temp list) on hover
-  // if clicked current center letter
-  // push neighboors to currentDisplay to display
-
-  // color based on display list
-
-  // incremental based on zoom level view
-
-
 }
+
+function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
+  var currNeighbors = [];
+  var centerSettings = currCenter.split(",");
+  // var centerSettings = currCenter.name.split(",");
+
+  // n1 is at 12 o'clock , numbering counter-clock
+  var n1 = (+centerSettings[0] + wghtInc)+","+centerSettings[1]+","+centerSettings[2];
+  var l1 = scene.getObjectByName(n1);
+  if (l1) currNeighbors.push(l1);
+
+  var n2 = (+centerSettings[0] + wghtInc/2 )+","+(+centerSettings[1] + ctrsInc)+","+centerSettings[2];
+  var l2 = scene.getObjectByName(n2);
+  if (l2) currNeighbors.push(l2);
+
+  var n3 = (+centerSettings[0] - wghtInc/2 )+","+(+centerSettings[1] + ctrsInc)+","+centerSettings[2];
+  var l3 = scene.getObjectByName(n3);
+  if (l3) currNeighbors.push(l3);
+
+  var n4 = (+centerSettings[0] - wghtInc)+","+centerSettings[1]+","+centerSettings[2];
+  var l4 = scene.getObjectByName(n4);
+  if (l4) currNeighbors.push(l4);
+
+  var n5 = (+centerSettings[0] - wghtInc/2)+","+(+centerSettings[1] - ctrsInc)+","+centerSettings[2];
+  var l5 = scene.getObjectByName(n5);
+  if (l5) currNeighbors.push(l5);
+
+  var n6 = (+centerSettings[0] + wghtInc/2)+","+(+centerSettings[1] - ctrsInc)+","+centerSettings[2];
+  var l6 = scene.getObjectByName(n6);
+  if (l6) currNeighbors.push(l6);
+
+  // DEBUG:
+  console.log(n1);
+  console.log(n2);
+  console.log(n3);
+  console.log(n4);
+  console.log(n5);
+  console.log(n6);
+
+  return currNeighbors;
+}
+// var wght = i*10;
+// var ctrs = j*5;
+// var styl = 4; /
+
+
+// based on position view:
+$(document).mouseover(function(e){
+  if($(e.target).css('opacity')==1){ // only if curently displaying
+    var currCenter = e.target.id;
+    if (currCenter){
+      // TODO get right the increments for N's
+      var currNeighbors = getNthNeighbors(currCenter,10,5,0);
+      for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+        // console.log(currNeighbors[i].name);
+        currNeighbors[i].element.style.opacity = 0.65;
+      }
+    }
+  }
+});
+// traverse neighboors
+// if there is a letter from the current side
+// show letter (push to temp list) on hover
+// if clicked current center letter
+// push neighboors to currentDisplay to display
+
+// color based on display list
+
+// incremental based on zoom level view
+
+
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -258,6 +321,10 @@ function setUpZoom() {
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
   camera.position.set(0, 0, far);
+  // DEBUG:
+  // instances*instances centeres display - TODO
+  // camera.position.set(instances*instances, instances*instances, far);
+  camera.position.set(194, 168, far);
 }
 
 // From https://github.com/anvaka/three.map.control, used for panning
