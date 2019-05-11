@@ -139,33 +139,12 @@ function initLetters(){
 
   // initial letter view
   var totalInstances = instances*instances;
-  console.log(totalInstances);
+  // console.log(totalInstances);
   // var centerLetter = letterinstances[Math.floor(totalInstances/2)];
   var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
   centerLetter.element.style.color = 'blue';
-  console.log(centerLetter.name);
-  console.log(centerLetter.id);
-
-  // var diffRadius = 2;
-
-  // var n1 = (+centerSettings[0] + +centerSettings[0])+","+centerSettings[1]+","+centerSettings[2];
-  // var l1 = scene.getObjectByName(n1);
-  // currentDisplay.push(l1);
-  // var n2 = (+centerSettings[0] + +centerSettings[0] - 20 )+","+(+centerSettings[1] + +centerSettings[1] - 5)+","+centerSettings[2];
-  // var l2 = scene.getObjectByName(n2);
-  // currentDisplay.push(l2);
-  // var n3 = (+centerSettings[0] - +centerSettings[0] + 20 )+","+(+centerSettings[1] + +centerSettings[1] - 5)+","+centerSettings[2];
-  // var l3 = scene.getObjectByName(n3);
-  // currentDisplay.push(l3);
-  // var n4 = (+centerSettings[0] - +centerSettings[0])+","+centerSettings[1]+","+centerSettings[2];
-  // var l4 = scene.getObjectByName(n4);
-  // currentDisplay.push(l4);
-  // var n5 = (+centerSettings[0] - +centerSettings[0] + 20 )+","+(+centerSettings[1] - +centerSettings[1] + 5)+","+centerSettings[2];
-  // var l5 = scene.getObjectByName(n5);
-  // currentDisplay.push(l5);
-  // var n6 = (+centerSettings[0] + +centerSettings[0] - 20 )+","+(+centerSettings[1] - +centerSettings[1] + 5)+","+centerSettings[2];
-  // var l6 = scene.getObjectByName(n6);
-  // currentDisplay.push(l6);
+  // console.log(centerLetter.name);
+  // console.log(centerLetter.id);
 
   currentDisplay = getNthNeighbors(centerLetter.name,40,15,0);
   currentDisplay.push(centerLetter);
