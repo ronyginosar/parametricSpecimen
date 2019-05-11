@@ -5,24 +5,23 @@ if ( WEBGL.isWebGLAvailable() === false ) {
   document.body.appendChild( WEBGL.getWebGLErrorMessage() );
 }
 
+// VARIABLES
+// camera and zoom
 var container;
 var camera, scene, renderer;
-// var controls;
 var width = window.innerWidth;
 var height = window.innerHeight;
 var fov = 15;
 var near = 1;
 var far = 1000;
-// var raycaster;
-// var mouse = new THREE.Vector2(), INTERSECTED;
 var zoom, view;
-
-var material;
+// letters
 var message = "פ";
 var letterinstances = [];
+var currentDisplay = [];
 var instances = 9;
 // hex grid
-var hexRadius = 17;
+var hexRadius = 12;
 var hexHeight = hexRadius * 2;
 var hexWidth = Math.sqrt(3)/2 * hexHeight;
 
@@ -30,6 +29,8 @@ var hexWidth = Math.sqrt(3)/2 * hexHeight;
 init();
 animate();
 
+
+// INIT
 function init() {
   container = document.getElementById( 'gridContainer' );
 
@@ -37,14 +38,24 @@ function init() {
   scene = new THREE.Scene();
 
   // CAMERA
-  // camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000  );
   camera = new THREE.PerspectiveCamera( fov, width / height, near, far );
-  camera.position.z = far;
 
   // DRAWING
   drawLetters();
 
+  for ( var i = 0; i < letterinstances.length; i += 1 ) {
+    scene.add( letterinstances[i] );
+    letterinstances[i].element.style.opacity = 0;
+  }
+
+  initLetters();
+
+  // interactLetters();
+
+
+
   // RENDERER
+  // renderer = new THREE.CSS2DRenderer();
   renderer = new THREE.CSS3DRenderer();
   renderer.setSize( width, height );
   document.getElementById( 'gridContainer' ).appendChild( renderer.domElement );
@@ -56,10 +67,8 @@ function init() {
   document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
   // CONTROLS
-  // https://threejs.org/docs/index.html#examples/controls/OrbitControls
-  // controls = new THREE.OrbitControls( camera );
-
-  // Set up zoom behavior
+  // Set up mouse-directed zoom behavior
+  // https://observablehq.com/@grantcuster/using-three-js-for-2d-data-visualization
   zoom = d3.zoom()
     .scaleExtent([getScaleFromZ(far), getScaleFromZ(near)])
     .on('zoom', () =>  {
@@ -68,94 +77,162 @@ function init() {
     });
   view = d3.select(renderer.domElement);
   setUpZoom();
-  // camera.position.z = 1000;
-
-
-
-
-
-
-  // https://codepen.io/anon/pen/LopPqR?editors=0010
-  // https://blog.fastforwardlabs.com/2017/10/04/using-three-js-for-2d-data-visualization.html
-  // const zoom = d3.zoom()
-  //   .scaleExtent([near, far])
-  //   .wheelDelta(function wheelDelta() {
-  //     // this inverts d3 zoom direction, which makes it the rith zoom direction for setting the camera
-  //     return d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500;
-  //   })
-  //   .on('zoom', () => {
-  //     const event = d3.event;
-  //     if (event.sourceEvent) {
-  //
-  //       // Get z from D3
-  //       const new_z = event.transform.k;
-  //
-  //       if (new_z !== camera.position.z) {
-  //
-  //         // Handle a zoom event
-  //         const { clientX, clientY } = event.sourceEvent;
-  //
-  //         // Project a vector from current mouse position and zoom level
-  //         // Find the x and y coordinates for where that vector intersects the new
-  //         // zoom level.
-  //         // Code from WestLangley https://stackoverflow.com/questions/13055214/mouse-canvas-x-y-to-three-js-world-x-y-z/13091694#13091694
-  //         const vector = new THREE.Vector3(
-  //           clientX / width * 2 - 1,
-  //           - (clientY / height) * 2 + 1,
-  //           1
-  //         );
-  //         vector.unproject(camera);
-  //         const dir = vector.sub(camera.position).normalize();
-  //         const distance = (new_z - camera.position.z)/dir.z;
-  //         const pos = camera.position.clone().add(dir.multiplyScalar(distance));
-  //
-  //
-  //         // if (camera.position.z < 20) {
-  //         //   scale = (20 -  camera.position.z)/camera.position.z;
-  //         //   pointsMaterial.setValues({size: 6 + 3 * scale});
-  //         // } else if (camera.position.z >= 20 && pointsMaterial.size !== 6) {
-  //         //   pointsMaterial.setValues({size: 6});
-  //         // }
-  //
-  //         // Set the camera to new coordinates
-  //         camera.position.set(pos.x, pos.y, new_z);
-  //
-  //       } else {
-  //
-  //         // Handle panning
-  //         const { movementX, movementY } = event.sourceEvent;
-  //
-  //         // Adjust mouse movement by current scale and set camera
-  //         const current_scale = getCurrentScale();
-  //         camera.position.set(camera.position.x - movementX/current_scale, camera.position.y +
-  //           movementY/current_scale, camera.position.z);
-  //       }
-  //     }
-  //   });
-  //
-  //   // Add zoom listener
-  //   const view = d3.select(renderer.domElement);
-  //   view.call(zoom);
-  //
-  //   // Disable double click to zoom because I'm not handling it in Three.js
-  //   view.on('dblclick.zoom', null);
-  //
-  //   // Sync d3 zoom with camera z position
-  //   zoom.scaleTo(view, far);
-
 } //end init
 
 
+// DRAWLETTERS
+function drawLetters(){
+  for ( var i = 0; i < instances; i += 1 ) {
+    for ( var j = 0; j < instances; j += 1 ) {
+      // create letter instance with css attrs
+      var letter = document.createElement( 'div' );
+      letter.className = 'letter';
+      // letter.textContent = message + i + '/' + j;
+      letter.textContent = message;
+      // letter.setAttribute('contenteditable', 'true');
 
-// Set up zoom behavior
-// https://observablehq.com/@grantcuster/using-three-js-for-2d-data-visualization
+      // parametric type settings, also use as id
+      var wght = i*10;
+      var ctrs = j*5;
+      var styl = 4; // TODO: all styles
+      letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
+      letter.id = wght + ',' + ctrs + ',' + styl;
 
+      // create an element for the letter instance
+      var object = new THREE.CSS3DObject( letter );
+      object.name = letter.id;
+      // hex grid
+      // https://www.openprocessing.org/sketch/169257
+      var xSpacing = hexWidth * j;
+      var ySpacing = hexHeight * .75 * i;
+
+      if ( (i % 2) == 0 )
+      {
+        object.position.x = xSpacing;
+        object.position.y = ySpacing;
+        object.position.z = 0;
+      } else {
+        object.position.x = xSpacing + hexWidth / 2;
+        object.position.y = ySpacing;
+        object.position.z = 0;
+      }
+
+      object.translateX(-window.innerWidth/instances*0.3);
+			object.translateY(-window.innerHeight/instances);
+
+      letterinstances.push( object );
+      // scene.add( object );
+
+
+      // TODO clickable: object.element.onclick = function() { this.parent.position.y += 10; };
+    }
+  }
+} // end drawLetters function
+
+function initLetters(){
+  // // TODO: take out of lettergridjs!!!!
+  // TODO when we add all 4 styles - add for centerSettings[3]
+
+  // initial letter view
+  var totalInstances = instances*instances;
+  var centerLetter = letterinstances[Math.floor(totalInstances/2)];
+  currentDisplay.push(centerLetter);
+  var centerSettings = centerLetter.name.split(",");
+  // var diffRadius = 2;
+
+  var n1 = (+centerSettings[0] + +centerSettings[0])+","+centerSettings[1]+","+centerSettings[2];
+  var l1 = scene.getObjectByName(n1);
+  currentDisplay.push(l1);
+
+  var n2 = (+centerSettings[0] + +centerSettings[0] - 20 )+","+(+centerSettings[1] + +centerSettings[1] - 5)+","+centerSettings[2];
+  var l2 = scene.getObjectByName(n2);
+  currentDisplay.push(l2);
+
+  var n3 = (+centerSettings[0] - +centerSettings[0] + 20 )+","+(+centerSettings[1] + +centerSettings[1] - 5)+","+centerSettings[2];
+  var l3 = scene.getObjectByName(n3);
+  currentDisplay.push(l3);
+
+  var n4 = (+centerSettings[0] - +centerSettings[0])+","+centerSettings[1]+","+centerSettings[2];
+  var l4 = scene.getObjectByName(n4);
+  currentDisplay.push(l4);
+
+  var n5 = (+centerSettings[0] - +centerSettings[0] + 20 )+","+(+centerSettings[1] - +centerSettings[1] + 5)+","+centerSettings[2];
+  var l5 = scene.getObjectByName(n5);
+  currentDisplay.push(l5);
+
+  var n6 = (+centerSettings[0] + +centerSettings[0] - 20 )+","+(+centerSettings[1] - +centerSettings[1] + 5)+","+centerSettings[2];
+  var l6 = scene.getObjectByName(n6);
+  currentDisplay.push(l6);
+
+  for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+    currentDisplay[i].element.style.opacity = 1;
+  }
+
+
+  // based on position view:
+  // traverse neighboors
+  // if there is a letter from the current side
+  // show letter (push to temp list) on hover
+  // if clicked current center letter
+  // push neighboors to currentDisplay to display
+
+  // color based on display list
+
+  // incremental based on zoom level view
+
+
+}
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
+// used for RAYCAST
+function onDocumentMouseMove( event ) {
+  // event.preventDefault();
+  // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+  // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+}
+
+function onMouseWheel( event ) {
+  // event.preventDefault();
+  // TODO: clear cube before redraw (or different method)
+  // if (event.deltaY > 0){
+  //   // console.log(segments);
+  //   segments += 1;
+  //   // drawCube();
+  // } else if (event.deltaY < 0 && segments > 0){
+  //   // console.log(segments);
+  //   segments -= 1;
+  //   // drawCube();
+  // }
+}
+
+function onDocumentMouseDown( event ) {
+}
+
+function onDocumentKeyDown( event ) {
+}
+
+function animate() {
+  requestAnimationFrame( animate );
+  render();
+}
+
+function render() {
+  renderer.render( scene, camera );
+}
+
+// ZOOM behavior functions
 function zoomHandler(d3_transform) {
   let scale = d3_transform.k;
   let x = -(d3_transform.x - width/2) / scale;
   let y = (d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
+  // TODO make letters keep their size. ?????
 }
 
 function getScaleFromZ (camera_z_position) {
@@ -183,66 +260,6 @@ function setUpZoom() {
   camera.position.set(0, 0, far);
 }
 
-function toRadians (angle) {
-  return angle * (Math.PI / 180);
-}
-
-
-
-
-
-
-function drawLetters(){
-  for ( var i = 0; i < instances; i += 1 ) {
-    for ( var j = 0; j < instances; j += 1 ) {
-      // create letter instance with css attrs
-      var letter = document.createElement( 'div' );
-      letter.className = 'letter';
-      // DEBUG
-      // letter.textContent = message + i + '/' + j;
-      letter.textContent = message;
-      // letter.setAttribute('contenteditable', 'true');
-
-      // parametric type settings, also use as id
-      var wght = i*10;
-      var ctrs = j*5;
-      var styl = 4;
-      letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
-      letter.id = wght + ',' + ctrs + ',' + styl;
-      // .getObjectById
-      // DEBUG
-      // console.log(letter.style.fontVariationSettings);
-
-      // create an element for the letter instance
-      var object = new THREE.CSS3DObject( letter );
-
-      // hex grid
-      // https://www.openprocessing.org/sketch/169257
-      var xSpacing = hexWidth * j;
-      var ySpacing = hexHeight * .75 * i;
-
-      if ( (i % 2) == 0 )
-      {
-        object.position.x = xSpacing;
-        object.position.y = ySpacing;
-        object.position.z = 10;
-      } else {
-        object.position.x = xSpacing + hexWidth / 2;
-        object.position.y = ySpacing;
-        object.position.z = 10;
-      }
-
-      object.translateX(-window.innerWidth/instances*0.3);
-			object.translateY(-window.innerHeight/instances);
-
-      scene.add( object );
-      letterinstances.push( object );
-
-      // TODO clickable: object.element.onclick = function() { this.parent.position.y += 10; };
-    } // end j loop
-  } // end i loop
-} // end drawLetters function
-
 // From https://github.com/anvaka/three.map.control, used for panning
 function getCurrentScale() {
   var vFOV = camera.fov * Math.PI / 180
@@ -251,49 +268,6 @@ function getCurrentScale() {
   return currentScale
 }
 
-function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize( window.innerWidth, window.innerHeight );
-}
-
-// used for RAYCAST
-function onDocumentMouseMove( event ) {
-  // event.preventDefault();
-  // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-  // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-}
-
-function onMouseWheel( event ) {
-  // event.preventDefault();
-  // TODO: clear cube before redraw (or different method)
-  if (event.deltaY > 0){
-    // console.log(segments);
-    segments += 1;
-    // drawCube();
-  } else if (event.deltaY < 0 && segments > 0){
-    // console.log(segments);
-    segments -= 1;
-    // drawCube();
-  }
-}
-
-function onDocumentMouseDown( event ) {
-}
-
-function onDocumentKeyDown( event ) {
-}
-
-function animate() {
-  requestAnimationFrame( animate );
-  render();
-}
-
-function render() {
-  renderer.render( scene, camera );
-  // letterinstances.forEach(function(c) {
-  //   c.lookAt( camera.position );
-  // });
-  // controls.update();
-
+function toRadians (angle) {
+  return angle * (Math.PI / 180);
 }
