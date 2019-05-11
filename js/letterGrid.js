@@ -142,6 +142,7 @@ function initLetters(){
   // console.log(totalInstances);
   // var centerLetter = letterinstances[Math.floor(totalInstances/2)];
   var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
+  // var centerLetter = letterinstances[169];
   centerLetter.element.style.color = 'blue';
   // console.log(centerLetter.name);
   // console.log(centerLetter.id);
@@ -176,6 +177,9 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
   var l4 = scene.getObjectByName(n4);
   if (l4) currNeighbors.push(l4);
 
+  // only for the left hand side indexing:
+  if (ctrsInc <= 10) ctrsInc/=2;
+
   var n5 = (+centerSettings[0] - wghtInc/2)+","+(+centerSettings[1] - ctrsInc)+","+centerSettings[2];
   var l5 = scene.getObjectByName(n5);
   if (l5) currNeighbors.push(l5);
@@ -185,12 +189,13 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
   if (l6) currNeighbors.push(l6);
 
   // DEBUG:
-  console.log(n1);
-  console.log(n2);
-  console.log(n3);
-  console.log(n4);
-  console.log(n5);
-  console.log(n6);
+  // console.log(currCenter);
+  // console.log(n1);
+  // console.log(n2);
+  // console.log(n3);
+  // console.log(n4);
+  // console.log(n5);
+  // console.log(n6);
 
   return currNeighbors;
 }
@@ -213,6 +218,29 @@ $(document).mouseover(function(e){
     }
   }
 });
+// TODO - remove if not zoomed in?
+// $(document).mouseout(function(e){
+//   if($(e.target).css('opacity')!=0){ // only if curently displaying
+//     var currCenter = e.target.id;
+//     if (currCenter){
+//       // TODO get right the increments for N's
+//       var currNeighbors = getNthNeighbors(currCenter,10,5,0);
+//       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+//         // console.log(currNeighbors[i].name);
+//         currNeighbors[i].element.style.opacity = 0;
+//       }
+//     }
+//   }
+// });
+
+
+// $( "div.overout" ).mouseover(function() {
+//     i += 1;
+//     $( this ).find( "span" ).text( "mouse over x " + i );
+//   })
+//   .mouseout(function() {
+//     $( this ).find( "span" ).text( "mouse out " );
+//   });
 // traverse neighboors
 // if there is a letter from the current side
 // show letter (push to temp list) on hover
