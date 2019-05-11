@@ -160,7 +160,8 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
   var centerSettings = currCenter.split(",");
   // var centerSettings = currCenter.name.split(",");
 
-  // n1 is at 12 o'clock , numbering counter-clock
+  // n1 is at 12 o'clock , numbering clockwise
+  // if there is indeed a neighbor, add to temp display list that we return
   var n1 = (+centerSettings[0] + wghtInc)+","+centerSettings[1]+","+centerSettings[2];
   var l1 = scene.getObjectByName(n1);
   if (l1) currNeighbors.push(l1);
@@ -199,26 +200,36 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
 
   return currNeighbors;
 }
-// var wght = i*10;
-// var ctrs = j*5;
-// var styl = 4; /
 
 
-// based on position view:
+// TODO1: layers of gradient
+// only current should be black
+// then gradient out by order of addition, in reverse
+// let us define an opacity vector, of ex. 10 levels
+// on each zoom level - all opacities are moved one index down the line
+// first spot is saved for currently hoverring options
+// we shall add a counter to use and update opacity in hover?
+
+// TODO2: radi of bullseye
+// on each hover we want a tighter and tighter circle around the currCenter
+
+
+
+// DISPLAY neighboors on hover
 $(document).mouseover(function(e){
   if($(e.target).css('opacity')==1){ // only if curently displaying
     var currCenter = e.target.id;
     if (currCenter){
-      // TODO get right the increments for N's
       var currNeighbors = getNthNeighbors(currCenter,10,5,0);
+      // traverse neighboors
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-        // console.log(currNeighbors[i].name);
         currNeighbors[i].element.style.opacity = 0.65;
       }
     }
   }
 });
-// TODO - remove if not zoomed in?
+// TODO - remove if not zoomed in
+// ie on zoom in add temp list to display list if we zoom in AROUND current center
 // $(document).mouseout(function(e){
 //   if($(e.target).css('opacity')!=0){ // only if curently displaying
 //     var currCenter = e.target.id;
@@ -226,7 +237,6 @@ $(document).mouseover(function(e){
 //       // TODO get right the increments for N's
 //       var currNeighbors = getNthNeighbors(currCenter,10,5,0);
 //       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-//         // console.log(currNeighbors[i].name);
 //         currNeighbors[i].element.style.opacity = 0;
 //       }
 //     }
@@ -234,18 +244,10 @@ $(document).mouseover(function(e){
 // });
 
 
-// $( "div.overout" ).mouseover(function() {
-//     i += 1;
-//     $( this ).find( "span" ).text( "mouse over x " + i );
-//   })
-//   .mouseout(function() {
-//     $( this ).find( "span" ).text( "mouse out " );
-//   });
-// traverse neighboors
-// if there is a letter from the current side
-// show letter (push to temp list) on hover
 // if clicked current center letter
-// push neighboors to currentDisplay to display
+// push neighboors to currentDisplay to display?
+
+// TODO color when clicked, as bookmark?
 
 // color based on display list
 
