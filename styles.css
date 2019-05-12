@@ -140,7 +140,6 @@ h2::selection {
   width: 100%;
   height: 100%;
   z-index: -1;
-  top: 0;
 }
 
 .letter {
@@ -151,6 +150,6 @@ h2::selection {
     color: gray;
 
 }
-.letter:hover {
+/* .letter:hover {
   color: var(--element-color);
-}
+} */
