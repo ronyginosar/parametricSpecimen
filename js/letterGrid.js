@@ -1,3 +1,21 @@
+// TODO3: what happens on click?
+// color when clicked, as bookmark?
+// clickable: object.element.onclick = function() { this.parent.position.y += 10; };
+
+// todo4: hint to hover and zoom on load
+
+// TODO1: layers of gradient
+// only current should be black
+// then gradient out by order of addition, in reverse
+// let us define an opacity vector, of ex. 10 levels
+// on each zoom level - all opacities are moved one index down the line
+// first spot is saved for currently hoverring options
+// we shall add a counter to use and update opacity in hover?
+
+// TODO2: radi of bullseye
+// on each hover we want a tighter and tighter circle around the currCenter
+
+
 
 console.clear();
 
@@ -25,13 +43,14 @@ var totalInstances = instances*instances;
 var hexRadius = 12;
 var hexHeight = hexRadius * 2;
 var hexWidth = Math.sqrt(3)/2 * hexHeight;
-// zoom counters
+// visuals of zoom
 var zoomLevel = 1;
-
+var opacityVec = [1,0.7,0.6,0.5,0.4,0.3,0.2,0];
+var currRadi = 40;
+var currNeighbors = [];
 
 init();
 animate();
-
 
 // INIT
 function init() {
@@ -46,7 +65,9 @@ function init() {
   // DRAWING
   drawLetters();
   initialLetters();
-  // interactLetters();
+  currRadi /= 2;
+  console.log(currRadi);
+
 
   // RENDERER
   renderer = new THREE.CSS3DRenderer();
@@ -56,7 +77,7 @@ function init() {
 
   // EVENTS
   window.addEventListener( 'resize', onWindowResize, false );
-  document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+  // document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
   // CONTROLS
   // Set up mouse-directed zoom behavior
@@ -70,7 +91,6 @@ function init() {
   view = d3.select(renderer.domElement);
   setUpZoom();
 } //end init
-
 
 // DRAWLETTERS
 function drawLetters(){
@@ -110,38 +130,27 @@ function drawLetters(){
       letterinstances.push( object );
       scene.add( object );
       object.element.style.opacity = 0;
-
-      // TODO clickable: object.element.onclick = function() { this.parent.position.y += 10; };
     }
   }
 } // end drawLetters function
 
+// // TODO: take out of lettergridjs!!!!
+// TODO when we add all 4 styles - add for centerSettings[3]
 function initialLetters(){
-  // // TODO: take out of lettergridjs!!!!
-  // TODO when we add all 4 styles - add for centerSettings[3]
-
   // initial letter view
-
-  // console.log(totalInstances);
-  // var centerLetter = letterinstances[Math.floor(totalInstances/2)];
   var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
-  // var centerLetter = letterinstances[169];
-  // centerLetter.element.style.color = 'blue';
-  // console.log(centerLetter.name);
-  // console.log(centerLetter.id);
+  centerLetter.element.style.opacity = opacityVec[0];
 
-  currentDisplay = getNthNeighbors(centerLetter.name,40,15,0);
-  currentDisplay.push(centerLetter);
-
+  currentDisplay = getNthNeighbors(centerLetter.name,currRadi,15,0);
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    currentDisplay[i].element.style.opacity = 1;
+    currentDisplay[i].element.style.opacity = opacityVec[zoomLevel];
   }
+  currentDisplay.push(centerLetter);
 }
 
 function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
   var currNeighbors = [];
   var centerSettings = currCenter.split(",");
-  // var centerSettings = currCenter.name.split(",");
 
   // n1 is at 12 o'clock , numbering clockwise
   // if there is indeed a neighbor, add to temp display list that we return
@@ -185,62 +194,38 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
 }
 
 
-
-// TODO1: layers of gradient
-// only current should be black
-// #232323
-// then gradient out by order of addition, in reverse
-// let us define an opacity vector, of ex. 10 levels
-var opacityVec = [0.7,0.6,0.5,0.4,0.3,0.2,0];
-// on each zoom level - all opacities are moved one index down the line
-// first spot is saved for currently hoverring options
-// we shall add a counter to use and update opacity in hover?
-var currRadi = 1;
-
-
-// TODO2: radi of bullseye
-// on each hover we want a tighter and tighter circle around the currCenter
-
-
-
 // DISPLAY neighboors on hover as hint
-// TODO to use them - zoom in and they are added to Current display
+// to use them - on zoom in, we add the temp currNeighbors to the general display list
 $(document).mouseover(function(e){
-  if($(e.target).css('opacity')==1){ // only if curently displaying
+  if($(e.target).css('opacity') == 1){ // only if curently displaying
     var currCenter = e.target.id;
     if (currCenter){
-      var currNeighbors = getNthNeighbors(currCenter,10,5,0);
+      // TODO vars according to zoom level
+      currNeighbors = getNthNeighbors(currCenter,10,5,0);
       // traverse neighboors
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-        currNeighbors[i].element.style.opacity = 0.65;
+        // opacity via zoom level indexing
+        currNeighbors[i].element.style.opacity = opacityVec[zoomLevel];
       }
     }
   }
-});
-// remove hints if not zoomed in
-// ie on zoom in, add temp list to display list if we zoom in AROUND current center
-$(document).mouseout(function(e){
-  if($(e.target).css('opacity')!=0){ // only if curently displaying
+  redrawNeighnors();
+}).mouseout(function(e){ // remove hints if not zoomed in
+  if($(e.target).css('opacity') != 0){ // only if curently displaying
     var currCenter = e.target.id;
     if (currCenter){
       // TODO get right the increments for N's
-      var currNeighbors = getNthNeighbors(currCenter,10,5,0);
+      // var currNeighbors = getNthNeighbors(currCenter,10,5,0);
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         currNeighbors[i].element.style.opacity = 0;
       }
     }
   }
+  currNeighbors = []; // reset currNeighbors list when not hovering
 });
 
 
-// if clicked current center letter
-// push neighboors to currentDisplay to display?
 
-// TODO color when clicked, as bookmark?
-
-// color based on display list
-
-// incremental based on zoom level view
 
 
 
@@ -296,9 +281,34 @@ function zoomHandler(d3_transform) {
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
   // TODO make letters keep their size. ?????
+
   // zoom level counter:
-  zoomLevel = Math.floor(d3_transform.k);
-  // console.log(zoomLevel);
+  if (zoomLevel < Math.floor(d3_transform.k)){
+    zoomLevel = Math.floor(d3_transform.k);
+    addOnZoom();
+    currRadi /= 2;
+    console.log(currRadi);
+    // console.log(currentDisplay.length);
+  }
+}
+
+function addOnZoom(){
+  if (currNeighbors.length){
+    // add to currentDisplay
+    currentDisplay.push.apply(currentDisplay, currNeighbors);
+    console.log(currentDisplay.length);
+    redrawNeighnors();
+    // change opacity of elements
+    // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+    //   currentDisplay[i].element.style.opacity = 1;
+    // }
+  }
+}
+
+function redrawNeighnors(){
+  for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+    currentDisplay[i].element.style.opacity = 1;
+  }
 }
 
 function getScaleFromZ (camera_z_position) {

@@ -147,9 +147,7 @@ h2::selection {
     cursor: default;
     font-size: 20px;
     font-family: 'Noordzij';
-    color: gray;
-
 }
-/* .letter:hover {
+.letter:hover {
   color: var(--element-color);
-} */
+}
