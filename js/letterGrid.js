@@ -15,6 +15,9 @@
 // TODO2: radi of bullseye
 // on each hover we want a tighter and tighter circle around the currCenter
 
+// TODO2 note - radi decreceing limited
+// if zooming twice i come to look at a new letter - hover wont work correctly anymore
+
 
 
 console.clear();
@@ -46,7 +49,8 @@ var hexWidth = Math.sqrt(3)/2 * hexHeight;
 // visuals of zoom
 var zoomLevel = 1;
 var opacityVec = [1,0.7,0.6,0.5,0.4,0.3,0.2,0];
-var currRadi = 40;
+var currWInc = 40;
+var currCInc = 15;
 var currNeighbors = [];
 
 init();
@@ -65,8 +69,8 @@ function init() {
   // DRAWING
   drawLetters();
   initialLetters();
-  currRadi /= 2;
-  console.log(currRadi);
+  currWInc /= 2;
+  currCInc -= 5;
 
 
   // RENDERER
@@ -141,7 +145,7 @@ function initialLetters(){
   var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
   centerLetter.element.style.opacity = opacityVec[0];
 
-  currentDisplay = getNthNeighbors(centerLetter.name,currRadi,15,0);
+  currentDisplay = getNthNeighbors(centerLetter.name,currWInc,currCInc,0);
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
     currentDisplay[i].element.style.opacity = opacityVec[zoomLevel];
   }
@@ -171,7 +175,7 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
   if (l4) currNeighbors.push(l4);
 
   // only for the left hand side indexing:
-  if (ctrsInc <= 10) ctrsInc/=2;
+  if (ctrsInc < 10) ctrsInc/=2;
 
   var n5 = (+centerSettings[0] - wghtInc/2)+","+(+centerSettings[1] - ctrsInc)+","+centerSettings[2];
   var l5 = scene.getObjectByName(n5);
@@ -201,7 +205,7 @@ $(document).mouseover(function(e){
     var currCenter = e.target.id;
     if (currCenter){
       // TODO vars according to zoom level
-      currNeighbors = getNthNeighbors(currCenter,10,5,0);
+      currNeighbors = getNthNeighbors(currCenter,currWInc,currCInc,0);
       // traverse neighboors
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         // opacity via zoom level indexing
@@ -214,8 +218,6 @@ $(document).mouseover(function(e){
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     var currCenter = e.target.id;
     if (currCenter){
-      // TODO get right the increments for N's
-      // var currNeighbors = getNthNeighbors(currCenter,10,5,0);
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         currNeighbors[i].element.style.opacity = 0;
       }
@@ -286,8 +288,9 @@ function zoomHandler(d3_transform) {
   if (zoomLevel < Math.floor(d3_transform.k)){
     zoomLevel = Math.floor(d3_transform.k);
     addOnZoom();
-    currRadi /= 2;
-    console.log(currRadi);
+    if(currWInc > 10) currWInc /= 2;
+    if(currCInc > 5) currCInc -= 5;
+    // console.log(currWInc);
     // console.log(currentDisplay.length);
   }
 }
