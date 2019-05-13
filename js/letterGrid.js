@@ -17,6 +17,7 @@
 
 // TODO2 note - radi decreceing limited
 // if zooming twice i come to look at a new letter - hover wont work correctly anymore
+// maybe- radi per letter and not general?
 
 
 
@@ -276,7 +277,7 @@ function render() {
 // ZOOM behavior functions
 function zoomHandler(d3_transform) {
   let scale = d3_transform.k;
-  let x = totalInstances/2 -(d3_transform.x - width/2) / scale;
+  let x = totalInstances/1.5 -(d3_transform.x - width/2) / scale;
   let y = totalInstances/4+10 + (d3_transform.y - height/2) / scale;
   // let x = -(d3_transform.x - width/2) / scale;
   // let y = (d3_transform.y - height/2) / scale;
@@ -337,7 +338,7 @@ function setUpZoom() {
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
   // camera.position.set(0, 0, far);
-  camera.position.set(totalInstances/2, totalInstances/4+10 , far);
+  camera.position.set(totalInstances/1.5, totalInstances/4+10 , far);
 }
 
 // From https://github.com/anvaka/three.map.control, used for panning
