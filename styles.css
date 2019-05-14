@@ -78,8 +78,9 @@ body{
 
 .block1{
   direction: rtl;
-  font-size: 2vw;
-  line-height: 3vw;
+  /* font-size: 2vw;
+  line-height: 3vw; */
+  font-size: 10pt;
 }
 
 h2{
@@ -107,7 +108,6 @@ h2::selection {
   bottom: var(--page-margins);
   display: flex;
   flex-direction: column;
-  /* background-color: blue; */
   z-index: 100;
 }
 
@@ -122,17 +122,6 @@ h2::selection {
   outline: 0px solid transparent;
 }
 
-#color-bg-container{
-  position: absolute;
-  left: 100px;
-  display:none;
-}
-#color-text-container{
-  position: absolute;
-  left: 100px;
-  display:none;
-}
-
 /* LETTER INSTANCES */
 
 #gridContainer{
@@ -145,7 +134,7 @@ h2::selection {
 .letter {
     text-align: center;
     cursor: default;
-    font-size: 20px;
+    font-size: 50px;
     font-family: 'Noordzij';
     color: var(--element-color);
 }

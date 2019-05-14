@@ -19,6 +19,7 @@
 // if zooming twice i come to look at a new letter - hover wont work correctly anymore
 // maybe- radi per letter and not general?
 
+//TODO icon ? for how to instructions -or- just show on bottom next to icons
 
 
 console.clear();
@@ -35,7 +36,7 @@ var width = window.innerWidth;
 var height = window.innerHeight;
 var fov = 15;
 var near = 1;
-var far = 1700;
+var far = 2700;
 var zoom, view;
 // letters
 var message = "פ";
@@ -44,7 +45,7 @@ var currentDisplay = [];
 // hex grid
 var instances = 18;
 var totalInstances = instances*instances;
-var hexRadius = 12;
+var hexRadius = 20;
 var hexHeight = hexRadius * 2;
 var hexWidth = Math.sqrt(3)/2 * hexHeight;
 // visuals of zoom
@@ -277,8 +278,8 @@ function render() {
 // ZOOM behavior functions
 function zoomHandler(d3_transform) {
   let scale = d3_transform.k;
-  let x = totalInstances/1.5 -(d3_transform.x - width/2) / scale;
-  let y = totalInstances/4+10 + (d3_transform.y - height/2) / scale;
+  let x = totalInstances -(d3_transform.x - width/2) / scale;
+  let y = totalInstances/1.5 + (d3_transform.y - height/2) / scale;
   // let x = -(d3_transform.x - width/2) / scale;
   // let y = (d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
@@ -338,7 +339,7 @@ function setUpZoom() {
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
   // camera.position.set(0, 0, far);
-  camera.position.set(totalInstances/1.5, totalInstances/4+10 , far);
+  camera.position.set(totalInstances, totalInstances/1.5 , far);
 }
 
 // From https://github.com/anvaka/three.map.control, used for panning
