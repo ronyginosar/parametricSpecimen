@@ -41,9 +41,11 @@ function updateHeight(c,t) {
 function colorinvert(){
   if (document.body.style.getPropertyValue('--bg-color') != "#232323"){
     document.body.style.setProperty('--bg-color' , "#232323" );
+    document.getElementsByClassName('block1')[0].style.backgroundColor = "#0e0d0d";
     document.body.style.setProperty('--element-color' , "#f7f6f4" );
   } else {
     document.body.style.setProperty('--bg-color' , "#f7f6f4" );
+    document.getElementsByClassName('block1')[0].style.backgroundColor = "white";
     document.body.style.setProperty('--element-color' , "#232323" );
   }
 }

@@ -32,7 +32,7 @@ if ( WEBGL.isWebGLAvailable() === false ) {
 // camera and zoom
 var container;
 var camera, scene, renderer;
-var width = window.innerWidth;
+var width = window.innerWidth*0.7; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
 var near = 1;
@@ -279,7 +279,7 @@ function render() {
 function zoomHandler(d3_transform) {
   let scale = d3_transform.k;
   let x = totalInstances -(d3_transform.x - width/2) / scale;
-  let y = totalInstances/1.5 + (d3_transform.y - height/2) / scale;
+  let y = totalInstances/1.2 + (d3_transform.y - height/2) / scale;
   // let x = -(d3_transform.x - width/2) / scale;
   // let y = (d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
@@ -339,7 +339,7 @@ function setUpZoom() {
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
   // camera.position.set(0, 0, far);
-  camera.position.set(totalInstances, totalInstances/1.5 , far);
+  camera.position.set(totalInstances, totalInstances/1.2 , far);
 }
 
 // From https://github.com/anvaka/three.map.control, used for panning
