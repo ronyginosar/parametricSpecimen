@@ -137,6 +137,12 @@ h3::selection {
   outline: 0px solid transparent;
 }
 
+#messageInputBox{
+  text-align: center;
+  top:-30px;
+  height:20px;
+}
+
 /* LETTER INSTANCES */
 
 #gridContainer{

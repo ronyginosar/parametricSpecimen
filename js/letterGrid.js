@@ -12,7 +12,7 @@
 // first spot is saved for currently hoverring options
 // we shall add a counter to use and update opacity in hover?
 
-// TODO2: radi of bullseye
+// 2: radi of bullseye
 // on each hover we want a tighter and tighter circle around the currCenter
 
 // TODO2 note - radi decreceing limited
@@ -20,6 +20,13 @@
 // maybe- radi per letter and not general?
 
 //TODO icon ? for how to instructions -or- just show on bottom next to icons
+
+// 5:zoom out behaviour
+
+// TODO 6: choose char to display. key or box?
+// HOW TO REDRAW?
+
+// TODO7: slider resolution
 
 
 console.clear();
@@ -39,7 +46,7 @@ var near = 1;
 var far = 2700;
 var zoom, view;
 // letters
-var message = "פ";
+var message = "א";
 var letterinstances = [];
 var currentDisplay = [];
 // hex grid
@@ -49,7 +56,7 @@ var hexRadius = 20;
 var hexHeight = hexRadius * 2;
 var hexWidth = Math.sqrt(3)/2 * hexHeight;
 // visuals of zoom
-var zoomLevel = 1;
+var zoomLevel = 10;
 var opacityVec = [1,0.7,0.6,0.5,0.4,0.3,0.2,0];
 var currWInc = 40;
 var currCInc = 15;
@@ -71,9 +78,6 @@ function init() {
   // DRAWING
   drawLetters();
   initialLetters();
-  currWInc /= 2;
-  currCInc -= 5;
-
 
   // RENDERER
   renderer = new THREE.CSS3DRenderer();
@@ -105,9 +109,7 @@ function drawLetters(){
       // create letter instance with css attrs
       var letter = document.createElement( 'div' );
       letter.className = 'letter';
-      // letter.textContent = message + i + '/' + j;
       letter.textContent = message;
-      // letter.setAttribute('contenteditable', 'true');
 
       // parametric type settings, also use as id
       var wght = i*5;
@@ -141,7 +143,6 @@ function drawLetters(){
 } // end drawLetters function
 
 // // TODO: take out of lettergridjs!!!!
-// TODO when we add all 4 styles - add for centerSettings[3]
 function initialLetters(){
   // initial letter view
   var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
@@ -149,7 +150,7 @@ function initialLetters(){
 
   currentDisplay = getNthNeighbors(centerLetter.name,currWInc,currCInc,0);
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    currentDisplay[i].element.style.opacity = opacityVec[zoomLevel];
+    currentDisplay[i].element.style.opacity = opacityVec[zoomLevel%10];  // %10 gives the last digit of the num
   }
   currentDisplay.push(centerLetter);
 }
@@ -199,19 +200,17 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
   return currNeighbors;
 }
 
-
-// DISPLAY neighboors on hover as hint
+// display neighboors on hover as hint
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
 $(document).mouseover(function(e){
   if($(e.target).css('opacity') == 1){ // only if curently displaying
     var currCenter = e.target.id;
     if (currCenter){
-      // TODO vars according to zoom level
       currNeighbors = getNthNeighbors(currCenter,currWInc,currCInc,0);
       // traverse neighboors
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         // opacity via zoom level indexing
-        currNeighbors[i].element.style.opacity = opacityVec[zoomLevel];
+        currNeighbors[i].element.style.opacity = opacityVec[zoomLevel%10]; // %10 gives the last digit of the num
       }
     }
   }
@@ -227,11 +226,6 @@ $(document).mouseover(function(e){
   }
   currNeighbors = []; // reset currNeighbors list when not hovering
 });
-
-
-
-
-
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -280,20 +274,23 @@ function zoomHandler(d3_transform) {
   let scale = d3_transform.k;
   let x = totalInstances -(d3_transform.x - width/2) / scale;
   let y = totalInstances/1.2 + (d3_transform.y - height/2) / scale;
-  // let x = -(d3_transform.x - width/2) / scale;
-  // let y = (d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
-  // TODO make letters keep their size. ?????
 
   // zoom level counter:
-  if (zoomLevel < Math.floor(d3_transform.k)){
-    zoomLevel = Math.floor(d3_transform.k);
+  if (zoomLevel < Math.floor(d3_transform.k*10)){
+    zoomLevel = Math.floor(d3_transform.k*10);
     addOnZoom();
     if(currWInc > 10) currWInc /= 2;
     if(currCInc > 5) currCInc -= 5;
-    // console.log(currWInc);
-    // console.log(currentDisplay.length);
+  }
+  // zoomout -> grow circle of neighboors
+  if (zoomLevel > Math.floor(d3_transform.k*10)){
+    zoomLevel = Math.floor(d3_transform.k*10);
+    console.log(currWInc);
+    console.log(currCInc);
+    if(currWInc = 10) currWInc *= 2;
+    if(currCInc = 5) currCInc += 5;
   }
 }
 
@@ -338,7 +335,6 @@ function setUpZoom() {
   let initial_scale = getScaleFromZ(far);
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
-  // camera.position.set(0, 0, far);
   camera.position.set(totalInstances, totalInstances/1.2 , far);
 }
 

@@ -62,9 +62,14 @@
           <!-- TODO add random font icon -->
           <div class="colorControlers">
             <!-- NOTE: dont put anything after "onclick" -->
+            <form>
+              <input class="colorControlers" id=messageInputBox type="text" maxlength="4" size="4" name="messageInput" value="הקלד">
+            </form>
             <input type="image" src="data/bwicon.png" class="icon" onclick="colorinvert()"></input>
             <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input>
+
           </div>
+
       </section>
 
       <section>
@@ -91,6 +96,13 @@
               document.body.style.setProperty('font-variation-settings' , targetSettings );
             }
           }
+        });
+        // CHANGE MESSAGE ON INPUT
+        $('#messageInputBox').on('input',function(e){
+            message = ($(this).val());
+            $.each(letterinstances, function( index, value ) {
+              value.element.textContent = message;
+            });
         });
       </script> <!-- end three -->
     </section> <!-- end main -->
