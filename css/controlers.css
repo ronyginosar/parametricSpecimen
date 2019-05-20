@@ -2,21 +2,19 @@
 
 .controlers{
   display: flex;
-  width: 50%;
   direction: ltr; /* for correct slider direction */
   flex-direction: row-reverse; /* for correct slider-label oreder */
   justify-content: space-between;
   align-items: center;
-  bottom: 5px;
-  position: relative;
-  z-index: 60;
   margin-top: 10px;
+  z-index: 60;
+  opacity: 0;
 }
 
 input[type=range].styleslider {
   -webkit-appearance: none;
   width: 100%;
-  margin: 11px;
+  margin: 10px;
   margin-right: 0px;
 }
 
@@ -75,4 +73,10 @@ input[type=range].styleslider::-webkit-slider-thumb {
 }
 .styleslider.sizeInput:hover ~ .stylesliderLabel.sizeLabel{
     opacity:1;
+}
+.block1:hover .controlers{
+  opacity: 1;
+}
+.block1:hover .controlers{
+  opacity: 1;
 }

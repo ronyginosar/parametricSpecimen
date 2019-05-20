@@ -1,12 +1,12 @@
 
 function updateSize(c,t) {
   var currclass = document.getElementsByClassName(c)[0];
-  var trgtclass = document.getElementsByClassName(t)[0];
+  var trgtclass = document.getElementsByTagName(t)[0];
   var v = currclass.getElementsByClassName("sizeInput")[0].value;
   trgtclass.style.fontSize = v + "px"; // update value
   currclass.getElementsByClassName("sizeLabel")[0].innerHTML = v; // update label
   // update line height upon size update
-  var updatedHeight = +v + +10;
+  var updatedHeight = +v + +3;
   trgtclass.style.lineHeight = updatedHeight + "px"; // update value
   currclass.getElementsByClassName("heightLabel")[0].innerHTML = updatedHeight; // update label
   currclass.getElementsByClassName("heightInput")[0].value = updatedHeight;
@@ -14,7 +14,7 @@ function updateSize(c,t) {
 
 function updateSpacing(c,t) {
   var currclass = document.getElementsByClassName(c)[0];
-  var trgtclass = document.getElementsByClassName(t)[0];
+  var trgtclass = document.getElementsByTagName(t)[0];
   var v = currclass.getElementsByClassName("spacingInput")[0].value;
   trgtclass.style.letterSpacing = v + "px"; // update value
   currclass.getElementsByClassName("spacingLabel")[0].innerHTML = v; // update label
@@ -22,7 +22,7 @@ function updateSpacing(c,t) {
 
 function updateHeight(c,t) {
   var currclass = document.getElementsByClassName(c)[0];
-  var trgtclass = document.getElementsByClassName(t)[0];
+  var trgtclass = document.getElementsByTagName(t)[0];
   var v = currclass.getElementsByClassName("heightInput")[0].value;
   trgtclass.style.lineHeight = v + "px"; // update value
   currclass.getElementsByClassName("heightLabel")[0].innerHTML = v; // update label

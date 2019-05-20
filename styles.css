@@ -74,6 +74,7 @@ body{
   right: var(--page-margins);
   background-color:white;
   color: var(--element-color);
+  overflow:hidden;
 }
 
 h2{
@@ -100,7 +101,7 @@ h3{
   position: relative;
   padding: var(--page-margins);
   margin: 0;
-  margin-top: 10px;
+  /* margin-top: 30px; */
   /* display:inline; */
   /* background-color:white; */
   line-height: 1.3;

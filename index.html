@@ -22,18 +22,18 @@
       <section class = "textTester">
         <div class=”container”>
           <!-- TODO bring back controls on hover -->
-          <!-- <div class="controlers">
-            <input class="styleslider sizeInput" type="range" min="12" max="220" value="10vw" orient="vertical" oninput="updateSize('controlers','block1')">
-              <div class="stylesliderLabel sizeLabel">120</div>
-            </input>
-            <input class="styleslider spacingInput" type="range" min="-8" max="8" value="1" oninput="updateSpacing('controlers','block1')">
-              <div class="stylesliderLabel spacingLabel">1</div>
-            </input>
-            <input class="styleslider heightInput" type="range" min="12" max="500" value="10vw" oninput="updateHeight('controlers','block1')">
-              <div class="stylesliderLabel heightLabel">160</div>
-            </input>
-          </div> -->
           <div class="block1">
+            <div class="controlers">
+              <input class="styleslider sizeInput" type="range" min="6" max="100" value="15" orient="vertical" oninput="updateSize('controlers','h3')">
+                <div class="stylesliderLabel sizeLabel">15</div>
+              </input>
+              <input class="styleslider spacingInput" type="range" min="-8" max="8" value="1" oninput="updateSpacing('controlers','h3')">
+                <div class="stylesliderLabel spacingLabel">1</div>
+              </input>
+              <input class="styleslider heightInput" type="range" min="0" max="100" value="11" oninput="updateHeight('controlers','h3')">
+                <div class="stylesliderLabel heightLabel">11</div>
+              </input>
+            </div>
             <h2 contenteditable="true" >
               <span>
                 קטלוג לגופן פרמטרי /
@@ -63,7 +63,8 @@
           <div class="colorControlers">
             <!-- NOTE: dont put anything after "onclick" -->
             <form>
-              <input class="colorControlers" id=messageInputBox type="text" maxlength="4" size="4" name="messageInput" value="הקלד">
+              <input class="colorControlers" id=messageInputBox type="text" maxlength="2" size="3" name="messageInput" value="א">
+              <!-- <input class="colorControlers" id=messageInputBox type="text" maxlength="4" size="4" name="messageInput" value="הקלד"> -->
             </form>
             <input type="image" src="data/bwicon.png" class="icon" onclick="colorinvert()"></input>
             <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input>

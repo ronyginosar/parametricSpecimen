@@ -23,11 +23,13 @@
 
 // 5:zoom out behaviour
 
-// TODO 6: choose char to display. key or box?
-// HOW TO REDRAW?
+// 6: choose char to display. key or box?
 
 // TODO7: slider resolution
 
+// TODO 7: spacing on typing?
+
+// todo8: restore size sliders?
 
 console.clear();
 
