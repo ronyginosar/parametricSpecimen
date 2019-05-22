@@ -29,7 +29,9 @@
 
 // TODO 7: spacing on typing?
 
-// todo8: restore size sliders?
+// 8: restore size sliders?
+
+// 9 todo: zoom&hover
 
 console.clear();
 
@@ -45,23 +47,33 @@ var width = window.innerWidth*0.7; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
 var near = 1;
-var far = 2700;
+var far = 2300;
 var zoom, view;
 // letters
 var message = "א";
 var letterinstances = [];
 var currentDisplay = [];
 // hex grid
-var instances = 18;
-var totalInstances = instances*instances;
-var hexRadius = 20;
-var hexHeight = hexRadius * 2;
-var hexWidth = Math.sqrt(3)/2 * hexHeight;
+// var instances = 18;
+// var totalInstances = instances*instances;
+// var hexRadius = 20;
+var instances = 6;
+var totalInstances = Math.pow(instances, 2);
+var hexRadius = 25;
+// var hexHeight = hexRadius * 2;
+// var hexWidth = Math.sqrt(3)/2 * hexHeight;
+var  hexWidth = hexRadius * 2;
+var  hexHeight= Math.sqrt(3)/2 * hexWidth;
 // visuals of zoom
 var zoomLevel = 10;
 var opacityVec = [1,0.7,0.6,0.5,0.4,0.3,0.2,0];
 var currWInc = 40;
 var currCInc = 15;
+var wInc = 8;
+var initCInc = 8;
+var currRadi = 4;
+// var currWInc = wInc;
+// var currCInc = initCInc;
 var currNeighbors = [];
 
 init();
@@ -106,37 +118,103 @@ function init() {
 
 // DRAWLETTERS
 function drawLetters(){
-  for ( var i = 0; i < instances; i += 1 ) {
-    for ( var j = 0; j < instances; j += 1 ) {
+  for ( var i = -instances; i < instances; i += 1 ) {
+    for ( var j = -instances; j < instances; j += 1 ) {
+  // for ( var i = 0; i < instances; i += 1 ) {
+  //   for ( var j = 0; j < instances; j += 1 ) {
+
       // create letter instance with css attrs
       var letter = document.createElement( 'div' );
       letter.className = 'letter';
       letter.textContent = message;
 
-      // parametric type settings, also use as id
-      var wght = i*5;
-      var ctrs = j*2.5;
-      var styl = 4; // TODO: all styles
+      if (i>=0 && j>=0 && i>=j){ // I+
+				var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3) ;
+				ctrs+=1;
+				ctrs *= initCInc;
+	      var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
+				wght -= 1;
+				wght = Math.abs(wght);
+				wght *= wInc;
+				wght += 40;
+	      var styl = 0;
+			} else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
+				var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6) ; // or /2?
+				wght *= wInc;
+				wght += 40;
+				var ctrs =(Math.abs(j) - (Math.abs(i) + Math.abs(i)%2)/2) ;
+				ctrs -= 2;
+				ctrs = Math.abs(ctrs);
+				ctrs *= initCInc+4;
+	      var styl = 0;
+			} else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
+				var wght = (Math.abs(j)-1)*wInc+40;
+	      var ctrs = 0;
+	      var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 ;
+				styl -= 1;
+			} else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
+				var wght = (Math.abs(j)-1)*wInc+40;
+	      var ctrs = 0;
+	      var styl = Math.abs(i)-1;
+			} else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
+				var wght = (Math.abs(j)-1)*wInc+40;
+	      var ctrs = 0;
+	      var styl = Math.abs(i)-1;
+			} else if (i>=0 && j>=0 && i<j){ // I-
+				var wght = 40;
+				var ctrs =(Math.abs(j))*initCInc;
+				var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+			} else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
+				var wght = 40;
+				var ctrs =(Math.abs(j))*initCInc;
+	      var styl = Math.abs(i)-1;
+			} else { // IV-
+				var wght = 40;
+	      var ctrs =(Math.abs(j))*initCInc;
+	      var styl = Math.abs(i)-1;
+			}
+
+
       letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
-      letter.id = wght + ',' + ctrs + ',' + styl;
+      // letter.id = wght + ',' + ctrs + ',' + styl;
+      letter.id = i + ',' + j + ',' + 0;
+
 
       // create an element for the letter instance
       var object = new THREE.CSS3DObject( letter );
       object.name = letter.id; // set name to match id
       // hex grid from https://www.openprocessing.org/sketch/169257
-      var xSpacing = hexWidth * j;
-      var ySpacing = hexHeight * .75 * i;
+      // var xSpacing = hexWidth * j;
+      // var ySpacing = hexHeight * .75 * i;
+      // var xSpacing = hexWidth * j * .75;
+			// var ySpacing = hexHeight * i;
+      //
+      // if ( (i % 2) == 0 )
+      // {
+      //   object.position.x = xSpacing;
+      //   object.position.y = ySpacing;
+      //   object.position.z = 0;
+      // } else {
+      //   object.position.x = xSpacing + hexWidth / 2;
+      //   object.position.y = ySpacing;
+      //   object.position.z = 0;
+      // }
+
+      var xSpacing = hexHeight  * i;
+			var ySpacing = hexWidth * j  * .75;
 
       if ( (i % 2) == 0 )
-      {
+			{
         object.position.x = xSpacing;
         object.position.y = ySpacing;
         object.position.z = 0;
       } else {
-        object.position.x = xSpacing + hexWidth / 2;
-        object.position.y = ySpacing;
+        object.position.x = xSpacing;
+        object.position.y = ySpacing + hexWidth / 2;
         object.position.z = 0;
       }
+
+
       letterinstances.push( object );
       scene.add( object );
       object.element.style.opacity = 0;
@@ -147,48 +225,65 @@ function drawLetters(){
 // // TODO: take out of lettergridjs!!!!
 function initialLetters(){
   // initial letter view
-  var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
-  centerLetter.element.style.opacity = opacityVec[0];
+  // var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
+  var centerLetter = scene.getObjectByName("0,0,0")
 
-  currentDisplay = getNthNeighbors(centerLetter.name,currWInc,currCInc,0);
+  // centerLetter.element.stsyle.opacity = opacityVec[0];
+  centerLetter.element.style.opacity = 1;
+  //todo
+  currentDisplay = getNthNeighbors(centerLetter.name , currRadi);//,4,4,0);
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    currentDisplay[i].element.style.opacity = opacityVec[zoomLevel%10];  // %10 gives the last digit of the num
+    // currentDisplay[i].element.style.opacity = opacityVec[zoomLevel%10];  // %10 gives the last digit of the num
+    currentDisplay[i].element.style.opacity = 1;  // %10 gives the last digit of the num
   }
   currentDisplay.push(centerLetter);
+  currRadi -=1 ;
 }
 
-function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
+function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc){
   var currNeighbors = [];
   var centerSettings = currCenter.split(",");
 
+  var nRadi = cRadi;
+	var nShift = 1;
+	if (nRadi == 1) nShift = 0;
+	if (nRadi > 3) nRadi += 1;
+
   // n1 is at 12 o'clock , numbering clockwise
   // if there is indeed a neighbor, add to temp display list that we return
-  var n1 = (+centerSettings[0] + wghtInc)+","+centerSettings[1]+","+centerSettings[2];
+  var n1 = (+centerSettings[0] + nRadi)+","+(+centerSettings[1] + nShift)+","+centerSettings[2];
   var l1 = scene.getObjectByName(n1);
+	// if (l1) l1.element.style.color = 'gray';
   if (l1) currNeighbors.push(l1);
 
-  var n2 = (+centerSettings[0] + wghtInc/2 )+","+(+centerSettings[1] + ctrsInc)+","+centerSettings[2];
+  var n2 = (+centerSettings[0])+","+(+centerSettings[1] + nRadi)+","+centerSettings[2];
   var l2 = scene.getObjectByName(n2);
+	// if (l2) l2.element.style.color = 'pink';
   if (l2) currNeighbors.push(l2);
 
-  var n3 = (+centerSettings[0] - wghtInc/2 )+","+(+centerSettings[1] + ctrsInc)+","+centerSettings[2];
+  var n3 = (+centerSettings[0] - nRadi )+","+(+centerSettings[1] +nShift)+","+centerSettings[2];
   var l3 = scene.getObjectByName(n3);
+	// if (l3) l3.element.style.color = 'green';
   if (l3) currNeighbors.push(l3);
 
-  var n4 = (+centerSettings[0] - wghtInc)+","+centerSettings[1]+","+centerSettings[2];
+  var n4 = (+centerSettings[0] - nRadi)+","+(+centerSettings[1] - nRadi +nShift)+","+(+centerSettings[2]);
   var l4 = scene.getObjectByName(n4);
+	// if (l4) l4.element.style.color = 'yellow';
   if (l4) currNeighbors.push(l4);
 
   // only for the left hand side indexing:
-  if (ctrsInc < 10) ctrsInc/=2;
+  // if (ctrsInc < 10) ctrsInc/=2;
 
-  var n5 = (+centerSettings[0] - wghtInc/2)+","+(+centerSettings[1] - ctrsInc)+","+centerSettings[2];
+  var n5 = (+centerSettings[0])+","+(+centerSettings[1] - nRadi)+","+centerSettings[2];
   var l5 = scene.getObjectByName(n5);
+	// if (l5) l5.element.style.color = 'orange';
+
   if (l5) currNeighbors.push(l5);
 
-  var n6 = (+centerSettings[0] + wghtInc/2)+","+(+centerSettings[1] - ctrsInc)+","+centerSettings[2];
+  var n6 = (+centerSettings[0] + nRadi)+","+(+centerSettings[1] - nRadi +nShift)+","+centerSettings[2];
   var l6 = scene.getObjectByName(n6);
   if (l6) currNeighbors.push(l6);
+	// if (l6) l6.element.style.color = 'red';
 
   // DEBUG:
   // console.log(currCenter);
@@ -199,6 +294,7 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
   // console.log(n5);
   // console.log(n6);
 
+
   return currNeighbors;
 }
 
@@ -206,17 +302,19 @@ function getNthNeighbors ( currCenter , wghtInc , ctrsInc , stylInc){
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
 $(document).mouseover(function(e){
   if($(e.target).css('opacity') == 1){ // only if curently displaying
+    console.log(e.target.id);
     var currCenter = e.target.id;
     if (currCenter){
-      currNeighbors = getNthNeighbors(currCenter,currWInc,currCInc,0);
+      currNeighbors = getNthNeighbors(currCenter,currRadi);
       // traverse neighboors
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         // opacity via zoom level indexing
-        currNeighbors[i].element.style.opacity = opacityVec[zoomLevel%10]; // %10 gives the last digit of the num
+        // currNeighbors[i].element.style.opacity = opacityVec[zoomLevel%10]; // %10 gives the last digit of the num
+        currNeighbors[i].element.style.opacity = 1; // %10 gives the last digit of the num
       }
     }
   }
-  redrawNeighnors();
+  redrawNeighbors();
 }).mouseout(function(e){ // remove hints if not zoomed in
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     var currCenter = e.target.id;
@@ -274,25 +372,35 @@ function render() {
 // ZOOM behavior functions
 function zoomHandler(d3_transform) {
   let scale = d3_transform.k;
-  let x = totalInstances -(d3_transform.x - width/2) / scale;
-  let y = totalInstances/1.2 + (d3_transform.y - height/2) / scale;
+  let x =  -(d3_transform.x - width/2) / scale;
+  let y = (d3_transform.y - height/2) / scale;
+  // let x = totalInstances -(d3_transform.x - width/2) / scale;
+  // let y = totalInstances/1.2 + (d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
+
+
+  // console.log(zoomLevel);
+  console.log(Math.floor(d3_transform.k));
+  console.log(Math.floor(d3_transform.k*10));
+
 
   // zoom level counter:
   if (zoomLevel < Math.floor(d3_transform.k*10)){
     zoomLevel = Math.floor(d3_transform.k*10);
     addOnZoom();
-    if(currWInc > 10) currWInc /= 2;
-    if(currCInc > 5) currCInc -= 5;
+    if(currRadi > 1) currRadi -= 1;
+    // if(currWInc > 10) currWInc /= 2;
+    // if(currCInc > 5) currCInc -= 5;
   }
   // zoomout -> grow circle of neighboors
   if (zoomLevel > Math.floor(d3_transform.k*10)){
     zoomLevel = Math.floor(d3_transform.k*10);
-    console.log(currWInc);
-    console.log(currCInc);
-    if(currWInc = 10) currWInc *= 2;
-    if(currCInc = 5) currCInc += 5;
+    if(currRadi < 3) currRadi += 1;
+    // console.log(currWInc);
+    // console.log(currCInc);
+    // if(currWInc = 10) currWInc *= 2;
+    // if(currCInc = 5) currCInc += 5;
   }
 }
 
@@ -300,8 +408,8 @@ function addOnZoom(){
   if (currNeighbors.length){
     // add to currentDisplay
     currentDisplay.push.apply(currentDisplay, currNeighbors);
-    console.log(currentDisplay.length);
-    redrawNeighnors();
+    // console.log(currentDisplay.length);
+    redrawNeighbors();
     // change opacity of elements
     // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
     //   currentDisplay[i].element.style.opacity = 1;
@@ -309,9 +417,9 @@ function addOnZoom(){
   }
 }
 
-function redrawNeighnors(){
+function redrawNeighbors(){
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    currentDisplay[i].element.style.opacity = 1;
+    // currentDisplay[i].element.style.opacity = 0.5;
   }
 }
 
@@ -337,7 +445,9 @@ function setUpZoom() {
   let initial_scale = getScaleFromZ(far);
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
-  camera.position.set(totalInstances, totalInstances/1.2 , far);
+  // camera.position.set(totalInstances, totalInstances , far);
+  camera.position.set(0, 0, far);
+
 }
 
 // From https://github.com/anvaka/three.map.control, used for panning
