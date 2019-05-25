@@ -27,8 +27,8 @@ var  hexWidth = hexRadius * 2;
 var  hexHeight= Math.sqrt(3)/2 * hexWidth;
 // visuals of zoom
 var zoomLevel = 10;
-var zoomLevelShift = 8;
-var opacityVec = [1,0.7,0.6,0.5,0.4,0.3,0.2,0];
+var zoomLevelShift = 7;
+var opacityVec = [0.8,0.7,0.6,0.5,0.4,0.3,0.2];
 var currWInc = 40; //to delete
 var currCInc = 15; //to delete
 var wghtInc = 8;
@@ -156,24 +156,27 @@ function drawLetters(){
         object.position.y = ySpacing + hexWidth / 2;
         object.position.z = 0;
       }
-      letterinstances.push( object );
+      letterinstances.push( object ); // appened to end of list
       scene.add( object );
-      object.element.style.opacity = 1;
-      object.element.style.opacity = opacityVec[opacityVec.length-1];
+      // object.element.style.opacity = 1;
+      object.element.style.opacity = 0;
+      // object.element.style.opacity = opacityVec[opacityVec.length-1];
     }
   }
 } // end drawLetters function
 
+
 function initialLetters(){
   // initial letter view
   var centerLetter = scene.getObjectByName("0,0,0")
-  centerLetter.element.style.opacity = opacityVec[0];
-  currentDisplay = getNthNeighbors(centerLetter.name , currRadi);
-  for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-  currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10];  // %10 gives the last digit of the num
+  centerLetter.element.style.opacity = 1;
+  currentDisplay.push(centerLetter); // appened center to start of list
+  var centerNs = getNthNeighbors(centerLetter.name , currRadi);
+  currentDisplay.push.apply(currentDisplay, centerNs);
+  for ( var i = 1; i < currentDisplay.length; i += 1 ) {
+    currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel)%10];  // %10 gives the last digit of the num
   }
-  currentDisplay.push(centerLetter);
-  // currRadi -=1 ;
+
 }
 
 function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc){
@@ -182,13 +185,8 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
 
   var nRadi = cRadi;
 	var nShift = 1;
-	// if (nRadi == 1) nShift = 0;
-	// if (nRadi == 1 && !(+centerSettings[1]%2)) nShift = 0;
 	if (nRadi == 1){ // smallest radi needs 0 shift on even rows and cols
     if (!(+centerSettings[1]%2) || !(+centerSettings[0]%2) ){
-      // console.log("at least one is even");
-      // console.log(!(+centerSettings[1]%2) );
-      // console.log(!(+centerSettings[0]%2) );
       nShift = 0;
     }
   }
@@ -211,9 +209,6 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
   var n4 = (+centerSettings[0] - nRadi)+","+(+centerSettings[1] - nRadi +nShift)+","+(+centerSettings[2]);
   var l4 = scene.getObjectByName(n4);
   if (l4) currNeighbors.push(l4);
-
-  // only for the left hand side indexing:
-  // if (ctrsInc < 10) ctrsInc/=2;
 
   var n5 = (+centerSettings[0])+","+(+centerSettings[1] - nRadi)+","+centerSettings[2];
   var l5 = scene.getObjectByName(n5);
@@ -245,8 +240,9 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
 $(".letter").mouseover(function(e){
   if($(e.target).css('opacity') != 0){ // only if curently displaying
+    $(e.target).css('opacity' , 1); // black on hover
     var settings = $(e.target).css('font-variation-settings');
-    console.log(settings); // DEBUG
+    // console.log(settings); // DEBUG
     // cleaning string for parameter tag display
     settings = settings.replace(/[a-zA-Z]/g,'');
     settings = settings.replace(/""/g,'');
@@ -254,24 +250,23 @@ $(".letter").mouseover(function(e){
     settings = settings.replace(/,/g,'.');
     if(settings) settings += " עט.קונטרסט.משקל "
     $("#settingsTag").html(settings);
-    $("#settingsTag").css("opacity",1);
+    $("#settingsTag").css("opacity" , 1);
     // revealing neighboors
     var currCenter = e.target.id;
     if (currCenter){
       currNeighbors = getNthNeighbors(currCenter,currRadi);
-      // traverse neighboors
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-        // opacity via zoom level indexing
-        // currNeighbors[i].element.style.opacity = opacityVec[zoomLevel%10]; // %10 gives the last digit of the num
-        currNeighbors[i].element.style.opacity = 0.3; // %10 gives the last digit of the num
+        // traverse neighboors and set opacity via zoom level indexing
+        currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
       }
     }
   }
   redrawNeighbors();
 }).mouseout(function(e){ // remove hints if not zoomed in
   if($(e.target).css('opacity') != 0){ // only if curently displaying
-    var currCenter = e.target.id;
     $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
+    $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
+    var currCenter = e.target.id;
     if (currCenter){
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         currNeighbors[i].element.style.opacity = 0;
@@ -328,48 +323,38 @@ function zoomHandler(d3_transform) {
   let scale = d3_transform.k;
   let x =  -(d3_transform.x - width/2) / scale;
   let y = (d3_transform.y - height/2) / scale;
-  // let x = totalInstances -(d3_transform.x - width/2) / scale;
-  // let y = totalInstances/1.2 + (d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
-
-  // console.log(Math.floor(d3_transform.k*10));
 
   // zoom level counter:
   if (zoomLevel < Math.floor(d3_transform.k*10)){
     zoomLevel = Math.floor(d3_transform.k*10);
     addOnZoom();
-    if(currRadi > 1) currRadi -= 1;
-    // if(currWInc > 10) currWInc /= 2;
-    // if(currCInc > 5) currCInc -= 5;
+    if(currRadi > 1) currRadi -= 1; // tighten circle
   }
   // zoomout -> grow circle of neighboors
   if (zoomLevel > Math.floor(d3_transform.k*10)){
     zoomLevel = Math.floor(d3_transform.k*10);
     if(currRadi < 3) currRadi += 1;
-    // console.log(currWInc);
-    // console.log(currCInc);
-    // if(currWInc = 10) currWInc *= 2;
-    // if(currCInc = 5) currCInc += 5;
   }
 }
 
 function addOnZoom(){
   if (currNeighbors.length){
-    // add to currentDisplay
-    currentDisplay.push.apply(currentDisplay, currNeighbors);
-    // console.log(currentDisplay.length);
     redrawNeighbors();
-    // change opacity of elements
-    // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    //   currentDisplay[i].element.style.opacity = 1;
-    // }
+    // add new neighbors to currentDisplay
+    currentDisplay.push.apply(currentDisplay, currNeighbors);
   }
 }
 
 function redrawNeighbors(){
+  // change opacity of former neighbors
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    currentDisplay[i].element.style.opacity = 1;
+    currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];
+  }
+  // change opacity of new neighbors
+  for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+    currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10];
   }
 }
 

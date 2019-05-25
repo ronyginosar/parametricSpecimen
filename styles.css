@@ -164,3 +164,7 @@ h3::selection {
     font-family: 'Noordzij';
     color: var(--element-color);
 }
+/* .letter:hover{
+  color: var(--element-color);
+  opacity: 1;
+} */
