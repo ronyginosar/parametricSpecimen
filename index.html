@@ -70,6 +70,7 @@
             <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input>
 
           </div>
+          <div id="settingsTag"></div>
 
       </section>
 
@@ -90,7 +91,7 @@
       </section>
       <script type="text/javascript">
         // CHANGE FONT ON HOVER
-        $(document).mouseover(function(e){
+      $(document).mouseover(function(e){
           if($(e.target).css('opacity')!=0){ // only if curently displaying
             var targetSettings = $(e.target).css('font-variation-settings');
             if (targetSettings){

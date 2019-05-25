@@ -225,11 +225,11 @@ function drawLetters(){
 // // TODO: take out of lettergridjs!!!!
 function initialLetters(){
   // initial letter view
-  // var centerLetter = letterinstances[Math.floor(totalInstances/2)+instances/2];
   var centerLetter = scene.getObjectByName("0,0,0")
 
   // centerLetter.element.stsyle.opacity = opacityVec[0];
   centerLetter.element.style.opacity = 1;
+  // centerLetter.element.style.color = "pink";
   //todo
   currentDisplay = getNthNeighbors(centerLetter.name , currRadi);//,4,4,0);
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
@@ -237,7 +237,7 @@ function initialLetters(){
     currentDisplay[i].element.style.opacity = 1;  // %10 gives the last digit of the num
   }
   currentDisplay.push(centerLetter);
-  currRadi -=1 ;
+  // currRadi -=1 ;
 }
 
 function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc){
@@ -246,29 +246,34 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
 
   var nRadi = cRadi;
 	var nShift = 1;
-	if (nRadi == 1) nShift = 0;
+	// if (nRadi == 1) nShift = 0;
+	// if (nRadi == 1 && !(+centerSettings[1]%2)) nShift = 0;
+	if (nRadi == 1){ // smallest radi needs 0 shift on even rows and cols
+    if (!(+centerSettings[1]%2) || !(+centerSettings[0]%2) ){
+      // console.log("at least one is even");
+      // console.log(!(+centerSettings[1]%2) );
+      // console.log(!(+centerSettings[0]%2) );
+      nShift = 0;
+    }
+  }
 	if (nRadi > 3) nRadi += 1;
 
   // n1 is at 12 o'clock , numbering clockwise
   // if there is indeed a neighbor, add to temp display list that we return
   var n1 = (+centerSettings[0] + nRadi)+","+(+centerSettings[1] + nShift)+","+centerSettings[2];
   var l1 = scene.getObjectByName(n1);
-	// if (l1) l1.element.style.color = 'gray';
   if (l1) currNeighbors.push(l1);
 
   var n2 = (+centerSettings[0])+","+(+centerSettings[1] + nRadi)+","+centerSettings[2];
   var l2 = scene.getObjectByName(n2);
-	// if (l2) l2.element.style.color = 'pink';
   if (l2) currNeighbors.push(l2);
 
   var n3 = (+centerSettings[0] - nRadi )+","+(+centerSettings[1] +nShift)+","+centerSettings[2];
   var l3 = scene.getObjectByName(n3);
-	// if (l3) l3.element.style.color = 'green';
   if (l3) currNeighbors.push(l3);
 
   var n4 = (+centerSettings[0] - nRadi)+","+(+centerSettings[1] - nRadi +nShift)+","+(+centerSettings[2]);
   var l4 = scene.getObjectByName(n4);
-	// if (l4) l4.element.style.color = 'yellow';
   if (l4) currNeighbors.push(l4);
 
   // only for the left hand side indexing:
@@ -276,14 +281,11 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
 
   var n5 = (+centerSettings[0])+","+(+centerSettings[1] - nRadi)+","+centerSettings[2];
   var l5 = scene.getObjectByName(n5);
-	// if (l5) l5.element.style.color = 'orange';
-
   if (l5) currNeighbors.push(l5);
 
   var n6 = (+centerSettings[0] + nRadi)+","+(+centerSettings[1] - nRadi +nShift)+","+centerSettings[2];
   var l6 = scene.getObjectByName(n6);
   if (l6) currNeighbors.push(l6);
-	// if (l6) l6.element.style.color = 'red';
 
   // DEBUG:
   // console.log(currCenter);
@@ -293,16 +295,30 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
   // console.log(n4);
   // console.log(n5);
   // console.log(n6);
-
+  // if (l1) l1.element.style.color = 'gray';
+  // if (l2) l2.element.style.color = 'pink';
+  // if (l3) l3.element.style.color = 'green';
+  // if (l4) l4.element.style.color = 'yellow';
+  // if (l5) l5.element.style.color = 'orange';
+  // if (l6) l6.element.style.color = 'red';
 
   return currNeighbors;
 }
 
-// display neighboors on hover as hint
+// display neighboors on hover (only over letter class) as hint
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
-$(document).mouseover(function(e){
-  if($(e.target).css('opacity') == 1){ // only if curently displaying
-    console.log(e.target.id);
+$(".letter").mouseover(function(e){
+  if($(e.target).css('opacity') != 0){ // only if curently displaying
+    var settings = $(e.target).css('font-variation-settings');
+    // cleaning string for parameter tag display
+    settings = settings.replace(/[a-zA-Z]/g,'');
+    settings = settings.replace(/""/g,'');
+    settings = settings.replace(/ /g,'');
+    settings = settings.replace(/,/g,'.');
+    if(settings) settings += " עט.קונטרסט.משקל "
+    $("#settingsTag").html(settings);
+    $("#settingsTag").css("opacity",1);
+    // revealing neighboors
     var currCenter = e.target.id;
     if (currCenter){
       currNeighbors = getNthNeighbors(currCenter,currRadi);
@@ -310,7 +326,7 @@ $(document).mouseover(function(e){
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         // opacity via zoom level indexing
         // currNeighbors[i].element.style.opacity = opacityVec[zoomLevel%10]; // %10 gives the last digit of the num
-        currNeighbors[i].element.style.opacity = 1; // %10 gives the last digit of the num
+        currNeighbors[i].element.style.opacity = 0.3; // %10 gives the last digit of the num
       }
     }
   }
@@ -318,9 +334,11 @@ $(document).mouseover(function(e){
 }).mouseout(function(e){ // remove hints if not zoomed in
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     var currCenter = e.target.id;
+    $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
     if (currCenter){
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         currNeighbors[i].element.style.opacity = 0;
+        // currNeighbors[i].element.style.color = "black";
       }
     }
   }
@@ -379,11 +397,7 @@ function zoomHandler(d3_transform) {
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
 
-
-  // console.log(zoomLevel);
-  console.log(Math.floor(d3_transform.k));
-  console.log(Math.floor(d3_transform.k*10));
-
+  // console.log(Math.floor(d3_transform.k*10));
 
   // zoom level counter:
   if (zoomLevel < Math.floor(d3_transform.k*10)){
@@ -419,7 +433,7 @@ function addOnZoom(){
 
 function redrawNeighbors(){
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    // currentDisplay[i].element.style.opacity = 0.5;
+    currentDisplay[i].element.style.opacity = 1;
   }
 }
 
