@@ -38,6 +38,7 @@ var currRadi = 4;
 // var currWInc = wInc;
 // var currCInc = initCInc;
 var currNeighbors = [];
+var zoomChanged = false;
 
 init();
 animate();
@@ -55,6 +56,7 @@ function init() {
   // DRAWING
   drawLetters();
   initialLetters();
+
 
   // RENDERER
   renderer = new THREE.CSS3DRenderer();
@@ -176,7 +178,7 @@ function initialLetters(){
   for ( var i = 1; i < currentDisplay.length; i += 1 ) {
     currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel)%10];  // %10 gives the last digit of the num
   }
-
+  currRadi -= 1;
 }
 
 function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc){
@@ -260,14 +262,14 @@ $(".letter").mouseover(function(e){
         currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
       }
     }
+    redrawNeighbors();
   }
-  redrawNeighbors();
+
 }).mouseout(function(e){ // remove hints if not zoomed in
-  if($(e.target).css('opacity') != 0){ // only if curently displaying
+  if(($(e.target).css('opacity') != 0) && !zoomChanged){ // only if curently displaying
     $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
     $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
-    var currCenter = e.target.id;
-    if (currCenter){
+    if (e.target.id){
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         currNeighbors[i].element.style.opacity = 0;
       }
@@ -327,7 +329,8 @@ function zoomHandler(d3_transform) {
   camera.position.set(x, y, z);
 
   // zoom level counter:
-  if (zoomLevel < Math.floor(d3_transform.k*10)){
+  if (zoomLevel+8 < Math.floor(d3_transform.k*10)){
+    zoomChanged = true;
     zoomLevel = Math.floor(d3_transform.k*10);
     addOnZoom();
     if(currRadi > 1) currRadi -= 1; // tighten circle
