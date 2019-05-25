@@ -26,9 +26,10 @@ var hexRadius = 25;
 var  hexWidth = hexRadius * 2;
 var  hexHeight= Math.sqrt(3)/2 * hexWidth;
 // visuals of zoom
-var zoomLevel = 10;
+var zoomLevel = 18;
 var zoomLevelShift = 7;
-var opacityVec = [0.8,0.7,0.6,0.5,0.4,0.3,0.2];
+var opacityVec = [0.8,0.6,0.4,0.2];
+// var opacityVec = [0.2,0.4,0.6,0.8];
 var currWInc = 40; //to delete
 var currCInc = 15; //to delete
 var wghtInc = 8;
@@ -84,7 +85,7 @@ function init() {
 // DRAWLETTERS
 function drawLetters(){
   for ( var i = -instances+1; i < instances; i += 1 ) {
-    for ( var j = -instances; j < instances; j += 1 ) {
+    for ( var j = -instances+1; j < instances; j += 1 ) {
 
       // create letter instance with css attrs
       var letter = document.createElement( 'div' );
@@ -108,16 +109,16 @@ function drawLetters(){
 				// wght += initWght;
 				var ctrs =(Math.abs(j) - (Math.abs(i) + Math.abs(i)%2)/2) - 2 ;
 				// ctrs -= 2;
-				ctrs = Math.abs(ctrs) * (ctrsInc+4);
+				ctrs = Math.abs(ctrs) * (ctrsInc + 4);
 				// ctrs *= ctrsInc+4;
 	      var styl = 0;
 			} else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
-				var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+				var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
 	      var ctrs = 0;
 	      var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
 				// styl -= 1;
 			} else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
-				var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+				var wght = (Math.abs(j) - 1) * (wghtInc+4) + initWght;
 	      var ctrs = 0;
 	      var styl = Math.abs(i) - 1;
 			} else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
@@ -176,7 +177,8 @@ function initialLetters(){
   var centerNs = getNthNeighbors(centerLetter.name , currRadi);
   currentDisplay.push.apply(currentDisplay, centerNs);
   for ( var i = 1; i < currentDisplay.length; i += 1 ) {
-    currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel)%10];  // %10 gives the last digit of the num
+    currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift-1)%10];  // %10 gives the last digit of the num
+    // currentDisplay[i].element.style.opacity = opacityVec[opacityVec.length-1];  // %10 gives the last digit of the num
   }
   currRadi -= 1;
 }
@@ -333,7 +335,7 @@ function zoomHandler(d3_transform) {
   camera.position.set(x, y, z);
 
   // zoom level counter:
-  if (zoomLevel+8 < Math.floor(d3_transform.k*10)){
+  if (zoomLevel < Math.floor(d3_transform.k*10)){
     zoomChanged = true;
     zoomLevel = Math.floor(d3_transform.k*10);
     addOnZoom();
