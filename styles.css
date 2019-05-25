@@ -82,12 +82,12 @@ h2{
     position: relative;
 } */
 
-h2::selection {
+h2 span::selection {
   color: blue;
 }
 
 h3{
-  font-size: 15pt;
+  font-size: 16pt;
   position: relative;
   padding: var(--page-margins);
   margin: 0;
@@ -98,7 +98,7 @@ h3{
   z-index: 10;
 }
 
-h3::selection {
+h3 span::selection {
   color: blue;
 }
 
