@@ -1,37 +1,3 @@
-// TODO3: what happens on click?
-// color when clicked, as bookmark?
-// clickable: object.element.onclick = function() { this.parent.position.y += 10; };
-
-// todo4: hint to hover and zoom on load
-
-// TODO1: layers of gradient
-// only current should be black
-// then gradient out by order of addition, in reverse
-// let us define an opacity vector, of ex. 10 levels
-// on each zoom level - all opacities are moved one index down the line
-// first spot is saved for currently hoverring options
-// we shall add a counter to use and update opacity in hover?
-
-// 2: radi of bullseye
-// on each hover we want a tighter and tighter circle around the currCenter
-
-// TODO2 note - radi decreceing limited
-// if zooming twice i come to look at a new letter - hover wont work correctly anymore
-// maybe- radi per letter and not general?
-
-//TODO icon ? for how to instructions -or- just show on bottom next to icons
-
-// 5:zoom out behaviour
-
-// 6: choose char to display. key or box?
-
-// TODO7: slider resolution
-
-// TODO 7: spacing on typing?
-
-// 8: restore size sliders?
-
-// 9 todo: zoom&hover
 
 console.clear();
 
@@ -47,30 +13,27 @@ var width = window.innerWidth*0.7; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
 var near = 1;
-var far = 2300;
+var far = 2000;
 var zoom, view;
 // letters
 var message = "א";
 var letterinstances = [];
 var currentDisplay = [];
 // hex grid
-// var instances = 18;
-// var totalInstances = instances*instances;
-// var hexRadius = 20;
 var instances = 6;
 var totalInstances = Math.pow(instances, 2);
 var hexRadius = 25;
-// var hexHeight = hexRadius * 2;
-// var hexWidth = Math.sqrt(3)/2 * hexHeight;
 var  hexWidth = hexRadius * 2;
 var  hexHeight= Math.sqrt(3)/2 * hexWidth;
 // visuals of zoom
 var zoomLevel = 10;
+var zoomLevelShift = 8;
 var opacityVec = [1,0.7,0.6,0.5,0.4,0.3,0.2,0];
-var currWInc = 40;
-var currCInc = 15;
-var wInc = 8;
-var initCInc = 8;
+var currWInc = 40; //to delete
+var currCInc = 15; //to delete
+var wghtInc = 8;
+var ctrsInc = 8;
+var initWght = 40;
 var currRadi = 4;
 // var currWInc = wInc;
 // var currCInc = initCInc;
@@ -118,10 +81,8 @@ function init() {
 
 // DRAWLETTERS
 function drawLetters(){
-  for ( var i = -instances; i < instances; i += 1 ) {
+  for ( var i = -instances+1; i < instances; i += 1 ) {
     for ( var j = -instances; j < instances; j += 1 ) {
-  // for ( var i = 0; i < instances; i += 1 ) {
-  //   for ( var j = 0; j < instances; j += 1 ) {
 
       // create letter instance with css attrs
       var letter = document.createElement( 'div' );
@@ -129,80 +90,62 @@ function drawLetters(){
       letter.textContent = message;
 
       if (i>=0 && j>=0 && i>=j){ // I+
-				var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3) ;
-				ctrs+=1;
-				ctrs *= initCInc;
-	      var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
-				wght -= 1;
-				wght = Math.abs(wght);
-				wght *= wInc;
-				wght += 40;
+				var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3) + 1;
+				// ctrs+=1;
+				ctrs *= ctrsInc;
+	      var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) - 1;
+				// wght -= 1;
+				wght = Math.abs(wght) * wghtInc + initWght;
+				// wght *= wghtInc;
+				// wght += initWght;
 	      var styl = 0;
 			} else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
 				var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6) ; // or /2?
-				wght *= wInc;
-				wght += 40;
-				var ctrs =(Math.abs(j) - (Math.abs(i) + Math.abs(i)%2)/2) ;
-				ctrs -= 2;
-				ctrs = Math.abs(ctrs);
-				ctrs *= initCInc+4;
+				wght = wght * wghtInc + initWght;
+				// wght *= wghtInc;
+				// wght += initWght;
+				var ctrs =(Math.abs(j) - (Math.abs(i) + Math.abs(i)%2)/2) - 2 ;
+				// ctrs -= 2;
+				ctrs = Math.abs(ctrs) * (ctrsInc+4);
+				// ctrs *= ctrsInc+4;
 	      var styl = 0;
 			} else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
-				var wght = (Math.abs(j)-1)*wInc+40;
+				var wght = (Math.abs(j) - 1) * wghtInc + initWght;
 	      var ctrs = 0;
-	      var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 ;
-				styl -= 1;
+	      var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
+				// styl -= 1;
 			} else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
-				var wght = (Math.abs(j)-1)*wInc+40;
+				var wght = (Math.abs(j) - 1) * wghtInc + initWght;
 	      var ctrs = 0;
-	      var styl = Math.abs(i)-1;
+	      var styl = Math.abs(i) - 1;
 			} else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
-				var wght = (Math.abs(j)-1)*wInc+40;
+				var wght = (Math.abs(j) - 1) * wghtInc + initWght;
 	      var ctrs = 0;
-	      var styl = Math.abs(i)-1;
+	      var styl = Math.abs(i) - 1;
 			} else if (i>=0 && j>=0 && i<j){ // I-
-				var wght = 40;
-				var ctrs =(Math.abs(j))*initCInc;
+				var wght = initWght;
+				var ctrs =(Math.abs(j)) * ctrsInc;
 				var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
 			} else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
-				var wght = 40;
-				var ctrs =(Math.abs(j))*initCInc;
-	      var styl = Math.abs(i)-1;
+				var wght = initWght;
+				var ctrs =(Math.abs(j)) * ctrsInc;
+	      var styl = Math.abs(i) - 1;
 			} else { // IV-
-				var wght = 40;
-	      var ctrs =(Math.abs(j))*initCInc;
-	      var styl = Math.abs(i)-1;
+				var wght = initWght;
+	      var ctrs =(Math.abs(j)) * ctrsInc;
+	      var styl = Math.abs(i) - 1;
 			}
-
 
       letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
       // letter.id = wght + ',' + ctrs + ',' + styl;
       letter.id = i + ',' + j + ',' + 0;
 
-
       // create an element for the letter instance
       var object = new THREE.CSS3DObject( letter );
       object.name = letter.id; // set name to match id
-      // hex grid from https://www.openprocessing.org/sketch/169257
-      // var xSpacing = hexWidth * j;
-      // var ySpacing = hexHeight * .75 * i;
-      // var xSpacing = hexWidth * j * .75;
-			// var ySpacing = hexHeight * i;
-      //
-      // if ( (i % 2) == 0 )
-      // {
-      //   object.position.x = xSpacing;
-      //   object.position.y = ySpacing;
-      //   object.position.z = 0;
-      // } else {
-      //   object.position.x = xSpacing + hexWidth / 2;
-      //   object.position.y = ySpacing;
-      //   object.position.z = 0;
-      // }
 
       var xSpacing = hexHeight  * i;
 			var ySpacing = hexWidth * j  * .75;
-
       if ( (i % 2) == 0 )
 			{
         object.position.x = xSpacing;
@@ -213,28 +156,21 @@ function drawLetters(){
         object.position.y = ySpacing + hexWidth / 2;
         object.position.z = 0;
       }
-
-
       letterinstances.push( object );
       scene.add( object );
-      object.element.style.opacity = 0;
+      object.element.style.opacity = 1;
+      object.element.style.opacity = opacityVec[opacityVec.length-1];
     }
   }
 } // end drawLetters function
 
-// // TODO: take out of lettergridjs!!!!
 function initialLetters(){
   // initial letter view
   var centerLetter = scene.getObjectByName("0,0,0")
-
-  // centerLetter.element.stsyle.opacity = opacityVec[0];
-  centerLetter.element.style.opacity = 1;
-  // centerLetter.element.style.color = "pink";
-  //todo
-  currentDisplay = getNthNeighbors(centerLetter.name , currRadi);//,4,4,0);
+  centerLetter.element.style.opacity = opacityVec[0];
+  currentDisplay = getNthNeighbors(centerLetter.name , currRadi);
   for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    // currentDisplay[i].element.style.opacity = opacityVec[zoomLevel%10];  // %10 gives the last digit of the num
-    currentDisplay[i].element.style.opacity = 1;  // %10 gives the last digit of the num
+  currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10];  // %10 gives the last digit of the num
   }
   currentDisplay.push(centerLetter);
   // currRadi -=1 ;
@@ -310,6 +246,7 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
 $(".letter").mouseover(function(e){
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     var settings = $(e.target).css('font-variation-settings');
+    console.log(settings); // DEBUG
     // cleaning string for parameter tag display
     settings = settings.replace(/[a-zA-Z]/g,'');
     settings = settings.replace(/""/g,'');
@@ -338,7 +275,6 @@ $(".letter").mouseover(function(e){
     if (currCenter){
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         currNeighbors[i].element.style.opacity = 0;
-        // currNeighbors[i].element.style.color = "black";
       }
     }
   }

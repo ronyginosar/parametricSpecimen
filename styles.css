@@ -43,15 +43,6 @@ body{
 
 .main{
   margin-top: var(--page-margins);
-  /* background-color:'blue'; */
-
-}
-
-/* bottomSection */
-
-.bottomSection{
-  padding-right: var(--page-margins);
-  padding-left: var(--page-margins);
 }
 
 /* TEXT TESTER*/
@@ -59,7 +50,6 @@ body{
 .textTester{
   padding-right: var(--page-margins);
   padding-left: var(--page-margins);
-  /* background-color:'blue'; */
 }
 
 [contenteditable]:focus {
@@ -108,15 +98,33 @@ h3{
   z-index: 10;
 }
 
-/* h2 span {
-    position: relative;
-} */
-
 h3::selection {
   color: blue;
 }
 
-/* COLOR CONTROLLERS */
+/* bottomSection */
+
+.bottomSection{
+  padding-right: var(--page-margins);
+  padding-left: var(--page-margins);
+}
+
+#messageInputBox{
+  text-align: center;
+  top:-30px;
+  height:20px;
+}
+
+#settingsTag{
+  font-family: 'NarkisBlock';
+  position: absolute;
+  bottom: var(--page-margins);
+  margin-bottom: 15px;
+  left: 7%;
+  font-size: 10pt;
+}
+
+/* COLOR ICONS */
 
 .colorControlers{
   position: absolute;
@@ -138,21 +146,6 @@ h3::selection {
   outline: 0px solid transparent;
 }
 
-#messageInputBox{
-  text-align: center;
-  top:-30px;
-  height:20px;
-}
-
-#settingsTag{
-  font-family: 'NarkisBlock';
-  position: absolute;
-  bottom: var(--page-margins);
-  margin-bottom: 15px;
-  left: 7%;
-  font-size: 10pt;
-}
-
 /* LETTER INSTANCES */
 
 #gridContainer{
@@ -170,6 +163,4 @@ h3::selection {
     font-size: 50px;
     font-family: 'Noordzij';
     color: var(--element-color);
-}
-.letter:hover {
 }

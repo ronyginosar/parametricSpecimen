@@ -1,4 +1,5 @@
 
+// TYPOGRAPGIC SLIDERS:
 function updateSize(c,t) {
   var currclass = document.getElementsByClassName(c)[0];
   var trgtclass = document.getElementsByTagName(t)[0];
@@ -27,17 +28,10 @@ function updateHeight(c,t) {
   trgtclass.style.lineHeight = v + "px"; // update value
   currclass.getElementsByClassName("heightLabel")[0].innerHTML = v; // update label
 }
-// B&W:
-// function colorinvert(){
-//   if (document.body.style.getPropertyValue('--bg-color') != "black"){
-//     document.body.style.setProperty('--bg-color' , "black" );
-//     document.body.style.setProperty('--element-color' , "white" );
-//   } else {
-//     document.body.style.setProperty('--bg-color' , "white" );
-//     document.body.style.setProperty('--element-color' , "black" );
-//   }
-// }
-// SHADED B&W
+
+/// COLORS:
+
+// B&W INVERT
 function colorinvert(){
   if (document.body.style.getPropertyValue('--bg-color') != "#232323"){
     document.body.style.setProperty('--bg-color' , "#232323" );
