@@ -28,8 +28,8 @@ var  hexHeight= Math.sqrt(3)/2 * hexWidth;
 // visuals of zoom
 var zoomLevel = 18;
 var zoomLevelShift = 7;
-var opacityVec = [0.8,0.6,0.4,0.2];
-// var opacityVec = [0.2,0.4,0.6,0.8];
+// var opacityVec = [0.8,0.6,0.4,0.2];
+var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var currWInc = 40; //to delete
 var currCInc = 15; //to delete
 var wghtInc = 8;
@@ -39,7 +39,6 @@ var currRadi = 4;
 // var currWInc = wInc;
 // var currCInc = initCInc;
 var currNeighbors = [];
-var zoomChanged = false;
 
 init();
 animate();
@@ -113,12 +112,14 @@ function drawLetters(){
 				// ctrs *= ctrsInc+4;
 	      var styl = 0;
 			} else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
+				// var wght = (Math.abs(j) - 1) * wghtInc + initWght;
 				var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
 	      var ctrs = 0;
 	      var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
 				// styl -= 1;
 			} else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
 				var wght = (Math.abs(j) - 1) * (wghtInc+4) + initWght;
+				// var wght = (Math.abs(j) - 1) * wghtInc + initWght;
 	      var ctrs = 0;
 	      var styl = Math.abs(i) - 1;
 			} else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
@@ -177,8 +178,8 @@ function initialLetters(){
   var centerNs = getNthNeighbors(centerLetter.name , currRadi);
   currentDisplay.push.apply(currentDisplay, centerNs);
   for ( var i = 1; i < currentDisplay.length; i += 1 ) {
-    currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift-1)%10];  // %10 gives the last digit of the num
-    // currentDisplay[i].element.style.opacity = opacityVec[opacityVec.length-1];  // %10 gives the last digit of the num
+    // currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift-1)%10];  // %10 gives the last digit of the num
+    currentDisplay[i].element.style.opacity = opacityVec[opacityVec.length-1];  // %10 gives the last digit of the num
   }
   currRadi -= 1;
 }
@@ -236,6 +237,12 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
   // if (l4) l4.element.style.color = 'yellow';
   // if (l5) l5.element.style.color = 'orange';
   // if (l6) l6.element.style.color = 'red';
+  // l1.element.style.color = 'gray';
+  // l2.element.style.color = 'pink';
+  // l3.element.style.color = 'green';
+  // l4.element.style.color = 'yellow';
+  // l5.element.style.color = 'orange';
+  // l6.element.style.color = 'red';
 
   return currNeighbors;
 }
@@ -246,7 +253,7 @@ $(".letter").mouseover(function(e){
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     $(e.target).css('opacity' , 1); // black on hover
     var settings = $(e.target).css('font-variation-settings');
-    // console.log(settings); // DEBUG
+    // console.log(e.target.id); // DEBUG
     // cleaning string for parameter tag display
     settings = settings.replace(/[a-zA-Z]/g,'');
     settings = settings.replace(/""/g,'');
@@ -261,27 +268,26 @@ $(".letter").mouseover(function(e){
       currNeighbors = getNthNeighbors(currCenter,currRadi);
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         // traverse neighboors and set opacity via zoom level indexing
+        // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
         currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
       }
     }
   }
   redrawNeighbors();
 }).mouseout(function(e){ // remove hints if not zoomed in
-  // if (!zoomChanged){
-    if($(e.target).css('opacity') != 0){ // only if curently displaying
-      $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
-      $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
-      if (e.target.id){
-        for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-          if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
-            currNeighbors[i].element.style.opacity = 0;
-          }
+  if($(e.target).css('opacity') != 0){ // only if curently displaying
+    $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
+    $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
+    if (e.target.id){
+      for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+        if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
+          currNeighbors[i].element.style.opacity = 0;
         }
       }
     }
     currNeighbors = []; // reset currNeighbors list when not hovering
-  // }
-  // zoomChanged = false;
+
+  }
 });
 
 function onWindowResize() {
@@ -335,9 +341,14 @@ function zoomHandler(d3_transform) {
   camera.position.set(x, y, z);
 
   // zoom level counter:
+
   if (zoomLevel < Math.floor(d3_transform.k*10)){
-    zoomChanged = true;
     zoomLevel = Math.floor(d3_transform.k*10);
+    if ((zoomLevel-zoomLevelShift)%10 > opacityVec.length-1){ // zoom too big for vec
+      zoomLevel = opacityVec.length-1+zoomLevelShift; // TODO - not super working.
+      // console.log(zoomLevel); // DEBUG
+      // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
+    }
     addOnZoom();
     if(currRadi > 1) currRadi -= 1; // tighten circle
   }
@@ -350,14 +361,6 @@ function zoomHandler(d3_transform) {
 
 function addOnZoom(){
   if (currNeighbors.length){
-    // change opacity of former neighbors
-    // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    //   currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];
-    // }
-    // // change opacity of new neighbors
-    // for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-    //   currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10];
-    // }
     redrawNeighbors();
     // add new neighbors to currentDisplay
     currentDisplay.push.apply(currentDisplay, currNeighbors);
