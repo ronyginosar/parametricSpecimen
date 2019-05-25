@@ -262,20 +262,24 @@ $(".letter").mouseover(function(e){
         currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
       }
     }
-    redrawNeighbors();
   }
-
+  redrawNeighbors();
 }).mouseout(function(e){ // remove hints if not zoomed in
-  if(($(e.target).css('opacity') != 0) && !zoomChanged){ // only if curently displaying
-    $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
-    $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
-    if (e.target.id){
-      for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-        currNeighbors[i].element.style.opacity = 0;
+  // if (!zoomChanged){
+    if($(e.target).css('opacity') != 0){ // only if curently displaying
+      $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
+      $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
+      if (e.target.id){
+        for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+          if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
+            currNeighbors[i].element.style.opacity = 0;
+          }
+        }
       }
     }
-  }
-  currNeighbors = []; // reset currNeighbors list when not hovering
+    currNeighbors = []; // reset currNeighbors list when not hovering
+  // }
+  // zoomChanged = false;
 });
 
 function onWindowResize() {
@@ -344,6 +348,14 @@ function zoomHandler(d3_transform) {
 
 function addOnZoom(){
   if (currNeighbors.length){
+    // change opacity of former neighbors
+    // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+    //   currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];
+    // }
+    // // change opacity of new neighbors
+    // for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+    //   currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10];
+    // }
     redrawNeighbors();
     // add new neighbors to currentDisplay
     currentDisplay.push.apply(currentDisplay, currNeighbors);
@@ -351,10 +363,10 @@ function addOnZoom(){
 }
 
 function redrawNeighbors(){
-  // change opacity of former neighbors
-  for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-    currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];
-  }
+  // // change opacity of former neighbors
+  // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+  //   currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];
+  // }
   // change opacity of new neighbors
   for ( var i = 0; i < currNeighbors.length; i += 1 ) {
     currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10];
