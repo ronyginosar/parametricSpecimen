@@ -139,7 +139,6 @@ h3::selection {
   object-fit: contain;
   height: 30px;
   margin-bottom: 10px;
-  cursor: cell;
 }
 
 .icon:focus {
@@ -149,6 +148,7 @@ h3::selection {
 /* LETTER INSTANCES */
 
 #gridContainer{
+  cursor: cell;
   position: absolute;
   top: 0;
   left: 0;
@@ -158,13 +158,15 @@ h3::selection {
 }
 
 .letter {
+    cursor: cell;
     text-align: center;
     cursor: default;
     font-size: 50px;
     font-family: 'Noordzij';
     color: var(--element-color);
 }
-/* .letter:hover{
-  color: var(--element-color);
-  opacity: 1;
-} */
+.letter:hover{
+  cursor: cell;
+  /* color: var(--element-color);
+  opacity: 1; */
+}
