@@ -269,11 +269,13 @@ $(".letter").mouseover(function(e){
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         // traverse neighboors and set opacity via zoom level indexing
         // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
-        currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
+        if (currNeighbors[i].element.style.opacity < opacityVec[(zoomLevel-1)%10])
+        currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-1)%10]; // %10 gives the last digit of the num
+        // currNeighbors[i].element.style.opacity = opacityVec[0]; // %10 gives the last digit of the num
       }
     }
   }
-  redrawNeighbors();
+  // redrawNeighbors();
 }).mouseout(function(e){ // remove hints if not zoomed in
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
@@ -286,7 +288,7 @@ $(".letter").mouseover(function(e){
       }
     }
     currNeighbors = []; // reset currNeighbors list when not hovering
-
+    redrawNeighbors();
   }
 });
 
