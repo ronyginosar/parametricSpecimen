@@ -26,8 +26,8 @@ var hexRadius = 25;
 var  hexWidth = hexRadius * 2;
 var  hexHeight= Math.sqrt(3)/2 * hexWidth;
 // visuals of zoom
-var zoomLevel = 18;
-var zoomLevelShift = 7;
+var zoomLevel = 13;
+var zoomLevelShift = 3;
 // var opacityVec = [0.8,0.6,0.4,0.2];
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var currWInc = 40; //to delete
@@ -273,7 +273,7 @@ $(".letter").mouseover(function(e){
       }
     }
   }
-  redrawNeighbors();
+  // redrawNeighbors();
 }).mouseout(function(e){ // remove hints if not zoomed in
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
@@ -286,7 +286,7 @@ $(".letter").mouseover(function(e){
       }
     }
     currNeighbors = []; // reset currNeighbors list when not hovering
-
+    redrawNeighbors();
   }
 });
 
@@ -376,6 +376,10 @@ function redrawNeighbors(){
   for ( var i = 0; i < currNeighbors.length; i += 1 ) {
     currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10];
   }
+  // keep center black
+  $(".letter").mouseover(function(e){
+    if($(e.target).css('opacity') != 0){
+      $(e.target).css('opacity' , 1)}});
 }
 
 function getScaleFromZ (camera_z_position) {
