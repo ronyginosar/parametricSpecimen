@@ -86,7 +86,6 @@
           <!-- <input id="downloadIcon" type="image" src="data/downloadIcon.png" onclick=""></input> -->
 
       </section>
-
       <section>
         <div id="gridContainer"></div> <!-- WHERE THE SKETCH GOES -->
         <!-- GRID LIBRARIES need to go after div defenition -->
@@ -101,25 +100,7 @@
     		<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
         <!-- JS grid script after LIBRARIES -->
         <script src="js/letterGrid.js" type="text/javascript"></script>
-      </section>
-      <script type="text/javascript">
-        // CHANGE FONT ON HOVER
-      $(document).mouseover(function(e){
-          if($(e.target).css('opacity')!=0){ // only if curently displaying
-            var targetSettings = $(e.target).css('font-variation-settings');
-            if (targetSettings){
-              document.body.style.setProperty('font-variation-settings' , targetSettings );
-            }
-          }
-        });
-        // CHANGE MESSAGE ON INPUT
-        $('#messageInputBox').on('input',function(e){
-            message = ($(this).val());
-            $.each(letterinstances, function( index, value ) {
-              value.element.textContent = message;
-            });
-        });
-      </script> <!-- end three -->
+      </section> <!-- end three -->
     </section> <!-- end main -->
     <footer>
       <!-- TODO credits -->

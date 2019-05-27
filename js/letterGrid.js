@@ -1,5 +1,39 @@
 
-console.clear();
+// console.clear();
+
+// CONSOLE LOG MANAGER
+// // TODO:
+var entry;
+function logManager(logEntry){
+  if (entry != logEntry){
+    console.log(logEntry);
+    entry = logEntry;
+  }
+}
+
+// CHANGE FONT ON HOVER
+$(document).mouseover(function(e){
+  if($(e.target).css('opacity')!=0){ // only if curently displaying
+    var currentSettings = document.body.style.getPropertyValue('font-variation-settings');
+    var targetSettings = $(e.target).css('font-variation-settings');
+    // if (targetSettings !== currentSettings){ // TODO: don't print if not changed
+    if (targetSettings){ // TODO: don't print if not changed
+      if (targetSettings != "normal") logManager(targetSettings);
+      // console.log(targetSettings);
+      document.body.style.setProperty('font-variation-settings' , targetSettings );
+    }
+  }
+});
+// CHANGE MESSAGE ON INPUT
+$('#messageInputBox').on('input',function(e){
+    message = ($(this).val());
+    console.log(message);
+    $.each(letterinstances, function( index, value ) {
+      value.element.textContent = message;
+    });
+});
+
+
 
 if ( WEBGL.isWebGLAvailable() === false ) {
   document.body.appendChild( WEBGL.getWebGLErrorMessage() );
@@ -267,7 +301,7 @@ $(".letter").mouseover(function(e){
         currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
       }
     }
-    // TODO: if zoomchanged && hover: redrawNeighbors
+    // TODO: if zoomchanged && hover: redrawNeighbors + change to black
   }
   redrawNeighbors();
 }).mouseout(function(e){ // remove hints if not zoomed in
@@ -333,6 +367,7 @@ function zoomHandler(d3_transform) {
 }
 
 function addOnZoom(){
+  logManager("AddingNeighbors of current");
   if (currNeighbors.length){
     redrawNeighbors();
     // add new neighbors to currentDisplay
