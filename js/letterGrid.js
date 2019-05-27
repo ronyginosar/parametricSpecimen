@@ -82,9 +82,9 @@ function drawLetters(){
       letter.textContent = message;
 
       if (i>=0 && j>=0 && i>=j){ // I+
-				var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3) + 1;
+				var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3);
 				ctrs *= ctrsInc;
-	      var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) - 1;
+	      var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
 				wght = Math.abs(wght) * wghtInc + initWght;
 	      var styl = 0;
 			} else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
@@ -94,6 +94,7 @@ function drawLetters(){
 				ctrs = Math.abs(ctrs) * (ctrsInc + 4);
 	      var styl = 0;
 			} else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
+
 				var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
 	      var ctrs = 0;
 	      var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
