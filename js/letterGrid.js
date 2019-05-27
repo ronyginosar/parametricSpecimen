@@ -23,21 +23,17 @@ var currentDisplay = [];
 var instances = 6;
 var totalInstances = Math.pow(instances, 2);
 var hexRadius = 25;
-var  hexWidth = hexRadius * 2;
-var  hexHeight= Math.sqrt(3)/2 * hexWidth;
+var hexWidth = hexRadius * 2;
+var hexHeight= Math.sqrt(3)/2 * hexWidth;
 // visuals of zoom
-var zoomLevel = 13;
-var zoomLevelShift = 3;
+var zoomLevel = 15;
+var zoomLevelShift = 5; //TODO!
 // var opacityVec = [0.8,0.6,0.4,0.2];
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
-var currWInc = 40; //to delete
-var currCInc = 15; //to delete
 var wghtInc = 8;
 var ctrsInc = 8;
 var initWght = 40;
 var currRadi = 4;
-// var currWInc = wInc;
-// var currCInc = initCInc;
 var currNeighbors = [];
 
 init();
@@ -57,12 +53,10 @@ function init() {
   drawLetters();
   initialLetters();
 
-
   // RENDERER
   renderer = new THREE.CSS3DRenderer();
   renderer.setSize( width, height );
   document.getElementById( 'gridContainer' ).appendChild( renderer.domElement );
-  renderer
 
   // EVENTS
   window.addEventListener( 'resize', onWindowResize, false );
@@ -262,6 +256,7 @@ $(".letter").mouseover(function(e){
     if(settings) settings += " עט.קונטרסט.משקל "
     $("#settingsTag").html(settings);
     $("#settingsTag").css("opacity" , 1);
+    $("#downloadIcon").css("opacity" , 1);
     // revealing neighboors
     var currCenter = e.target.id;
     if (currCenter){
@@ -272,11 +267,13 @@ $(".letter").mouseover(function(e){
         currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
       }
     }
+    // TODO: if zoomchanged && hover: redrawNeighbors
   }
-  // redrawNeighbors();
+  redrawNeighbors();
 }).mouseout(function(e){ // remove hints if not zoomed in
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
+    $("#downloadIcon").css("opacity" , 0.5);
     $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
     if (e.target.id){
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
@@ -286,7 +283,6 @@ $(".letter").mouseover(function(e){
       }
     }
     currNeighbors = []; // reset currNeighbors list when not hovering
-    redrawNeighbors();
   }
 });
 
@@ -294,33 +290,6 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize( window.innerWidth, window.innerHeight );
-}
-
-// used for RAYCAST
-function onDocumentMouseMove( event ) {
-  // event.preventDefault();
-  // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-  // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-}
-
-function onMouseWheel( event ) {
-  // event.preventDefault();
-  // TODO: clear cube before redraw (or different method)
-  // if (event.deltaY > 0){
-  //   // console.log(segments);
-  //   segments += 1;
-  //   // drawCube();
-  // } else if (event.deltaY < 0 && segments > 0){
-  //   // console.log(segments);
-  //   segments -= 1;
-  //   // drawCube();
-  // }
-}
-
-function onDocumentMouseDown( event ) {
-}
-
-function onDocumentKeyDown( event ) {
 }
 
 function animate() {
@@ -334,6 +303,10 @@ function render() {
 
 // ZOOM behavior functions
 function zoomHandler(d3_transform) {
+
+  // zoomLevel = Math.floor(d3_transform.k*10);
+  // zoomLevelShift = zoomLevel%10;
+
   let scale = d3_transform.k;
   let x =  -(d3_transform.x - width/2) / scale;
   let y = (d3_transform.y - height/2) / scale;
@@ -368,7 +341,7 @@ function addOnZoom(){
 }
 
 function redrawNeighbors(){
-  // // change opacity of former neighbors
+  // // change opacity of former neighbors? TODO
   // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
   //   currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];
   // }
@@ -404,9 +377,7 @@ function setUpZoom() {
   let initial_scale = getScaleFromZ(far);
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
-  // camera.position.set(totalInstances, totalInstances , far);
   camera.position.set(0, 0, far);
-
 }
 
 // From https://github.com/anvaka/three.map.control, used for panning
