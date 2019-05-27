@@ -174,7 +174,7 @@
 							var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
 							// letter.textContent = wght ;
 							wght = Math.abs(wght) * wghtInc + initWght;
-							var styl = 0;
+							var styl = 4;
 
 
 
@@ -197,7 +197,7 @@
 							var ctrs = i-5 ;
 							// letter.textContent = ctrs;
 							ctrs = Math.abs(ctrs) * (ctrsInc + 4);
-							var styl = 0;
+							var styl = 4;
 
 
 						} else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
@@ -207,40 +207,93 @@
 							// var ctrs = 0;
 							// var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
 							//phase2
-							var wght = (j+5) * wghtInc + initWght + 10;
+							var wght = (j+5) * wghtInc + initWght;
 							// letter.textContent = j+5 ;
 							// var ctrs = 0;
-							var ctrs = Math.abs(i-5);
+							var ctrs = Math.abs(i-5)*10;
 							// letter.textContent = ctrs ;
 							// var ctrs = Math.floor((Math.abs(j)) - (Math.abs(i) + Math.abs(i)%2)/2)-6;
 							// var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
-							var styl = 0;
+							var styl = 4;
 
 
 						} else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
-							letter.style.color = "pink";
-							var wght = (Math.abs(j) - 1) * (wghtInc+4) + initWght;
-							var ctrs = 0;
-							var styl = Math.abs(i) - 1;
+							// letter.style.color = "pink";
+							//phase2
+							var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 6 ;
+							// letter.textContent = wght;
+							wght = Math.abs(wght) * (wghtInc-2) + initWght;
+							// var wght = (Math.abs(j) - 1) * (wghtInc+4) + initWght;
+							// letter.textContent = wght ;
+							var ctrs = 40;
+							var styl = Math.abs(Math.abs(i) - 5);
+							// letter.textContent = styl ;
+
+							// phase1
+							// var wght = (Math.abs(j) - 1) * (wghtInc+4) + initWght;
+							// var ctrs = 0;
+							// var styl = Math.abs(i) - 1;
 						} else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
-							letter.style.color = "orange";
-							var wght = (Math.abs(j) - 1) * wghtInc + initWght;
-							var ctrs = 0;
-							var styl = Math.abs(i) - 1;
+							// letter.style.color = "orange";
+							//phase1
+							// var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+							// var ctrs = 0;
+							// var styl = Math.abs(i) - 1;
+
+							//phase2
+							// var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+							// letter.textContent = wght ;
+							var wght = (j+5) * (wghtInc-2) + initWght;
+							// letter.textContent = j+5 ;
+							var ctrs = 40;
+							var styl = Math.abs(Math.abs(i) - 5);
+							// letter.textContent = styl ;
+
 						} else if (i>=0 && j>=0 && i<j){ // I-
-							letter.style.color = "yellow";
-							var wght = initWght;
+							// letter.style.color = "yellow";
+							//phase1
+							// var wght = initWght;
+							// var ctrs =(Math.abs(j)) * ctrsInc;
+							// var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+
+							//phase2
+							var wght = initWght+initWght;
 							var ctrs =(Math.abs(j)) * ctrsInc;
 							var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+							// letter.textContent = j ;
+							// letter.textContent = styl ;
+
 						} else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
-							letter.style.color = "gray";
-							var wght = initWght;
-							var ctrs =(Math.abs(j)) * ctrsInc;
-							var styl = Math.abs(i) - 1;
+							// letter.style.color = "gray";
+							//phase2
+							// var wght = initWght;
+							var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
+							// letter.textContent = wght ;
+							wght = Math.abs(wght) * wghtInc + initWght;
+							// letter.textContent = wght ;
+							// var ctrs =(Math.abs(j)) * ctrsInc;
+							var ctrs = 40;
+							var styl = Math.abs(Math.abs(i) - 5);
+							// letter.textContent = styl ;
+
+							//phase1
+							// var wght = initWght; //TODO not sure right
+							// var ctrs =(Math.abs(j)) * ctrsInc;
+							// var styl = Math.abs(i) - 1;
 						} else { // IV-
-							var wght = initWght;
+							//phase2
+							var wght = initWght+initWght;
 							var ctrs =(Math.abs(j)) * ctrsInc;
-							var styl = Math.abs(i) - 1;
+							// letter.textContent = j ;
+
+							var styl = Math.abs(j) - 1;
+
+							// letter.textContent = styl ;
+
+							//phase1
+							// var wght = initWght;
+							// var ctrs =(Math.abs(j)) * ctrsInc;
+							// var styl = Math.abs(i) - 1;
 						}
 
 						// if (i>=0 && j>=0 && i>=j){ // I+
