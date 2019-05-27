@@ -8,8 +8,6 @@
     <link rel="preload" href="font/NoordzijTributev2GX.ttf" as="font" type="font/ttf">
     <link rel="stylesheet" media="all" href="styles.css"/>
     <link rel="stylesheet" media="all" href="css/controlers.css"/>
-    <!-- <script src="js/iro.min.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@jaames/iro/dist/iro.min.js"></script> -->
     <script src="js/controlerFunctions.js" type="text/javascript"></script>
   </head>
   <body>
@@ -22,26 +20,26 @@
       <!-- <img id="instructions" type="image" src="data/hoverZoomIcon.png" class="icon"></img> -->
       <section class = "textTester">
         <div class=”container”>
-          <!-- TODO bring back controls on hover -->
           <div class="block1">
             <div class="controlers">
-              <input class="styleslider sizeInput" type="range" min="6" max="100" value="15" orient="vertical" oninput="updateSize('controlers','h3')">
-                <div class="stylesliderLabel sizeLabel">15</div>
+              <!-- TODO: update upon doc load -->
+              <input class="styleslider sizeInput" type="range" min="6" max="100" value="22" orient="vertical" oninput="updateSize('controlers','h3')">
+                <div class="stylesliderLabel sizeLabel">22</div>
               </input>
               <input class="styleslider spacingInput" type="range" min="-8" max="8" value="1" oninput="updateSpacing('controlers','h3')">
                 <div class="stylesliderLabel spacingLabel">1</div>
               </input>
-              <input class="styleslider heightInput" type="range" min="0" max="100" value="11" oninput="updateHeight('controlers','h3')">
-                <div class="stylesliderLabel heightLabel">11</div>
+              <input class="styleslider heightInput" type="range" min="0" max="100" value="26" oninput="updateHeight('controlers','h3')">
+                <div class="stylesliderLabel heightLabel">26</div>
               </input>
             </div>
             <h2 contenteditable="true" >
               <span>
-בין פרנק ריהל
+                בין פרנק ריהל
               </span>
               <br>
               <span>
-לדוד ומה שביניהם
+                לדוד ומה שביניהם
               </span>
               <!-- <span>
                 קטלוג לגופן פרמטרי
@@ -65,14 +63,10 @@
         </div>
       </section>
       <section class = "bottomSection">
-          <!-- TODO add info icon to reset text -->
-          <!-- TODO add download icon -->
-          <!-- TODO add random font icon -->
           <div class="colorControlers">
             <!-- NOTE: dont put anything after "onclick" -->
             <form>
               <input class="colorControlers" id=messageInputBox type="text" maxlength="2" size="3" name="messageInput" value="א">
-              <!-- <input class="colorControlers" id=messageInputBox type="text" maxlength="4" size="4" name="messageInput" value="הקלד"> -->
             </form>
             <input type="image" src="data/bwicon.png" class="icon" onclick="colorinvert()"></input>
             <!-- <input type="image" src="data/replay.png" class="icon" onclick="randomColors()"></input> -->
@@ -84,21 +78,19 @@
             <img id="downloadIcon" type="image" src="data/downloadIcon.png"></img>
           </a>
           <!-- <input id="downloadIcon" type="image" src="data/downloadIcon.png" onclick=""></input> -->
-
       </section>
       <section>
         <div id="gridContainer"></div> <!-- WHERE THE SKETCH GOES -->
         <!-- GRID LIBRARIES need to go after div defenition -->
         <script src="js/three.js"></script>
     		<script src="js/WebGL.js"></script>
-        <!-- <script src="js/OrbitControls.js"></script> -->
-        <!-- <script src="js/TTFLoader.js"></script> -->
     		<script src="js/CSS3DRenderer.js"></script>
     		<script src="js/d3.js"></script>
     		<script src="js/jquery-3.4.1.min.js"></script>
     		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     		<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
-        <!-- JS grid script after LIBRARIES -->
+        <!-- JS scripts after LIBRARIES -->
+        <script src="js/managmentFunctions.js" type="text/javascript"></script>
         <script src="js/letterGrid.js" type="text/javascript"></script>
       </section> <!-- end three -->
     </section> <!-- end main -->

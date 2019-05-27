@@ -1,40 +1,3 @@
-
-// console.clear();
-
-// CONSOLE LOG MANAGER
-// // TODO:
-var entry;
-function logManager(logEntry){
-  if (entry != logEntry){
-    console.log(logEntry);
-    entry = logEntry;
-  }
-}
-
-// CHANGE FONT ON HOVER
-$(document).mouseover(function(e){
-  if($(e.target).css('opacity')!=0){ // only if curently displaying
-    var currentSettings = document.body.style.getPropertyValue('font-variation-settings');
-    var targetSettings = $(e.target).css('font-variation-settings');
-    // if (targetSettings !== currentSettings){ // TODO: don't print if not changed
-    if (targetSettings){ // TODO: don't print if not changed
-      if (targetSettings != "normal") logManager(targetSettings);
-      // console.log(targetSettings);
-      document.body.style.setProperty('font-variation-settings' , targetSettings );
-    }
-  }
-});
-// CHANGE MESSAGE ON INPUT
-$('#messageInputBox').on('input',function(e){
-    message = ($(this).val());
-    console.log(message);
-    $.each(letterinstances, function( index, value ) {
-      value.element.textContent = message;
-    });
-});
-
-
-
 if ( WEBGL.isWebGLAvailable() === false ) {
   document.body.appendChild( WEBGL.getWebGLErrorMessage() );
 }
@@ -62,7 +25,6 @@ var hexHeight= Math.sqrt(3)/2 * hexWidth;
 // visuals of zoom
 var zoomLevel = 15;
 var zoomLevelShift = 5; //TODO!
-// var opacityVec = [0.8,0.6,0.4,0.2];
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var wghtInc = 8;
 var ctrsInc = 8;
@@ -121,33 +83,22 @@ function drawLetters(){
 
       if (i>=0 && j>=0 && i>=j){ // I+
 				var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3) + 1;
-				// ctrs+=1;
 				ctrs *= ctrsInc;
 	      var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) - 1;
-				// wght -= 1;
 				wght = Math.abs(wght) * wghtInc + initWght;
-				// wght *= wghtInc;
-				// wght += initWght;
 	      var styl = 0;
 			} else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
 				var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6) ; // or /2?
 				wght = wght * wghtInc + initWght;
-				// wght *= wghtInc;
-				// wght += initWght;
 				var ctrs =(Math.abs(j) - (Math.abs(i) + Math.abs(i)%2)/2) - 2 ;
-				// ctrs -= 2;
 				ctrs = Math.abs(ctrs) * (ctrsInc + 4);
-				// ctrs *= ctrsInc+4;
 	      var styl = 0;
 			} else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
-				// var wght = (Math.abs(j) - 1) * wghtInc + initWght;
 				var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
 	      var ctrs = 0;
 	      var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
-				// styl -= 1;
 			} else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
 				var wght = (Math.abs(j) - 1) * (wghtInc+4) + initWght;
-				// var wght = (Math.abs(j) - 1) * wghtInc + initWght;
 	      var ctrs = 0;
 	      var styl = Math.abs(i) - 1;
 			} else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
@@ -169,7 +120,6 @@ function drawLetters(){
 			}
 
       letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
-      // letter.id = wght + ',' + ctrs + ',' + styl;
       letter.id = i + ',' + j + ',' + 0;
 
       // create an element for the letter instance
@@ -192,7 +142,6 @@ function drawLetters(){
       scene.add( object );
       // object.element.style.opacity = 1;
       object.element.style.opacity = 0;
-      // object.element.style.opacity = opacityVec[opacityVec.length-1];
     }
   }
 } // end drawLetters function
@@ -206,13 +155,12 @@ function initialLetters(){
   var centerNs = getNthNeighbors(centerLetter.name , currRadi);
   currentDisplay.push.apply(currentDisplay, centerNs);
   for ( var i = 1; i < currentDisplay.length; i += 1 ) {
-    // currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift-1)%10];  // %10 gives the last digit of the num
-    currentDisplay[i].element.style.opacity = opacityVec[opacityVec.length-1];  // %10 gives the last digit of the num
+    currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];  // %10 gives the last digit of the num
   }
   currRadi -= 1;
 }
 
-function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc){
+function getNthNeighbors ( currCenter , cRadi){
   var currNeighbors = [];
   var centerSettings = currCenter.split(",");
 
@@ -223,6 +171,7 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
       nShift = 0;
     }
   }
+  // TODO: fine tune radi problem
 	if (nRadi > 3) nRadi += 1;
 
   // n1 is at 12 o'clock , numbering clockwise
@@ -265,12 +214,6 @@ function getNthNeighbors ( currCenter , cRadi){// , wghtInc , ctrsInc , stylInc)
   // if (l4) l4.element.style.color = 'yellow';
   // if (l5) l5.element.style.color = 'orange';
   // if (l6) l6.element.style.color = 'red';
-  // l1.element.style.color = 'gray';
-  // l2.element.style.color = 'pink';
-  // l3.element.style.color = 'green';
-  // l4.element.style.color = 'yellow';
-  // l5.element.style.color = 'orange';
-  // l6.element.style.color = 'red';
 
   return currNeighbors;
 }
