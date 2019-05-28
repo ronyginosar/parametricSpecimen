@@ -81,44 +81,175 @@ function drawLetters(){
       letter.className = 'letter';
       letter.textContent = message;
 
-      if (i>=0 && j>=0 && i>=j){ // I+
-				var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3);
-				ctrs *= ctrsInc;
-	      var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
-				wght = Math.abs(wght) * wghtInc + initWght;
-	      var styl = 0;
-			} else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
-				var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6) ; // or /2?
-				wght = wght * wghtInc + initWght;
-				var ctrs =(Math.abs(j) - (Math.abs(i) + Math.abs(i)%2)/2) - 2 ;
-				ctrs = Math.abs(ctrs) * (ctrsInc + 4);
-	      var styl = 0;
-			} else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
+      // var centerVertice = "40,0,0";
+      var centerVertice = "80,40,4";
 
-				var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
-	      var ctrs = 0;
-	      var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
-			} else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
-				var wght = (Math.abs(j) - 1) * (wghtInc+4) + initWght;
-	      var ctrs = 0;
-	      var styl = Math.abs(i) - 1;
-			} else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
-				var wght = (Math.abs(j) - 1) * wghtInc + initWght;
-	      var ctrs = 0;
-	      var styl = Math.abs(i) - 1;
-			} else if (i>=0 && j>=0 && i<j){ // I-
-				var wght = initWght;
-				var ctrs =(Math.abs(j)) * ctrsInc;
-				var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
-			} else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
-				var wght = initWght;
-				var ctrs =(Math.abs(j)) * ctrsInc;
-	      var styl = Math.abs(i) - 1;
-			} else { // IV-
-				var wght = initWght;
-	      var ctrs =(Math.abs(j)) * ctrsInc;
-	      var styl = Math.abs(i) - 1;
-			}
+      switch (centerVertice) {
+
+        case "80,40,4":
+          console.log("chosen 80,40,4");
+          if (i>=0 && j>=0 && i>=j){ // I+
+            // letter.style.color = "blue";
+            var ctrs = i-5;
+            ctrs = Math.abs(ctrs) * ctrsInc;
+            var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
+            wght = Math.abs(wght) * wghtInc + initWght;
+            var styl = 4;
+          } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
+            // letter.style.color = "red";
+            var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 5 ;
+            wght = Math.abs(wght) * wghtInc + initWght;
+            var ctrs = i-5 ;
+            ctrs = Math.abs(ctrs) * (ctrsInc + 4); //// TODO: +4?
+            var styl = 4;
+          } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
+            // letter.style.color = "green";
+            var wght = (j+5) * wghtInc + initWght;
+            var ctrs = Math.abs(i-5)*10;
+            var styl = 4;
+          } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
+            // letter.style.color = "pink";
+            var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 6 ;
+            wght = Math.abs(wght) * (wghtInc-2) + initWght;
+            var ctrs = 40;
+            var styl = Math.abs(Math.abs(i) - 5);
+          } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
+            // letter.style.color = "orange";
+            var wght = (j+5) * (wghtInc-2) + initWght;
+            var ctrs = 40;
+            var styl = Math.abs(Math.abs(i) - 5);
+          } else if (i>=0 && j>=0 && i<j){ // I-
+            // letter.style.color = "yellow";
+            var wght = initWght+initWght;
+            var ctrs =(Math.abs(j-5)) * ctrsInc;
+            var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+            styl = Math.abs(styl-3);
+          } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
+            // letter.style.color = "gray";
+            var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
+            wght = Math.abs(wght) * wghtInc + initWght;
+            var ctrs = 40;
+            var styl = Math.abs(Math.abs(i) - 5);
+          } else { // IV-
+            // letter.style.color = "purple";
+            var wght = initWght+initWght;
+            var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3)-5;
+            ctrs =(Math.abs(ctrs)) * ctrsInc;
+            var styl = Math.abs(Math.abs(j) - 5);
+          }
+          break;
+
+        case "40,0,0":
+          console.log("chosen 40,0,0");
+          if (i>=0 && j>=0 && i>=j){ // I+
+            // letter.style.color = "blue";
+            var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3);
+            ctrs *= ctrsInc;
+            // letter.textContent = ctrs ;
+            var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
+            wght = Math.abs(wght) * wghtInc + initWght;
+            var styl = 0;
+          } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
+            // letter.style.color = "red";
+            var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6); // or /2?
+            wght = wght * wghtInc + initWght;
+            // var ctrs =(Math.abs(j) - (Math.abs(i) + Math.abs(i)%2)/2) - 2 ;
+            var ctrs = i * (ctrsInc) ;
+            // letter.textContent = ctrs ;
+            var styl = 0;
+          } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
+            // letter.style.color = "green";
+            var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
+            var ctrs = i * (ctrsInc + 4) ;
+            // var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
+            var styl = 0;
+          } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
+            // letter.style.color = "pink";
+            var wght = Math.abs(j) * wghtInc + initWght;
+            // letter.textContent = wght ;
+            var ctrs = 0;
+            var styl = Math.abs(i) - 1;
+          } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
+            // letter.style.color = "orange";
+            var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+            // letter.textContent = wght ;
+            var ctrs = 0;
+            var styl = Math.abs(i) - 1;
+          } else if (i>=0 && j>=0 && i<j){ // I-
+            // letter.style.color = "yellow";
+            var wght = initWght;
+            var ctrs =(Math.abs(j)) * ctrsInc;
+            var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+          } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
+            // letter.style.color = "gray";
+            var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
+            wght = Math.abs(wght) * wghtInc + initWght;
+            // letter.textContent = wght ;
+            var ctrs =(Math.abs(j)) * ctrsInc;
+            var styl = Math.abs(i) - 1;
+          } else { // IV-
+            // letter.style.color = "purple";
+            var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3);
+            ctrs =(Math.abs(ctrs)) * ctrsInc;
+            var wght = initWght;
+            var styl = Math.abs(i) - 1;
+          }
+          break;
+
+          case "80,40,4":
+            console.log("chosen 80,40,4");
+            if (i>=0 && j>=0 && i>=j){ // I+
+              // letter.style.color = "blue";
+              var ctrs = i-5;
+              ctrs = Math.abs(ctrs) * ctrsInc;
+              var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
+              wght = Math.abs(wght) * wghtInc + initWght;
+              var styl = 4;
+            } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
+              // letter.style.color = "red";
+              var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 5 ;
+              wght = Math.abs(wght) * wghtInc + initWght;
+              var ctrs = i-5 ;
+              ctrs = Math.abs(ctrs) * (ctrsInc + 4); //// TODO: +4?
+              var styl = 4;
+            } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
+              // letter.style.color = "green";
+              var wght = (j+5) * wghtInc + initWght;
+              var ctrs = Math.abs(i-5)*10;
+              var styl = 4;
+            } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
+              // letter.style.color = "pink";
+              var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 6 ;
+              wght = Math.abs(wght) * (wghtInc-2) + initWght;
+              var ctrs = 40;
+              var styl = Math.abs(Math.abs(i) - 5);
+            } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
+              // letter.style.color = "orange";
+              var wght = (j+5) * (wghtInc-2) + initWght;
+              var ctrs = 40;
+              var styl = Math.abs(Math.abs(i) - 5);
+            } else if (i>=0 && j>=0 && i<j){ // I-
+              // letter.style.color = "yellow";
+              var wght = initWght+initWght;
+              var ctrs =(Math.abs(j-5)) * ctrsInc;
+              var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+              styl = Math.abs(styl-3);
+            } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
+              // letter.style.color = "gray";
+              var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
+              wght = Math.abs(wght) * wghtInc + initWght;
+              var ctrs = 40;
+              var styl = Math.abs(Math.abs(i) - 5);
+            } else { // IV-
+              // letter.style.color = "purple";
+              var wght = initWght+initWght;
+              var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3)-5;
+              ctrs =(Math.abs(ctrs)) * ctrsInc;
+              var styl = Math.abs(Math.abs(j) - 5);
+            }
+            break;
+
+      }
 
       letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
       letter.id = i + ',' + j + ',' + 0;
