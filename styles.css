@@ -54,6 +54,23 @@ body{
   margin-top: var(--page-margins);
 }
 
+#opener{
+  z-index: 10;
+  position: absolute;
+  left:20%;
+  top:20%;
+  background-color: white;
+  height: 50%;
+  width: 50%;
+  opacity: 1;
+  direction: rtl;
+  padding-right: 50px;
+  padding-left: 50px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
 /* TEXT TESTER*/
 
 .textTester{
@@ -84,14 +101,10 @@ h2{
   /* display:inline; */
   /* background-color:white; */
   line-height: 0.9;
-  z-index: 10;
+  z-index: 100;
 }
 
-/* h2 span {
-    position: relative;
-} */
-
-h2 span::selection {
+h2::selection {
   color: blue;
 }
 
@@ -102,12 +115,11 @@ h3{
   margin: 0;
   /* margin-top: 30px; */
   /* display:inline; */
-  /* background-color:white; */
   line-height: 1.3;
-  z-index: 10;
+  z-index: 100;
 }
 
-h3 span::selection {
+h3::selection {
   color: blue;
 }
 
@@ -151,7 +163,7 @@ h3 span::selection {
   bottom: var(--page-margins);
   display: flex;
   flex-direction: column;
-  z-index: 100;
+  z-index:100;
 }
 
 .icon{
@@ -188,4 +200,60 @@ h3 span::selection {
   cursor: cell;
   /* color: var(--element-color);
   opacity: 1; */
+}
+
+/* VARTOGGLES */
+
+.btn{
+    border: 3px solid #1a1a1a;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    transition: background 600ms ease, color 600ms ease;
+    /* z-index: 15; */
+}
+input[type="radio"].toggle {
+    display: none;
+}
+input[type="radio"].toggle+label{
+        cursor: pointer;
+        min-width: 60px;
+}
+input[type="radio"].toggle+label:hover{
+      background: none;
+      color: #1a1a1a;
+}
+input[type="radio"].toggle+label::after{
+      background: #1a1a1a;
+      content: "";
+      height: 100%;
+      position: absolute;
+      top: 0;
+      transition: left 200ms cubic-bezier(0.77, 0, 0.175, 1);
+      width: 100%;
+      z-index: -1;
+}
+
+input[type="radio"].toggle.toggle-left+label {
+        border-right: 0;
+}
+input[type="radio"].toggle.toggle-left+label::after{
+        left: 100%
+}
+input[type="radio"].toggle.toggle-right+label{
+        margin-left: -5px;
+}
+input[type="radio"].toggle.toggle-right+label::after{
+        left: -100%;
+}
+input[type="radio"].toggle:checked+label {
+        cursor: default;
+        color: #fff;
+        transition: color 200ms;
+}
+input[type="radio"].toggle:checked+label::after{
+        left: 0;
+        /* color: #fff; */
+        /* z-index: -1; */
 }

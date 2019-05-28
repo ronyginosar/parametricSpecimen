@@ -16,6 +16,7 @@
       <!-- TODO -->
       </header>
     </section>
+    
     <section class="main">
       <!-- <img id="instructions" type="image" src="data/hoverZoomIcon.png" class="icon"></img> -->
       <section class = "textTester">
@@ -34,16 +35,9 @@
               </input>
             </div>
             <h2 contenteditable="true" >
-              <span>
                 בין פרנק ריהל
-              </span>
               <br>
-              <span>
                 לדוד ומה שביניהם
-              </span>
-              <!-- <span>
-                קטלוג לגופן פרמטרי
-              </span> -->
             </h2>
             <h3 contenteditable="true" >
               <span>
@@ -64,6 +58,7 @@
       </section>
       <section class = "bottomSection">
           <div class="colorControlers">
+            <!-- TODO: ORGNIZE IN FLEX BOX... -->
             <!-- NOTE: dont put anything after "onclick" -->
             <form>
               <input class="colorControlers" id=messageInputBox type="text" maxlength="2" size="3" name="messageInput" value="א">
@@ -77,7 +72,12 @@
           <a href="font/NoordzijTributev2GX.ttf" download>
             <img id="downloadIcon" type="image" src="data/downloadIcon.png"></img>
           </a>
-          <!-- <input id="downloadIcon" type="image" src="data/downloadIcon.png" onclick=""></input> -->
+          <section class="varToggles">
+            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" onchange="toggleCheck()" checked>
+              <label for="toggle-on" class="btn">א</label>
+            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" onchange="toggleCheck()" type="radio">
+              <label for="toggle-off" class="btn">ב</label>
+          </section>
       </section>
       <section>
         <div id="gridContainer"></div> <!-- WHERE THE SKETCH GOES -->
@@ -90,7 +90,7 @@
     		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     		<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
         <!-- JS scripts after LIBRARIES -->
-        <script src="js/managmentFunctions.js" type="text/javascript"></script>
+        <!-- <script src="js/managmentFunctions.js" type="text/javascript"></script> -->
         <script src="js/letterGrid.js" type="text/javascript"></script>
       </section> <!-- end three -->
     </section> <!-- end main -->

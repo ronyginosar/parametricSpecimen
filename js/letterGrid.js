@@ -1,3 +1,75 @@
+// console.clear();
+
+var centerVertice = "40,0,0";
+
+// CONSOLE LOG MANAGER
+var entry;
+function logManager(logEntry){
+  if (entry != logEntry){ // don't print if didn't change
+    console.log("log: " + logEntry); // added string to diff between console and manager
+    entry = logEntry;
+  }
+}
+
+// TOGGLE VAR MANAGER
+function toggleCheck() {
+  if(document.getElementsByName("toggle")[0].checked === true){
+    centerVertice = "40,0,0";
+    while(scene.children.length > 0){
+      scene.remove(scene.children[0]);
+      animate();
+    }
+    // letterinstances.forEach(function(e) {
+    //   console.log(e.element);
+    //   e.element.display('none');
+    // });
+    currentDisplay = [];
+    letterinstances = [];
+    currNeighbors = [];
+  } else if(document.getElementsByName("toggle")[0].checked === false){
+    // console.log("ELSE");
+    centerVertice = "80,40,4";
+    while(scene.children.length > 0){
+      scene.remove(scene.children[0]);
+      animate();
+    }
+    // letterinstances.forEach(function(e) {
+    //   console.log(e.element);
+    //   e.element.display('none');
+    // });
+
+    currentDisplay = [];
+    letterinstances = [];
+    currNeighbors = [];
+  }
+  drawLetters();
+  initialLetters();
+  animate(); // the secret is calling animate after every change.
+}
+
+// CHANGE FONT ON HOVER
+$(document).mouseover(function(e){
+  if($(e.target).css('opacity')!=0){ // only if curently displaying
+    // console.log("DEBUG "+$(e.target).attr('class'));
+    var targetSettings = $(e.target).css('font-variation-settings');
+    if (targetSettings){
+      if (targetSettings != "normal") logManager("hovering over "+targetSettings);
+      document.body.style.setProperty('font-variation-settings' , targetSettings );
+    }
+  }
+});
+
+// CHANGE LETTER ON INPUT
+$('#messageInputBox').on('input',function(e){
+    message = ($(this).val());
+    logManager("new message: " + message);
+    $.each(letterinstances, function( index, value ) {
+      value.element.textContent = message;
+    });
+});
+
+
+
 if ( WEBGL.isWebGLAvailable() === false ) {
   document.body.appendChild( WEBGL.getWebGLErrorMessage() );
 }
@@ -56,7 +128,6 @@ function init() {
 
   // EVENTS
   window.addEventListener( 'resize', onWindowResize, false );
-  // document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
   // CONTROLS
   // Set up mouse-directed zoom behavior
@@ -82,12 +153,14 @@ function drawLetters(){
       letter.textContent = message;
 
       // var centerVertice = "40,0,0";
-      var centerVertice = "80,40,4";
+      // var centerVertice = "80,40,4";
+
+      logManager("switch to "+centerVertice);
 
       switch (centerVertice) {
 
         case "80,40,4":
-          console.log("chosen 80,40,4");
+          // console.log("chosen 80,40,4");
           if (i>=0 && j>=0 && i>=j){ // I+
             // letter.style.color = "blue";
             var ctrs = i-5;
@@ -140,7 +213,7 @@ function drawLetters(){
           break;
 
         case "40,0,0":
-          console.log("chosen 40,0,0");
+          // console.log("chosen 40,0,0");
           if (i>=0 && j>=0 && i>=j){ // I+
             // letter.style.color = "blue";
             var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3);
@@ -196,58 +269,58 @@ function drawLetters(){
           }
           break;
 
-          case "80,40,4":
-            console.log("chosen 80,40,4");
-            if (i>=0 && j>=0 && i>=j){ // I+
-              // letter.style.color = "blue";
-              var ctrs = i-5;
-              ctrs = Math.abs(ctrs) * ctrsInc;
-              var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
-              wght = Math.abs(wght) * wghtInc + initWght;
-              var styl = 4;
-            } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
-              // letter.style.color = "red";
-              var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 5 ;
-              wght = Math.abs(wght) * wghtInc + initWght;
-              var ctrs = i-5 ;
-              ctrs = Math.abs(ctrs) * (ctrsInc + 4); //// TODO: +4?
-              var styl = 4;
-            } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
-              // letter.style.color = "green";
-              var wght = (j+5) * wghtInc + initWght;
-              var ctrs = Math.abs(i-5)*10;
-              var styl = 4;
-            } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
-              // letter.style.color = "pink";
-              var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 6 ;
-              wght = Math.abs(wght) * (wghtInc-2) + initWght;
-              var ctrs = 40;
-              var styl = Math.abs(Math.abs(i) - 5);
-            } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
-              // letter.style.color = "orange";
-              var wght = (j+5) * (wghtInc-2) + initWght;
-              var ctrs = 40;
-              var styl = Math.abs(Math.abs(i) - 5);
-            } else if (i>=0 && j>=0 && i<j){ // I-
-              // letter.style.color = "yellow";
-              var wght = initWght+initWght;
-              var ctrs =(Math.abs(j-5)) * ctrsInc;
-              var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
-              styl = Math.abs(styl-3);
-            } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
-              // letter.style.color = "gray";
-              var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
-              wght = Math.abs(wght) * wghtInc + initWght;
-              var ctrs = 40;
-              var styl = Math.abs(Math.abs(i) - 5);
-            } else { // IV-
-              // letter.style.color = "purple";
-              var wght = initWght+initWght;
-              var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3)-5;
-              ctrs =(Math.abs(ctrs)) * ctrsInc;
-              var styl = Math.abs(Math.abs(j) - 5);
-            }
-            break;
+          // case "80,40,4":
+          //   console.log("chosen 80,40,4");
+          //   if (i>=0 && j>=0 && i>=j){ // I+
+          //     // letter.style.color = "blue";
+          //     var ctrs = i-5;
+          //     ctrs = Math.abs(ctrs) * ctrsInc;
+          //     var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
+          //     wght = Math.abs(wght) * wghtInc + initWght;
+          //     var styl = 4;
+          //   } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
+          //     // letter.style.color = "red";
+          //     var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 5 ;
+          //     wght = Math.abs(wght) * wghtInc + initWght;
+          //     var ctrs = i-5 ;
+          //     ctrs = Math.abs(ctrs) * (ctrsInc + 4); //// TODO: +4?
+          //     var styl = 4;
+          //   } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
+          //     // letter.style.color = "green";
+          //     var wght = (j+5) * wghtInc + initWght;
+          //     var ctrs = Math.abs(i-5)*10;
+          //     var styl = 4;
+          //   } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
+          //     // letter.style.color = "pink";
+          //     var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 6 ;
+          //     wght = Math.abs(wght) * (wghtInc-2) + initWght;
+          //     var ctrs = 40;
+          //     var styl = Math.abs(Math.abs(i) - 5);
+          //   } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
+          //     // letter.style.color = "orange";
+          //     var wght = (j+5) * (wghtInc-2) + initWght;
+          //     var ctrs = 40;
+          //     var styl = Math.abs(Math.abs(i) - 5);
+          //   } else if (i>=0 && j>=0 && i<j){ // I-
+          //     // letter.style.color = "yellow";
+          //     var wght = initWght+initWght;
+          //     var ctrs =(Math.abs(j-5)) * ctrsInc;
+          //     var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+          //     styl = Math.abs(styl-3);
+          //   } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
+          //     // letter.style.color = "gray";
+          //     var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
+          //     wght = Math.abs(wght) * wghtInc + initWght;
+          //     var ctrs = 40;
+          //     var styl = Math.abs(Math.abs(i) - 5);
+          //   } else { // IV-
+          //     // letter.style.color = "purple";
+          //     var wght = initWght+initWght;
+          //     var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3)-5;
+          //     ctrs =(Math.abs(ctrs)) * ctrsInc;
+          //     var styl = Math.abs(Math.abs(j) - 5);
+          //   }
+          //   break;
 
       }
 
@@ -271,6 +344,7 @@ function drawLetters(){
         object.position.z = 0;
       }
       letterinstances.push( object ); // appened to end of list
+      // console.log(object.name);
       scene.add( object );
       // object.element.style.opacity = 1;
       object.element.style.opacity = 0;
@@ -281,7 +355,8 @@ function drawLetters(){
 
 function initialLetters(){
   // initial letter view
-  var centerLetter = scene.getObjectByName("0,0,0")
+  currRadi = 4;
+  var centerLetter = scene.getObjectByName("0,0,0");
   centerLetter.element.style.opacity = 1;
   currentDisplay.push(centerLetter); // appened center to start of list
   var centerNs = getNthNeighbors(centerLetter.name , currRadi);
@@ -295,6 +370,8 @@ function initialLetters(){
 function getNthNeighbors ( currCenter , cRadi){
   var currNeighbors = [];
   var centerSettings = currCenter.split(",");
+  // console.log("DEBUG: " + currCenter);
+  // console.log("DEBUG: " + cRadi);
 
   var nRadi = cRadi;
 	var nShift = 1;
@@ -346,6 +423,12 @@ function getNthNeighbors ( currCenter , cRadi){
   // if (l4) l4.element.style.color = 'yellow';
   // if (l5) l5.element.style.color = 'orange';
   // if (l6) l6.element.style.color = 'red';
+  // l1.element.style.color = 'gray';
+  // l2.element.style.color = 'pink';
+  // l3.element.style.color = 'green';
+  // l4.element.style.color = 'yellow';
+  // l5.element.style.color = 'orange';
+  // l6.element.style.color = 'red';
 
   return currNeighbors;
 }
@@ -353,10 +436,11 @@ function getNthNeighbors ( currCenter , cRadi){
 // display neighboors on hover (only over letter class) as hint
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
 $(".letter").mouseover(function(e){
+// $("#gridContainer").mouseover(function(e){
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     $(e.target).css('opacity' , 1); // black on hover
     var settings = $(e.target).css('font-variation-settings');
-    // console.log(e.target.id); // DEBUG
+    // console.log("DEBUG"+e.target.id); // DEBUG
     // cleaning string for parameter tag display
     settings = settings.replace(/[a-zA-Z]/g,'');
     settings = settings.replace(/""/g,'');
@@ -369,6 +453,7 @@ $(".letter").mouseover(function(e){
     // revealing neighboors
     var currCenter = e.target.id;
     if (currCenter){
+      // console.log("DEBUG IMNSI"+currCenter); // DEBUG
       currNeighbors = getNthNeighbors(currCenter,currRadi);
       for ( var i = 0; i < currNeighbors.length; i += 1 ) {
         // traverse neighboors and set opacity via zoom level indexing
@@ -379,6 +464,7 @@ $(".letter").mouseover(function(e){
     // TODO: if zoomchanged && hover: redrawNeighbors + change to black
   }
   redrawNeighbors();
+  animate();
 }).mouseout(function(e){ // remove hints if not zoomed in
   if($(e.target).css('opacity') != 0){ // only if curently displaying
     $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
@@ -392,8 +478,13 @@ $(".letter").mouseover(function(e){
       }
     }
     currNeighbors = []; // reset currNeighbors list when not hovering
+    animate();
   }
 });
+
+function onDocumentMouseDown(){
+  event.preventDefault();
+}
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -412,7 +503,6 @@ function render() {
 
 // ZOOM behavior functions
 function zoomHandler(d3_transform) {
-
   // zoomLevel = Math.floor(d3_transform.k*10);
   // zoomLevelShift = zoomLevel%10;
 
@@ -483,7 +573,7 @@ function getZFromScale(scale) {
 }
 
 function setUpZoom() {
-  view.call(zoom);
+  view.call(zoom);//.on("click.zoom", null);
   let initial_scale = getScaleFromZ(far);
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
