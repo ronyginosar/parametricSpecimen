@@ -205,7 +205,7 @@ h3::selection {
 /* VARTOGGLES */
 
 .btn{
-    border: 3px solid #1a1a1a;
+    border: 3px solid var(--element-color);
     display: inline-block;
     padding: 10px;
     position: relative;
@@ -218,14 +218,14 @@ input[type="radio"].toggle {
 }
 input[type="radio"].toggle+label{
         cursor: pointer;
-        min-width: 60px;
+        min-width: 20px;
 }
 input[type="radio"].toggle+label:hover{
       background: none;
-      color: #1a1a1a;
+      color: var(--element-color);
 }
 input[type="radio"].toggle+label::after{
-      background: #1a1a1a;
+      background: var(--element-color);
       content: "";
       height: 100%;
       position: absolute;
@@ -249,11 +249,9 @@ input[type="radio"].toggle.toggle-right+label::after{
 }
 input[type="radio"].toggle:checked+label {
         cursor: default;
-        color: #fff;
+        color: var(--bg-color);
         transition: color 200ms;
 }
 input[type="radio"].toggle:checked+label::after{
         left: 0;
-        /* color: #fff; */
-        /* z-index: -1; */
 }
