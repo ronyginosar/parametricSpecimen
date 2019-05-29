@@ -23,6 +23,7 @@
 .Noordzij{
   font-family: 'Noordzij';
 
+
 }
 /* numeric font */
 @font-face {
@@ -102,6 +103,7 @@ h2{
   /* background-color:white; */
   line-height: 0.9;
   z-index: 100;
+  font-weight: normal;
 }
 
 h2::selection {
@@ -117,6 +119,7 @@ h3{
   /* display:inline; */
   line-height: 1.3;
   z-index: 100;
+  font-weight: normal;
 }
 
 h3::selection {

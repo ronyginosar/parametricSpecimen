@@ -435,50 +435,54 @@ function getNthNeighbors ( currCenter , cRadi){
 
 // display neighboors on hover (only over letter class) as hint
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
-$(".letter").mouseover(function(e){
-// $("#gridContainer").mouseover(function(e){
-  if($(e.target).css('opacity') != 0){ // only if curently displaying
-    $(e.target).css('opacity' , 1); // black on hover
-    var settings = $(e.target).css('font-variation-settings');
-    // console.log("DEBUG"+e.target.id); // DEBUG
-    // cleaning string for parameter tag display
-    settings = settings.replace(/[a-zA-Z]/g,'');
-    settings = settings.replace(/""/g,'');
-    settings = settings.replace(/ /g,'');
-    settings = settings.replace(/,/g,'.');
-    if(settings) settings += " עט.קונטרסט.משקל "
-    $("#settingsTag").html(settings);
-    $("#settingsTag").css("opacity" , 1);
-    $("#downloadIcon").css("opacity" , 1);
-    // revealing neighboors
-    var currCenter = e.target.id;
-    if (currCenter){
-      // console.log("DEBUG IMNSI"+currCenter); // DEBUG
-      currNeighbors = getNthNeighbors(currCenter,currRadi);
-      for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-        // traverse neighboors and set opacity via zoom level indexing
-        // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
-        currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
-      }
-    }
-    // TODO: if zoomchanged && hover: redrawNeighbors + change to black
-  }
-  redrawNeighbors();
-  animate();
-}).mouseout(function(e){ // remove hints if not zoomed in
-  if($(e.target).css('opacity') != 0){ // only if curently displaying
-    $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
-    $("#downloadIcon").css("opacity" , 0.5);
-    $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
-    if (e.target.id){
-      for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-        if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
-          currNeighbors[i].element.style.opacity = 0;
+$("#gridContainer").mouseover(function(e){
+// $(".letter").mouseover(function(e){
+  if($(e.target).attr('class') == "letter"){
+    if($(e.target).css('opacity') != 0){ // only if curently displaying
+      $(e.target).css('opacity' , 1); // black on hover
+      var settings = $(e.target).css('font-variation-settings');
+      // console.log("DEBUG"+e.target.id); // DEBUG
+      // cleaning string for parameter tag display
+      settings = settings.replace(/[a-zA-Z]/g,'');
+      settings = settings.replace(/""/g,'');
+      settings = settings.replace(/ /g,'');
+      settings = settings.replace(/,/g,'.');
+      if(settings) settings += " עט.קונטרסט.משקל "
+      $("#settingsTag").html(settings);
+      $("#settingsTag").css("opacity" , 1);
+      $("#downloadIcon").css("opacity" , 1);
+      // revealing neighboors
+      var currCenter = e.target.id;
+      if (currCenter){
+        // console.log("DEBUG IMNSI"+currCenter); // DEBUG
+        currNeighbors = getNthNeighbors(currCenter,currRadi);
+        for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+          // traverse neighboors and set opacity via zoom level indexing
+          // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
+          currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
         }
       }
+      // TODO: if zoomchanged && hover: redrawNeighbors + change to black
     }
-    currNeighbors = []; // reset currNeighbors list when not hovering
+    redrawNeighbors();
     animate();
+  }
+}).mouseout(function(e){ // remove hints if not zoomed in
+  if($(e.target).attr('class') == "letter"){
+    if($(e.target).css('opacity') != 0){ // only if curently displaying
+      $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
+      $("#downloadIcon").css("opacity" , 0.5);
+      $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
+      if (e.target.id){
+        for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+          if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
+            currNeighbors[i].element.style.opacity = 0;
+          }
+        }
+      }
+      currNeighbors = []; // reset currNeighbors list when not hovering
+      animate();
+    }
   }
 });
 
