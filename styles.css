@@ -211,7 +211,7 @@ h3::selection {
     cursor: cell;
     text-align: center;
     cursor: default;
-    font-size: 50px;
+    font-size: 60px;
     font-family: 'Noordzij';
     color: var(--element-color);
 }

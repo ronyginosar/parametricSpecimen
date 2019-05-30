@@ -37,10 +37,29 @@ function colorinvert(){
     document.body.style.setProperty('--bg-color' , "#232323" );
     document.getElementsByClassName('block1')[0].style.backgroundColor = "#0e0d0d";
     document.body.style.setProperty('--element-color' , "#f7f6f4" );
+    $("#showall").attr('src','data/hexiconW.png')
   } else {
     document.body.style.setProperty('--bg-color' , "#f7f6f4" );
     document.getElementsByClassName('block1')[0].style.backgroundColor = "white";
     document.body.style.setProperty('--element-color' , "#232323" );
+    $("#showall").attr('src','data/hexicon.png')
+  }
+}
+
+var show = false;
+
+// SHOW ALL
+function changeResolution(){
+  if(!show){
+    logManager("Show all");
+    $(".letter").css('opacity' , 1);
+    show = true;
+    $("#showall").attr('src','data/hexiconFull.png')
+  } else{
+    logManager("Hiding");
+    $(".letter").css('opacity' , 0);
+    show = false;
+    $("#showall").attr('src','data/hexicon.png')
   }
 }
 

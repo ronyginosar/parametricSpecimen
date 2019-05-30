@@ -82,7 +82,7 @@ var width = window.innerWidth*0.7; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
 var near = 1;
-var far = 2000;
+var far = 1700;
 var zoom, view;
 // letters
 var message = "א";
@@ -93,10 +93,10 @@ var instances = 6;
 var totalInstances = Math.pow(instances, 2);
 var hexRadius = 25;
 var hexWidth = hexRadius * 2;
-var hexHeight= Math.sqrt(3)/2 * hexWidth;
+var hexHeight= (Math.sqrt(3)/2 * hexWidth) - 10;
 // visuals of zoom
-var zoomLevel = 15;
-var zoomLevelShift = 5; //TODO!
+var zoomLevel = 11;
+var zoomLevelShift = 1; //TODO!
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var wghtInc = 8;
 var ctrsInc = 8;
@@ -346,8 +346,8 @@ function drawLetters(){
       letterinstances.push( object ); // appened to end of list
       // console.log(object.name);
       scene.add( object );
-      // object.element.style.opacity = 1;
       object.element.style.opacity = 0;
+      if(show) object.element.style.opacity = 1;
     }
   }
 } // end drawLetters function
@@ -355,7 +355,7 @@ function drawLetters(){
 
 function initialLetters(){
   // initial letter view
-  currRadi = 4;
+  currRadi = 5;
   var centerLetter = scene.getObjectByName("0,0,0");
   centerLetter.element.style.opacity = 1;
   currentDisplay.push(centerLetter); // appened center to start of list
@@ -379,9 +379,19 @@ function getNthNeighbors ( currCenter , cRadi){
     if (!(+centerSettings[1]%2) || !(+centerSettings[0]%2) ){
       nShift = 0;
     }
+    if ((+centerSettings[0]%2) && !(+centerSettings[1]%2))  // uneven col
+    {
+        nShift += 1;
+    }
   }
-  // TODO: fine tune radi problem
-	if (nRadi > 3) nRadi += 1;
+  // if((centerVertice == "80,40,4")&&(nRadi==5)) nShift += 1;
+
+  if (nRadi==5)// first round
+  {
+      nShift += 1;
+  }
+
+
 
   // n1 is at 12 o'clock , numbering clockwise
   // if there is indeed a neighbor, add to temp display list that we return
@@ -436,7 +446,6 @@ function getNthNeighbors ( currCenter , cRadi){
 // display neighboors on hover (only over letter class) as hint
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
 $("#gridContainer").mouseover(function(e){
-// $(".letter").mouseover(function(e){
   if($(e.target).attr('class') == "letter"){
     if($(e.target).css('opacity') != 0){ // only if curently displaying
       $(e.target).css('opacity' , 1); // black on hover
@@ -453,7 +462,7 @@ $("#gridContainer").mouseover(function(e){
       $("#downloadIcon").css("opacity" , 1);
       // revealing neighboors
       var currCenter = e.target.id;
-      if (currCenter){
+      if (currCenter && (!show)){
         // console.log("DEBUG IMNSI"+currCenter); // DEBUG
         currNeighbors = getNthNeighbors(currCenter,currRadi);
         for ( var i = 0; i < currNeighbors.length; i += 1 ) {
@@ -472,8 +481,8 @@ $("#gridContainer").mouseover(function(e){
     if($(e.target).css('opacity') != 0){ // only if curently displaying
       $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
       $("#downloadIcon").css("opacity" , 0.5);
-      $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
-      if (e.target.id){
+      if(!show) $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
+      if (e.target.id && (!show)){
         for ( var i = 0; i < currNeighbors.length; i += 1 ) {
           if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
             currNeighbors[i].element.style.opacity = 0;
