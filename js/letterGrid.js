@@ -11,40 +11,29 @@ function logManager(logEntry){
   }
 }
 
+// DISPLAY MANAGER
+function changeDisplay(center){
+  while(scene.children.length > 0){
+    scene.remove(scene.children[0]);
+    animate();
+  }
+  currentDisplay = [];
+  letterinstances = [];
+  currNeighbors = [];
+  drawLetters();
+  initialLetters();
+  animate(); // the secret is calling animate after every change.
+}
+
 // TOGGLE VAR MANAGER
 function toggleCheck() {
   if(document.getElementsByName("toggle")[0].checked === true){
     centerVertice = "40,0,0";
-    while(scene.children.length > 0){
-      scene.remove(scene.children[0]);
-      animate();
-    }
-    // letterinstances.forEach(function(e) {
-    //   console.log(e.element);
-    //   e.element.display('none');
-    // });
-    currentDisplay = [];
-    letterinstances = [];
-    currNeighbors = [];
+    changeDisplay(centerVertice);
   } else if(document.getElementsByName("toggle")[0].checked === false){
-    // console.log("ELSE");
     centerVertice = "80,40,4";
-    while(scene.children.length > 0){
-      scene.remove(scene.children[0]);
-      animate();
-    }
-    // letterinstances.forEach(function(e) {
-    //   console.log(e.element);
-    //   e.element.display('none');
-    // });
-
-    currentDisplay = [];
-    letterinstances = [];
-    currNeighbors = [];
+    changeDisplay(centerVertice);
   }
-  drawLetters();
-  initialLetters();
-  animate(); // the secret is calling animate after every change.
 }
 
 // CHANGE FONT ON HOVER
@@ -67,6 +56,23 @@ $('#messageInputBox').on('input',function(e){
       value.element.textContent = message;
     });
 });
+
+var show = false;
+
+// SHOW ALL
+function changeResolution(){
+  if(!show){
+    logManager("Show all");
+    $(".letter").css('opacity' , 1);
+    show = true;
+    $("#showall").attr('src','data/hexiconFull.png')
+  } else{
+    logManager("Hiding");
+    show = false;
+    $("#showall").attr('src','data/hexicon.png');
+    changeDisplay(centerVertice);
+  }
+}
 
 
 
@@ -95,8 +101,8 @@ var hexRadius = 25;
 var hexWidth = hexRadius * 2;
 var hexHeight= (Math.sqrt(3)/2 * hexWidth) - 10;
 // visuals of zoom
-var zoomLevel = 11;
-var zoomLevelShift = 1; //TODO!
+var zoomLevel = 7; //TODO!
+var zoomLevelShift = -3; //TODO!
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var wghtInc = 8;
 var ctrsInc = 8;
