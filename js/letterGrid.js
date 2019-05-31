@@ -101,13 +101,13 @@ var hexRadius = 25;
 var hexWidth = hexRadius * 2;
 var hexHeight= (Math.sqrt(3)/2 * hexWidth) - 10;
 // visuals of zoom
-var zoomLevel = 7; //TODO!
-var zoomLevelShift = -3; //TODO!
+var zoomLevel = 18; //TODO!
+var zoomLevelShift = 8; //TODO!
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var wghtInc = 8;
 var ctrsInc = 8;
 var initWght = 40;
-var currRadi = 4;
+var currRadi = 5;
 var currNeighbors = [];
 
 init();
@@ -350,10 +350,9 @@ function drawLetters(){
         object.position.z = 0;
       }
       letterinstances.push( object ); // appened to end of list
-      // console.log(object.name);
       scene.add( object );
       object.element.style.opacity = 0;
-      if(show) object.element.style.opacity = 1;
+      if(show) object.element.style.opacity = 1; // if changing center while "show all" flag is on
     }
   }
 } // end drawLetters function
@@ -361,7 +360,7 @@ function drawLetters(){
 
 function initialLetters(){
   // initial letter view
-  currRadi = 5;
+  currRadi = 5; // reset currRadi before every draw
   var centerLetter = scene.getObjectByName("0,0,0");
   centerLetter.element.style.opacity = 1;
   currentDisplay.push(centerLetter); // appened center to start of list
@@ -370,34 +369,28 @@ function initialLetters(){
   for ( var i = 1; i < currentDisplay.length; i += 1 ) {
     currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];  // %10 gives the last digit of the num
   }
-  currRadi -= 1;
+  currRadi -= 2; // first shirnk by 2, seems like middle
 }
 
 function getNthNeighbors ( currCenter , cRadi){
   var currNeighbors = [];
   var centerSettings = currCenter.split(",");
-  // console.log("DEBUG: " + currCenter);
-  // console.log("DEBUG: " + cRadi);
 
   var nRadi = cRadi;
-	var nShift = 1;
-	if (nRadi == 1){ // smallest radi needs 0 shift on even rows and cols
-    if (!(+centerSettings[1]%2) || !(+centerSettings[0]%2) ){
+	var nShift = 1; // reset shift before every draw
+	if (nRadi == 1){
+    if (!(+centerSettings[1]%2) || !(+centerSettings[0]%2) ){ // 0 shift on even rows and cols
       nShift = 0;
     }
-    if ((+centerSettings[0]%2) && !(+centerSettings[1]%2))  // uneven col
-    {
-        nShift += 1;
-    }
+    if ((+centerSettings[0]%2) && !(+centerSettings[1]%2)) nShift += 1; // uneven col
   }
-  // if((centerVertice == "80,40,4")&&(nRadi==5)) nShift += 1;
-
-  if (nRadi==5)// first round
-  {
-      nShift += 1;
-  }
-
-
+  // SPECIFIC MENDING
+  if (nRadi>=4) nShift += 1;// first round
+  // if (nRadi==5) nShift += 1;// first round
+  // if((centerVertice == "80,40,4")&&(nRadi==4)) nShift += 1;
+  // if((nRadi==4)) nShift += 1;
+  if((nRadi==3)&&(+centerSettings[0]%2)) nShift += 1; // outer letters on second round
+  // console.log(nShift);
 
   // n1 is at 12 o'clock , numbering clockwise
   // if there is indeed a neighbor, add to temp display list that we return
@@ -546,7 +539,7 @@ function zoomHandler(d3_transform) {
   // zoomout -> grow circle of neighboors
   if (zoomLevel > Math.floor(d3_transform.k*10)){
     zoomLevel = Math.floor(d3_transform.k*10);
-    if(currRadi < 3) currRadi += 1;
+    if(currRadi <= 3) currRadi += 1;
   }
 }
 
