@@ -29,6 +29,32 @@ function updateHeight(c,t) {
   currclass.getElementsByClassName("heightLabel")[0].innerHTML = v; // update label
 }
 
+// PARAM SLIDERS FOR TUNER
+
+function updateWght(c,t) {
+  var currclass = document.getElementsByClassName(c)[1];
+  var trgtclass = document.getElementsByClassName(t)[0];
+  var v = currclass.getElementsByClassName("wghtParam")[0].value;
+  trgtclass.style.fontVariationSettings = '"wght"' + v; // update value
+  currclass.getElementsByClassName("wghtLabel")[0].innerHTML = v; // update label
+}
+
+function updateCtrs(c,t) {
+  var currclass = document.getElementsByClassName(c)[1];
+  var trgtclass = document.getElementsByClassName(t)[0];
+  var v = currclass.getElementsByClassName("ctrsParam")[0].value;
+  trgtclass.style.fontVariationSettings = '"ctrs"' + v; // update value
+  currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = v; // update label
+}
+
+function updateStyl(c,t) {
+  var currclass = document.getElementsByClassName(c)[1];
+  var trgtclass = document.getElementsByClassName(t)[0];
+  var v = currclass.getElementsByClassName("stylParam")[0].value;
+  trgtclass.style.fontVariationSettings = '"styl"' + v; // update value
+  currclass.getElementsByClassName("stylLabel")[0].innerHTML = v; // update label
+}
+
 /// COLORS:
 
 // B&W INVERT

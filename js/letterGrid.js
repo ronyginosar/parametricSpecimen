@@ -23,6 +23,10 @@ function changeDisplay(center){
   drawLetters();
   initialLetters();
   animate(); // the secret is calling animate after every change.
+  // change font to center font:
+  var targetSettings = scene.getObjectByName("0,0,0").element.style.fontVariationSettings;
+  logManager("changed to center settings " , targetSettings);
+  document.body.style.setProperty('font-variation-settings' , targetSettings );
 }
 
 // TOGGLE VAR MANAGER
@@ -37,7 +41,7 @@ function toggleCheck() {
 }
 
 // CHANGE FONT ON HOVER
-$(document).mouseover(function(e){
+$("#gridContainer").mouseover(function(e){
   if($(e.target).css('opacity')!=0){ // only if curently displaying
     // console.log("DEBUG "+$(e.target).attr('class'));
     var targetSettings = $(e.target).css('font-variation-settings');

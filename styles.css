@@ -8,7 +8,7 @@
   --element-color: #232323;
   --bg-color: #f7f6f4;
   --page-margins: 3%;
-  --font-variation-settings: "wght" 1, "ctrs" 1, "styl" 1;
+  --font-variation-settings: "wght" 40, "ctrs" 1, "styl" 1;
 }
 
 /* font declerations */
@@ -74,33 +74,38 @@ body{
 
 /* TEXT TESTER*/
 
-.textTester{
+/* .textTester{
   padding-right: var(--page-margins);
   padding-left: var(--page-margins);
-}
+} */
 
-[contenteditable]:focus {
-  outline: 0px solid transparent;
-}
 
-.block1{
+
+.textTester{
+  display: flex;
   direction: rtl;
   position: absolute;
   width: 30%;
   height: 89%;
   right: var(--page-margins);
-  background-color:white;
   color: var(--element-color);
+  overflow:hidden;
+  justify-content: space-between;
+}
+
+.block1{
+  background-color:white;
+  margin-bottom: var(--page-margins);
+  height: 70%;
   overflow:hidden;
 }
 
 h1{
   padding: var(--page-margins);
   font-size: 35pt;
+  flex:
   position: relative;
   margin: 0;
-  /* display:inline; */
-  /* background-color:white; */
   line-height: 0.9;
   z-index: 100;
   font-weight: normal;
@@ -112,27 +117,24 @@ h1::selection {
 
 h2{
   padding: var(--page-margins);
-  font-size: 60pt;
+  font-size: 55pt;
   position: relative;
   margin: 0;
-  /* display:inline; */
-  /* background-color:white; */
-  line-height: 0.9;
+  line-height: 0.7;
   z-index: 100;
   font-weight: normal;
 }
 
 h2::selection {
-  color: blue;
+  color: green;
 }
 
 h3{
-  font-size: 16pt;
+  font-size: 13pt;
   position: relative;
   padding: var(--page-margins);
   margin: 0;
   padding-top: 0;
-  /* display:inline; */
   line-height: 1.3;
   z-index: 100;
   font-weight: normal;
@@ -141,6 +143,29 @@ h3{
 h3::selection {
   color: blue;
 }
+
+.tuner{
+  padding: var(--page-margins);
+  background-color:white;
+  height: 30%;
+  align-self: flex-end;
+  text-align: center;
+}
+
+.tuner  span{
+  font-size: 150pt;
+  line-height: 0.5;
+}
+
+.tuner .controlers{
+  padding-bottom: 10px;
+  z-index: 200;
+}
+
+[contenteditable]:focus {
+  outline: 0px solid transparent;
+}
+
 
 /* bottomSection */
 
@@ -214,63 +239,10 @@ h3::selection {
     font-size: 60px;
     font-family: 'Noordzij';
     color: var(--element-color);
+    line-height: 0.6;
 }
 .letter:hover{
   cursor: cell;
   /* color: var(--element-color);
   opacity: 1; */
-}
-
-/* VARTOGGLES */
-
-.btn{
-    border: 3px solid var(--element-color);
-    display: inline-block;
-    padding: 10px;
-    position: relative;
-    text-align: center;
-    transition: background 600ms ease, color 600ms ease;
-    /* z-index: 15; */
-}
-input[type="radio"].toggle {
-    display: none;
-}
-input[type="radio"].toggle+label{
-        cursor: pointer;
-        min-width: 20px;
-}
-input[type="radio"].toggle+label:hover{
-      background: none;
-      color: var(--element-color);
-}
-input[type="radio"].toggle+label::after{
-      background: var(--element-color);
-      content: "";
-      height: 100%;
-      position: absolute;
-      top: 0;
-      transition: left 200ms cubic-bezier(0.77, 0, 0.175, 1);
-      width: 100%;
-      z-index: -1;
-}
-
-input[type="radio"].toggle.toggle-left+label {
-        border-right: 0;
-}
-input[type="radio"].toggle.toggle-left+label::after{
-        left: 100%
-}
-input[type="radio"].toggle.toggle-right+label{
-        margin-left: -5px;
-}
-input[type="radio"].toggle.toggle-right+label::after{
-        left: -100%;
-}
-input[type="radio"].toggle:checked+label {
-        cursor: default;
-        color: var(--bg-color);
-        transition: color 200ms;
-}
-input[type="radio"].toggle:checked+label::after{
-        left: 0;
 }
