@@ -479,11 +479,21 @@ function getNthNeighbors ( currCenter , cRadi){
 function updateSettingsTag(set){
   // var settings = $(e.target).css('font-variation-settings');
   var settings = set;
-  // console.log("DEBUG"+e.target.id); // DEBUG
   // cleaning string for parameter tag display
   settings = settings.replace(/[a-zA-Z]/g,'');
   settings = settings.replace(/""/g,'');
   settings = settings.replace(/ /g,'');
+
+  var forSlider = settings.split(",");
+  // update sliders
+  var currclass = document.getElementsByClassName("controlers")[1];
+  currclass.getElementsByClassName("wghtLabel")[0].innerHTML = forSlider[0];
+  console.log(currclass.getElementsByClassName("wghtParam")[0].setAttribute('value', forSlider[0]));
+  currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = forSlider[1];
+  console.log(currclass.getElementsByClassName("ctrsParam")[0].setAttribute('value', forSlider[1]));
+  currclass.getElementsByClassName("stylLabel")[0].innerHTML = forSlider[2];
+  console.log(currclass.getElementsByClassName("stylParam")[0].setAttribute('value', forSlider[2]));
+
   settings = settings.replace(/,/g,'.');
   if(settings) settings += " עט.קונטרסט.משקל "
   $("#settingsTag").html(settings);
@@ -505,7 +515,6 @@ $("#gridContainer").mouseover(function(e){
         currNeighbors = getNthNeighbors(currCenter,currRadi);
         for ( var i = 0; i < currNeighbors.length; i += 1 ) {
           // traverse neighboors and set opacity via zoom level indexing
-          // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
           currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
         }
         for ( var i = 0; i < currentDisplay.length; i += 1 ) {
