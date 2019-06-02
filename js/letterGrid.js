@@ -48,7 +48,7 @@ $("#gridContainer").mouseover(function(e){
     if (targetSettings){
       if (targetSettings != "normal") logManager("hovering over "+targetSettings);
       document.body.style.setProperty('font-variation-settings' , targetSettings );
-      // $(".tuner span").css('font-variation-settings' , targetSettings); //TODO
+      $(".tuner").css('font-variation-settings' , targetSettings); //TODO
     }
   }
 });
@@ -488,11 +488,12 @@ function updateSettingsTag(set){
   // update sliders
   var currclass = document.getElementsByClassName("controlers")[1];
   currclass.getElementsByClassName("wghtLabel")[0].innerHTML = forSlider[0];
-  console.log(currclass.getElementsByClassName("wghtParam")[0].setAttribute('value', forSlider[0]));
+  // console.log(currclass.getElementsByClassName("wghtParam")[0].setAttribute('value', forSlider[0]));
+  currclass.getElementsByClassName("wghtParam")[0].value = forSlider[0];
   currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = forSlider[1];
-  console.log(currclass.getElementsByClassName("ctrsParam")[0].setAttribute('value', forSlider[1]));
+  currclass.getElementsByClassName("ctrsParam")[0].value = forSlider[1];
   currclass.getElementsByClassName("stylLabel")[0].innerHTML = forSlider[2];
-  console.log(currclass.getElementsByClassName("stylParam")[0].setAttribute('value', forSlider[2]));
+  currclass.getElementsByClassName("stylParam")[0].value =  forSlider[2];
 
   settings = settings.replace(/,/g,'.');
   if(settings) settings += " עט.קונטרסט.משקל "

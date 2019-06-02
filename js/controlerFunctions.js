@@ -66,10 +66,10 @@ function updateText(change , idx){
     var varlist = currSettings.split(",");
     varlist[idx] = change;
     document.body.style.setProperty('font-variation-settings' , varlist.join() );
-    // document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , varlist.join() );  //TODO
+    document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , varlist.join() );  //TODO
   } else {
     document.body.style.setProperty('font-variation-settings' , change );
-    // document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , change );  //TODO
+    document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , change );  //TODO
 
   }
   // format: "wght" 40, "ctrs" 1, "styl" 1;
