@@ -132,7 +132,7 @@ var hexHeight= (Math.sqrt(3)/2 * hexWidth) - 10;
 // visuals of zoom
 var zoomLevel = 18; //TODO!
 var zoomLevelShift = 8; //TODO!
-var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
+var opacityVec = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var wghtInc = 8;
 var ctrsInc = 8;
 var initWght = 40;
@@ -178,6 +178,8 @@ function init() {
     });
   view = d3.select(renderer.domElement);
   setUpZoom();
+
+
 } //end init
 
 // DRAWLETTERS
@@ -574,11 +576,12 @@ function zoomHandler(d3_transform) {
 
   // zoom level counter:
 
+
   if (zoomLevel < Math.floor(d3_transform.k*10)){
     zoomLevel = Math.floor(d3_transform.k*10);
+    // console.log(zoomLevel); // DEBUG
     if ((zoomLevel-zoomLevelShift)%10 > opacityVec.length-1){ // zoom too big for vec
       zoomLevel = opacityVec.length-1+zoomLevelShift; // TODO - not super working.
-      // console.log(zoomLevel); // DEBUG
       // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
     }
     addOnZoom();
@@ -586,6 +589,7 @@ function zoomHandler(d3_transform) {
   }
   // zoomout -> grow circle of neighboors
   if (zoomLevel > Math.floor(d3_transform.k*10)){
+    // console.log(zoomLevel); // DEBUG
     zoomLevel = Math.floor(d3_transform.k*10);
     if(currRadi <= 3) currRadi += 1;
   }
@@ -605,9 +609,13 @@ function redrawNeighbors(){
   // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
   //   currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];
   // }
-  // change opacity of new neighbors
+  // change opacity of new neighbors with an upper limit on change
+  var c = (zoomLevel-zoomLevelShift)%10 ;
+  if(zoomLevel > 24){
+    c = opacityVec.length-1;
+  }
   for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-    currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10];
+    currNeighbors[i].element.style.opacity = opacityVec[c];
   }
   // keep center black
   $(".letter").mouseover(function(e){
@@ -651,3 +659,28 @@ function getCurrentScale() {
 function toRadians (angle) {
   return angle * (Math.PI / 180);
 }
+
+// function getTransform(node, xScale) {
+//     bbox = node.node().getBBox();
+//     var bx = bbox.x;
+//     var by = bbox.y;
+//     var bw = bbox.width;
+//     var bh = bbox.height;
+//     var tx = -bx*xScale + vx + vw/2 - bw*xScale/2;
+//     var ty = -by*xScale + vy + vh/2 - bh*xScale/2;
+//     return {translate: [tx, ty], scale: xScale}
+//   }
+// function clicked(d, i) {
+//     if (d3.event.defaultPrevented) {
+//   	return; // panning, not clicking
+//     }
+//     node = d3.select(this);
+//     var transform = getTransform(node, 1);
+//     container.transition().duration(1000)
+//        .attr("transform", "translate(" + transform.translate + ")scale(" + transform.scale + ")");
+//     zoom.scale(transform.scale)
+//         .translate(transform.translate);
+//     scale = transform.scale;
+//   }
+//
+//   d3.select("body").on("click", clicked);
