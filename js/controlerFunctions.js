@@ -58,18 +58,43 @@ function updateStyl(c,t) {
   updateText('"styl"' + v , 2);
 }
 
+// var c ="";
+
 function updateText(change , idx){
   var currSettings = document.body.style.fontVariationSettings;
   if(currSettings != "normal"){
     var varlist = currSettings.split(",");
     varlist[idx] = change;
     document.body.style.setProperty('font-variation-settings' , varlist.join() );
+    // document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , varlist.join() );  //TODO
   } else {
     document.body.style.setProperty('font-variation-settings' , change );
+    // document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , change );  //TODO
+
   }
-  // "wght" 40, "ctrs" 1, "styl" 1;
+  // format: "wght" 40, "ctrs" 1, "styl" 1;
+
+  // LOG AND TAG
+  currSettings = document.body.style.fontVariationSettings;
+  logManager("changed params using tuner slider: " + change);
+  logManager("current params are: " + currSettings); //TODO
+  updateSettingsTag(currSettings);
+  // c = change;
 }
 
+// $(".tuner .styleslider").mouseout(function(e){
+// document.getElementsByClassName("tuner styleslider")[0].addEventListener("mouseleave",function(){
+// document.getElementsByClassName("tuner styleslider")[0].addEventListener("mouseup",function(){
+//   console.log("input event fired");
+  // var currSettings = document.body.style.fontVariationSettings;
+  // logManager("changed params using tuner slider: " + c);
+  // logManager("current params are: " + currSettings); //TODO
+  // updateSettingsTag(currSettings);
+// }, false);
+
+// .addEventListener("input", function() {
+//     console.log("input event fired");
+// }, false);
 
 
 /// COLORS:

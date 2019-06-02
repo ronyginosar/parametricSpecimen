@@ -48,6 +48,7 @@ $("#gridContainer").mouseover(function(e){
     if (targetSettings){
       if (targetSettings != "normal") logManager("hovering over "+targetSettings);
       document.body.style.setProperty('font-variation-settings' , targetSettings );
+      // $(".tuner span").css('font-variation-settings' , targetSettings); //TODO
     }
   }
 });
@@ -82,6 +83,7 @@ $('#messageInputBox').on('input',function(e){
 //     return false;
 //   }
 // });
+
 
 
 var show = false;
@@ -472,21 +474,37 @@ function getNthNeighbors ( currCenter , cRadi){
   return currNeighbors;
 }
 
+function updateSettingsTag(set){
+  // var settings = $(e.target).css('font-variation-settings');
+  var settings = set;
+  // console.log("DEBUG"+e.target.id); // DEBUG
+  // cleaning string for parameter tag display
+  settings = settings.replace(/[a-zA-Z]/g,'');
+  settings = settings.replace(/""/g,'');
+  settings = settings.replace(/ /g,'');
+  settings = settings.replace(/,/g,'.');
+  if(settings) settings += " עט.קונטרסט.משקל "
+  $("#settingsTag").html(settings);
+}
+
 // display neighboors on hover (only over letter class) as hint
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
 $("#gridContainer").mouseover(function(e){
   if($(e.target).attr('class') == "letter"){
     if($(e.target).css('opacity') != 0){ // only if curently displaying
       $(e.target).css('opacity' , 1); // black on hover
+
       var settings = $(e.target).css('font-variation-settings');
-      // console.log("DEBUG"+e.target.id); // DEBUG
-      // cleaning string for parameter tag display
-      settings = settings.replace(/[a-zA-Z]/g,'');
-      settings = settings.replace(/""/g,'');
-      settings = settings.replace(/ /g,'');
-      settings = settings.replace(/,/g,'.');
-      if(settings) settings += " עט.קונטרסט.משקל "
-      $("#settingsTag").html(settings);
+      updateSettingsTag(settings);
+      // // console.log("DEBUG"+e.target.id); // DEBUG
+      // // cleaning string for parameter tag display
+      // settings = settings.replace(/[a-zA-Z]/g,'');
+      // settings = settings.replace(/""/g,'');
+      // settings = settings.replace(/ /g,'');
+      // settings = settings.replace(/,/g,'.');
+      // if(settings) settings += " עט.קונטרסט.משקל "
+      // $("#settingsTag").html(settings);
+
       $("#settingsTag").css("opacity" , 1);
       $("#downloadIcon").css("opacity" , 1);
       // revealing neighboors
