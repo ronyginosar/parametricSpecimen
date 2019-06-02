@@ -92,6 +92,33 @@ function colorinvert(){
   }
 }
 
+// DOWNLOAD
+
+function downloadParams() {
+  // create the text file as a Blob:
+  var blob = new Blob(["_"],{type: "text/plain"});
+  var name = $("#settingsTag")[0].innerHTML;
+
+  // download the file:
+  var url = URL.createObjectURL(blob),
+    div = document.createElement("div"),
+    anch = document.createElement("a");
+
+  document.body.appendChild(div);
+  div.appendChild(anch);
+
+  anch.innerHTML = "&nbsp;";
+  div.style.width = "0";
+  div.style.height = "0";
+  anch.href = url;
+  anch.download = name;
+
+  var ev = new MouseEvent("click",{});
+  anch.dispatchEvent(ev);
+  document.body.removeChild(div);
+
+  logManager("downloaded: " + name.split(" ")[0]);
+}
 
 
 // note: In chrome apps, Content Security Policy does not allow inline javascript.

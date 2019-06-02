@@ -59,12 +59,13 @@ $('#messageInputBox').on('input',function(e){
     $.each(letterinstances, function( index, value ) {
       value.element.textContent = message;
     });
+    $(".tuner span")[0].innerHTML = message;
 });
 
 // document.getElementById("editor").addEventListener("input", function() {
 //     console.log("input event fired");
 // }, false);
-// 
+//
 // $("#editor").on("input", function(e) {
 //     // console.log("input event fired");
 //     message = (e.innerHTML);
@@ -141,6 +142,9 @@ animate();
 
 // INIT
 function init() {
+  var d = new Date();
+  logManager("----Starting Session: " + d + " ---------");
+
   container = document.getElementById( 'gridContainer' );
 
   // SCENE
