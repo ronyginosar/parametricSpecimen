@@ -132,7 +132,7 @@ var hexHeight= (Math.sqrt(3)/2 * hexWidth) - 10;
 // visuals of zoom
 var zoomLevel = 18; //TODO!
 var zoomLevelShift = 8; //TODO!
-var opacityVec = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8];
+var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var wghtInc = 8;
 var ctrsInc = 8;
 var initWght = 40;
@@ -494,19 +494,8 @@ function updateSettingsTag(set){
 $("#gridContainer").mouseover(function(e){
   if($(e.target).attr('class') == "letter"){
     if($(e.target).css('opacity') != 0){ // only if curently displaying
-      $(e.target).css('opacity' , 1); // black on hover
-
       var settings = $(e.target).css('font-variation-settings');
       updateSettingsTag(settings);
-      // // console.log("DEBUG"+e.target.id); // DEBUG
-      // // cleaning string for parameter tag display
-      // settings = settings.replace(/[a-zA-Z]/g,'');
-      // settings = settings.replace(/""/g,'');
-      // settings = settings.replace(/ /g,'');
-      // settings = settings.replace(/,/g,'.');
-      // if(settings) settings += " עט.קונטרסט.משקל "
-      // $("#settingsTag").html(settings);
-
       $("#settingsTag").css("opacity" , 1);
       $("#downloadIcon").css("opacity" , 1);
       // revealing neighboors
@@ -519,7 +508,14 @@ $("#gridContainer").mouseover(function(e){
           // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
           currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
         }
+        for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+          // on hover, fade others
+          currentDisplay[i].element.style.color = "gray";
+        }
       }
+      $(e.target).css('opacity' , 1); // black on hover
+      var c = document.body.style.getPropertyValue('--element-color');
+      $(e.target).css('color' , c); // black on hover
       // TODO: if zoomchanged && hover: redrawNeighbors + change to black
     }
     redrawNeighbors();
@@ -536,6 +532,11 @@ $("#gridContainer").mouseover(function(e){
           if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
             currNeighbors[i].element.style.opacity = 0;
           }
+        }
+        var c = document.body.style.getPropertyValue('--element-color');
+        for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+          // on hover, fade others
+          currentDisplay[i].element.style.color = c;
         }
       }
       currNeighbors = []; // reset currNeighbors list when not hovering
@@ -569,13 +570,12 @@ function zoomHandler(d3_transform) {
   // zoomLevelShift = zoomLevel%10;
 
   let scale = d3_transform.k;
-  let x =  -(d3_transform.x - width/2) / scale;
-  let y = (d3_transform.y - height/2) / scale;
+  let x =  -(d3_transform.x - width/2) / scale *2;
+  let y = (d3_transform.y - height/2) / scale *2;
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
 
   // zoom level counter:
-
 
   if (zoomLevel < Math.floor(d3_transform.k*10)){
     zoomLevel = Math.floor(d3_transform.k*10);
@@ -652,35 +652,10 @@ function setUpZoom() {
 function getCurrentScale() {
   var vFOV = camera.fov * Math.PI / 180
   var scale_height = 2 * Math.tan( vFOV / 2 ) * camera.position.z
-  var currentScale = height / scale_height
+  var currentScale = height / scale_height;
   return currentScale
 }
 
 function toRadians (angle) {
   return angle * (Math.PI / 180);
 }
-
-// function getTransform(node, xScale) {
-//     bbox = node.node().getBBox();
-//     var bx = bbox.x;
-//     var by = bbox.y;
-//     var bw = bbox.width;
-//     var bh = bbox.height;
-//     var tx = -bx*xScale + vx + vw/2 - bw*xScale/2;
-//     var ty = -by*xScale + vy + vh/2 - bh*xScale/2;
-//     return {translate: [tx, ty], scale: xScale}
-//   }
-// function clicked(d, i) {
-//     if (d3.event.defaultPrevented) {
-//   	return; // panning, not clicking
-//     }
-//     node = d3.select(this);
-//     var transform = getTransform(node, 1);
-//     container.transition().duration(1000)
-//        .attr("transform", "translate(" + transform.translate + ")scale(" + transform.scale + ")");
-//     zoom.scale(transform.scale)
-//         .translate(transform.translate);
-//     scale = transform.scale;
-//   }
-//
-//   d3.select("body").on("click", clicked);
