@@ -591,7 +591,7 @@ function zoomHandler(d3_transform) {
   if (zoomLevel > Math.floor(d3_transform.k*10)){
     // console.log(zoomLevel); // DEBUG
     zoomLevel = Math.floor(d3_transform.k*10);
-    if(currRadi <= 3) currRadi += 1;
+    if(currRadi <= 2) currRadi += 1;
   }
 }
 
