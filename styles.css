@@ -154,12 +154,24 @@ h3::selection {
 
 .tuner  span{
   font-size: 150pt;
+  height: 100px;
+  overflow: hidden;
   line-height: 0.5;
+  opacity: 0.7;
+  color: var(--element-color);
+  /* display: inline-block; */
+  /* background-color: green; */
+
 }
 
 .tuner .controlers{
-  padding-bottom: 10px;
+  /* width: 20%; */
+  /* flex-direction: column; /* for correct slider-label oreder */
+  /* padding-bottom: 10px; */
+  position:relative;
   z-index: 200;
+  /* display: inline-block; */
+  /* background-color: hotpink; */
 }
 
 [contenteditable]:focus {
@@ -180,9 +192,14 @@ h3::selection {
   height:20px;
 }
 
+#messageInputBox:focus {
+  outline: 0px solid transparent;
+}
+
 #settingsTag{
   font-family: 'NarkisBlock';
   position: absolute;
+  color: var(--element-color);
   bottom: var(--page-margins);
   margin-bottom: 15px;
   left: 7%;

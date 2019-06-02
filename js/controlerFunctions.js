@@ -37,6 +37,7 @@ function updateWght(c,t) {
   var v = currclass.getElementsByClassName("wghtParam")[0].value;
   trgtclass.style.fontVariationSettings = '"wght"' + v; // update value
   currclass.getElementsByClassName("wghtLabel")[0].innerHTML = v; // update label
+  updateText('"wght"' + v , 0);
 }
 
 function updateCtrs(c,t) {
@@ -45,6 +46,7 @@ function updateCtrs(c,t) {
   var v = currclass.getElementsByClassName("ctrsParam")[0].value;
   trgtclass.style.fontVariationSettings = '"ctrs"' + v; // update value
   currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = v; // update label
+  updateText('"ctrs"' + v , 1);
 }
 
 function updateStyl(c,t) {
@@ -53,7 +55,22 @@ function updateStyl(c,t) {
   var v = currclass.getElementsByClassName("stylParam")[0].value;
   trgtclass.style.fontVariationSettings = '"styl"' + v; // update value
   currclass.getElementsByClassName("stylLabel")[0].innerHTML = v; // update label
+  updateText('"styl"' + v , 2);
 }
+
+function updateText(change , idx){
+  var currSettings = document.body.style.fontVariationSettings;
+  if(currSettings != "normal"){
+    var varlist = currSettings.split(",");
+    varlist[idx] = change;
+    document.body.style.setProperty('font-variation-settings' , varlist.join() );
+  } else {
+    document.body.style.setProperty('font-variation-settings' , change );
+  }
+  // "wght" 40, "ctrs" 1, "styl" 1;
+}
+
+
 
 /// COLORS:
 
@@ -62,11 +79,14 @@ function colorinvert(){
   if (document.body.style.getPropertyValue('--bg-color') != "#232323"){
     document.body.style.setProperty('--bg-color' , "#232323" );
     document.getElementsByClassName('block1')[0].style.backgroundColor = "#0e0d0d";
+    document.getElementsByClassName('tuner')[0].style.backgroundColor = "#0e0d0d";
+    document.getElementsByClassName('tuner')[0].style.color = "#f7f6f4";
     document.body.style.setProperty('--element-color' , "#f7f6f4" );
     $("#showall").attr('src','data/hexiconW.png')
   } else {
     document.body.style.setProperty('--bg-color' , "#f7f6f4" );
     document.getElementsByClassName('block1')[0].style.backgroundColor = "white";
+    document.getElementsByClassName('tuner')[0].style.backgroundColor = "white";
     document.body.style.setProperty('--element-color' , "#232323" );
     $("#showall").attr('src','data/hexicon.png')
   }

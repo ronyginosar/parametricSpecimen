@@ -78,7 +78,9 @@ input[type=range].styleslider::-webkit-slider-thumb {
   opacity: 1;
 }
 
-.styleslider.stylParam:hover ~ .stylesliderLabel.stylLabel{
+
+
+/* .styleslider.stylParam:hover ~ .stylesliderLabel.stylLabel{
     opacity:1;
 }
 .styleslider.wghtParam:hover ~ .stylesliderLabel.wghtLabel{
@@ -86,9 +88,16 @@ input[type=range].styleslider::-webkit-slider-thumb {
 }
 .styleslider.ctrsParam:hover ~ .stylesliderLabel.ctrsLabel{
     opacity:1;
+}*/
+
+.tuner:hover span{
+  opacity: 1;
 }
 .tuner:hover .controlers{
   opacity: 1;
+}
+.tuner .stylesliderLabel{
+  opacity:1;
 }
 
 /* VARTOGGLES */

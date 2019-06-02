@@ -61,6 +61,28 @@ $('#messageInputBox').on('input',function(e){
     });
 });
 
+// document.getElementById("editor").addEventListener("input", function() {
+//     console.log("input event fired");
+// }, false);
+// 
+// $("#editor").on("input", function(e) {
+//     // console.log("input event fired");
+//     message = (e.innerHTML);
+//     logManager("new message: " + message);
+//     $.each(letterinstances, function( index, value ) {
+//       value.element.textContent = message;
+//     });
+// });
+//
+// // DISABLE ENTER ON TUNER BOX
+// $("span[contenteditable]").keypress(function (evt) {
+//   var keycode = evt.charCode || evt.keyCode;
+//   if (keycode  == 13) { //Enter key's keycode
+//     return false;
+//   }
+// });
+
+
 var show = false;
 
 // SHOW ALL
