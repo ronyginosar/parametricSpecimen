@@ -162,19 +162,18 @@ h3::selection {
   font-size: 150pt;
   height: 100px;
   overflow: hidden;
-  line-height: 0.5;
+  line-height: 0.4;
   opacity: 0.7;
   color: var(--element-color);
+
 }
 
 .tuner .controlers{
   /* width: 20%; */
   /* flex-direction: column; /* for correct slider-label oreder */
-  /* padding-bottom: 10px; */
   position:relative;
   z-index: 200;
 }
-
 
 #settingsTag{
   direction: ltr;
@@ -195,6 +194,7 @@ h3::selection {
   text-align: center;
   top:-30px;
   height:20px;
+  font-family: 'NarkisBlock';
 }
 
 #messageInputBox:focus {
@@ -206,7 +206,7 @@ h3::selection {
   position: absolute;
   bottom: var(--page-margins);
   margin-bottom: 15px;
-  left: 7%;
+  left: 6%;
   object-fit: contain;
   height: 20px;
   opacity: 0;
