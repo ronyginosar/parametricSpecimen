@@ -580,8 +580,8 @@ function zoomHandler(d3_transform) {
   // zoomLevelShift = zoomLevel%10;
 
   let scale = d3_transform.k;
-  let x =  -(d3_transform.x - width/2) / scale *2;
-  let y = (d3_transform.y - height/2) / scale *2;
+  let x =  -(d3_transform.x - width/2) / scale;
+  let y = (d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
 
