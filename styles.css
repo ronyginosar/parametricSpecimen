@@ -74,13 +74,6 @@ body{
 
 /* TEXT TESTER*/
 
-/* .textTester{
-  padding-right: var(--page-margins);
-  padding-left: var(--page-margins);
-} */
-
-
-
 .textTester{
   display: flex;
   direction: rtl;
@@ -162,11 +155,12 @@ h3::selection {
 
 .tuner  span{
   font-size: 150pt;
-  height: 100px;
+  height: 130px;
   overflow: hidden;
   line-height: 0.4;
   opacity: 0.7;
   color: var(--element-color);
+  display: block;
 
 }
 
@@ -183,6 +177,7 @@ h3::selection {
   color: var(--element-color);
   padding-top: var(--page-margins);
   font-size: 10pt;
+  display: inline-block;
 }
 
 /* bottomSection */
@@ -205,13 +200,12 @@ h3::selection {
 
 
 #downloadIcon{
-  position: absolute;
-  bottom: var(--page-margins);
-  margin-bottom: 15px;
-  left: 6%;
   object-fit: contain;
-  height: 20px;
+  height: 15px;
   opacity: 0;
+  display: inline-block;
+  margin-bottom: -2px;
+  margin-left: 5px;
 }
 
 /* COLOR ICONS */

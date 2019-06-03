@@ -18,7 +18,7 @@ var instances = 6;
 var totalInstances = Math.pow(instances, 2);
 var hexRadius = 25;
 var hexWidth = hexRadius * 2;
-var hexHeight= (Math.sqrt(3)/2 * hexWidth);
+var hexHeight = (Math.sqrt(3)/2 * hexWidth);
 // visuals of zoom
 // var zoomLevel = 22; //TODO!
 // var zoomLevelShift = 2; //TODO!
@@ -33,7 +33,6 @@ var ctrsInc = 8;
 var initWght = 40;
 var currRadi = 4;
 var currNeighbors = [];
-
 
 
 // CONSOLE LOG MANAGER
