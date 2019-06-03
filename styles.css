@@ -158,10 +158,9 @@ h3::selection {
   height: 130px;
   overflow: hidden;
   line-height: 0.4;
-  opacity: 0.7;
   color: var(--element-color);
   display: block;
-
+  opacity: 0.7;
 }
 
 .tuner .controlers{
@@ -180,6 +179,19 @@ h3::selection {
   display: inline-block;
 }
 
+#downloadIcon{
+  object-fit: contain;
+  height: 15px;
+  display: inline-block;
+  margin-bottom: -2px;
+  margin-right: 5px;
+}
+
+.tuner:hover *{
+  opacity: 1;
+}
+
+
 /* bottomSection */
 
 .bottomSection{
@@ -196,16 +208,6 @@ h3::selection {
 
 #messageInputBox:focus {
   outline: 0px solid transparent;
-}
-
-
-#downloadIcon{
-  object-fit: contain;
-  height: 15px;
-  opacity: 0;
-  display: inline-block;
-  margin-bottom: -2px;
-  margin-left: 5px;
 }
 
 /* COLOR ICONS */
@@ -252,6 +254,4 @@ h3::selection {
 }
 .letter:hover{
   cursor: cell;
-  /* color: var(--element-color);
-  opacity: 1; */
 }

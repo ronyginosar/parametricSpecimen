@@ -350,6 +350,9 @@ function initialLetters(){
   // currRadi = 5; // 5 was for displaying masters. 4 for displaying full circles
   currRadi = 4; // reset currRadi before every draw
   var centerLetter = scene.getObjectByName("0,0,0");
+  var currSet = centerLetter.element.style.fontVariationSettings;
+  document.body.style.fontVariationSettings = currSet; //init
+  updateSettingsTag(currSet); // reset settings tag
   centerLetter.element.style.opacity = 1;
   currentDisplay.push(centerLetter); // appened center to start of list
   var centerNs = getNthNeighbors(centerLetter.name , currRadi);
@@ -462,8 +465,8 @@ $("#gridContainer").mouseover(function(e){
     if($(e.target).css('opacity') != 0){ // only if curently displaying
       var settings = $(e.target).css('font-variation-settings');
       updateSettingsTag(settings);
-      $("#settingsTag").css("opacity" , 1);
-      $("#downloadIcon").css("opacity" , 1);
+      // $("#settingsTag").css("opacity" , 1);
+      // $("#downloadIcon").css("opacity" , 1);
       // revealing neighboors
       var currCenter = e.target.id;
       if (currCenter && (!show)){
@@ -489,8 +492,8 @@ $("#gridContainer").mouseover(function(e){
 }).mouseout(function(e){ // remove hints if not zoomed in
   if($(e.target).attr('class') == "letter"){
     if($(e.target).css('opacity') != 0){ // only if curently displaying
-      $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
-      $("#downloadIcon").css("opacity" , 0.5);
+      // $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
+      // $("#downloadIcon").css("opacity" , 0.5);
       if(!show) $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
       if (e.target.id && (!show)){
         for ( var i = 0; i < currNeighbors.length; i += 1 ) {
