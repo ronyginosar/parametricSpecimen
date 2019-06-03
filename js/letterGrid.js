@@ -20,9 +20,12 @@ var hexRadius = 25;
 var hexWidth = hexRadius * 2;
 var hexHeight= (Math.sqrt(3)/2 * hexWidth);
 // visuals of zoom
-var zoomLevel = 22; //TODO!
-var zoomLevelShift = 2; //TODO!
-var maxZoom = 31; //TODO!
+// var zoomLevel = 22; //TODO!
+// var zoomLevelShift = 2; //TODO!
+// var maxZoom = 31; //TODO!
+var zoomLevel = 18; //TODO!
+var zoomLevelShift = 8; //TODO!
+var maxZoom = 24; //TODO!
 
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var wghtInc = 8;

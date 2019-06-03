@@ -108,6 +108,9 @@ h1{
   line-height: 0.9;
   z-index: 100;
   font-weight: normal;
+  /* TODO remove? */
+  margin-top: var(--page-margins);
+  margin-bottom: var(--page-margins);
 }
 
 h1::selection {
@@ -152,7 +155,7 @@ h3::selection {
 .tuner{
   padding: var(--page-margins);
   background-color:white;
-  height: 30%;
+  height: 40%;
   align-self: flex-end;
   text-align: center;
 }
