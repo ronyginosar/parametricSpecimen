@@ -353,6 +353,7 @@ function initialLetters(){
   var currSet = centerLetter.element.style.fontVariationSettings;
   document.body.style.fontVariationSettings = currSet; //init
   updateSettingsTag(currSet); // reset settings tag
+  document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , currSet );  //TODO
   centerLetter.element.style.opacity = 1;
   currentDisplay.push(centerLetter); // appened center to start of list
   var centerNs = getNthNeighbors(centerLetter.name , currRadi);
