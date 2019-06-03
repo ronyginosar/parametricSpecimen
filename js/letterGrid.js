@@ -1,6 +1,37 @@
-// console.clear();
-
+// VARIABLES
+// camera and zoom
+var container;
+var camera, scene, renderer;
+var width = window.innerWidth*0.7; // align with css properties
+var height = window.innerHeight;
+var fov = 15;
+var near = 700;
+var far = 1700;
+var zoom, view;
+// letters
+var message = "א";
+var letterinstances = [];
+var currentDisplay = [];
 var centerVertice = "40,0,0";
+// hex grid
+var instances = 6;
+var totalInstances = Math.pow(instances, 2);
+var hexRadius = 25;
+var hexWidth = hexRadius * 2;
+var hexHeight= (Math.sqrt(3)/2 * hexWidth);
+// visuals of zoom
+var zoomLevel = 22; //TODO!
+var zoomLevelShift = 2; //TODO!
+var maxZoom = 31; //TODO!
+
+var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
+var wghtInc = 8;
+var ctrsInc = 8;
+var initWght = 40;
+var currRadi = 4;
+var currNeighbors = [];
+
+
 
 // CONSOLE LOG MANAGER
 var entry;
@@ -109,35 +140,6 @@ if ( WEBGL.isWebGLAvailable() === false ) {
   document.body.appendChild( WEBGL.getWebGLErrorMessage() );
 }
 
-// VARIABLES
-// camera and zoom
-var container;
-var camera, scene, renderer;
-var width = window.innerWidth*0.7; // align with css properties
-var height = window.innerHeight;
-var fov = 15;
-var near = 1;
-var far = 1700;
-var zoom, view;
-// letters
-var message = "א";
-var letterinstances = [];
-var currentDisplay = [];
-// hex grid
-var instances = 6;
-var totalInstances = Math.pow(instances, 2);
-var hexRadius = 25;
-var hexWidth = hexRadius * 2;
-var hexHeight= (Math.sqrt(3)/2 * hexWidth) - 10;
-// visuals of zoom
-var zoomLevel = 18; //TODO!
-var zoomLevelShift = 8; //TODO!
-var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
-var wghtInc = 8;
-var ctrsInc = 8;
-var initWght = 40;
-var currRadi = 5;
-var currNeighbors = [];
 
 init();
 animate();
@@ -170,31 +172,34 @@ function init() {
   // CONTROLS
   // Set up mouse-directed zoom behavior
   // https://observablehq.com/@grantcuster/using-three-js-for-2d-data-visualization
+
+  // update - where?
+  // zoomLevel = Math.floor(d3_transform.k*10);
+  // zoomLevelShift = zoomLevel%10;
+
   zoom = d3.zoom()
     .scaleExtent([getScaleFromZ(far), getScaleFromZ(near)])
+    // .translateExtent([-width, -height], [width, height])
     .on('zoom', () =>  {
       let d3_transform = d3.event.transform;
       zoomHandler(d3_transform);
+
     });
   view = d3.select(renderer.domElement);
   setUpZoom();
-
-
 } //end init
 
 // DRAWLETTERS
 function drawLetters(){
-  for ( var i = -instances+1; i < instances; i += 1 ) {
-    for ( var j = -instances+1; j < instances; j += 1 ) {
+  for ( var i = -instances-1; i < instances+1; i += 1 ) {
+    for ( var j = -instances; j < instances+1; j += 1 ) {
+  // for ( var i = -instances+1; i < instances; i += 1 ) {
+  //   for ( var j = -instances+1; j < instances; j += 1 ) {
 
       // create letter instance with css attrs
       var letter = document.createElement( 'div' );
       letter.className = 'letter';
       letter.textContent = message;
-
-      // var centerVertice = "40,0,0";
-      // var centerVertice = "80,40,4";
-
       logManager("switch to "+centerVertice);
 
       switch (centerVertice) {
@@ -308,60 +313,6 @@ function drawLetters(){
             var styl = Math.abs(i) - 1;
           }
           break;
-
-          // case "80,40,4":
-          //   console.log("chosen 80,40,4");
-          //   if (i>=0 && j>=0 && i>=j){ // I+
-          //     // letter.style.color = "blue";
-          //     var ctrs = i-5;
-          //     ctrs = Math.abs(ctrs) * ctrsInc;
-          //     var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
-          //     wght = Math.abs(wght) * wghtInc + initWght;
-          //     var styl = 4;
-          //   } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
-          //     // letter.style.color = "red";
-          //     var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 5 ;
-          //     wght = Math.abs(wght) * wghtInc + initWght;
-          //     var ctrs = i-5 ;
-          //     ctrs = Math.abs(ctrs) * (ctrsInc + 4); //// TODO: +4?
-          //     var styl = 4;
-          //   } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
-          //     // letter.style.color = "green";
-          //     var wght = (j+5) * wghtInc + initWght;
-          //     var ctrs = Math.abs(i-5)*10;
-          //     var styl = 4;
-          //   } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
-          //     // letter.style.color = "pink";
-          //     var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 6 ;
-          //     wght = Math.abs(wght) * (wghtInc-2) + initWght;
-          //     var ctrs = 40;
-          //     var styl = Math.abs(Math.abs(i) - 5);
-          //   } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
-          //     // letter.style.color = "orange";
-          //     var wght = (j+5) * (wghtInc-2) + initWght;
-          //     var ctrs = 40;
-          //     var styl = Math.abs(Math.abs(i) - 5);
-          //   } else if (i>=0 && j>=0 && i<j){ // I-
-          //     // letter.style.color = "yellow";
-          //     var wght = initWght+initWght;
-          //     var ctrs =(Math.abs(j-5)) * ctrsInc;
-          //     var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
-          //     styl = Math.abs(styl-3);
-          //   } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
-          //     // letter.style.color = "gray";
-          //     var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
-          //     wght = Math.abs(wght) * wghtInc + initWght;
-          //     var ctrs = 40;
-          //     var styl = Math.abs(Math.abs(i) - 5);
-          //   } else { // IV-
-          //     // letter.style.color = "purple";
-          //     var wght = initWght+initWght;
-          //     var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3)-5;
-          //     ctrs =(Math.abs(ctrs)) * ctrsInc;
-          //     var styl = Math.abs(Math.abs(j) - 5);
-          //   }
-          //   break;
-
       }
 
       letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
@@ -394,7 +345,8 @@ function drawLetters(){
 
 function initialLetters(){
   // initial letter view
-  currRadi = 5; // reset currRadi before every draw
+  // currRadi = 5; // 5 was for displaying masters. 4 for displaying full circles
+  currRadi = 4; // reset currRadi before every draw
   var centerLetter = scene.getObjectByName("0,0,0");
   centerLetter.element.style.opacity = 1;
   currentDisplay.push(centerLetter); // appened center to start of list
@@ -404,6 +356,7 @@ function initialLetters(){
     currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];  // %10 gives the last digit of the num
   }
   currRadi -= 2; // first shirnk by 2, seems like middle
+  // currRadi -= 1;
 }
 
 function getNthNeighbors ( currCenter , cRadi){
@@ -513,14 +466,14 @@ $("#gridContainer").mouseover(function(e){
       var currCenter = e.target.id;
       if (currCenter && (!show)){
         // console.log("DEBUG IMNSI"+currCenter); // DEBUG
+        // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+        //   // on hover, fade others , that are not neighbors
+        //   currentDisplay[i].element.style.color = "gray";
+        // }
         currNeighbors = getNthNeighbors(currCenter,currRadi);
         for ( var i = 0; i < currNeighbors.length; i += 1 ) {
           // traverse neighboors and set opacity via zoom level indexing
           currNeighbors[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift)%10]; // %10 gives the last digit of the num
-        }
-        for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-          // on hover, fade others
-          currentDisplay[i].element.style.color = "gray";
         }
       }
       $(e.target).css('opacity' , 1); // black on hover
@@ -543,11 +496,11 @@ $("#gridContainer").mouseover(function(e){
             currNeighbors[i].element.style.opacity = 0;
           }
         }
-        var c = document.body.style.getPropertyValue('--element-color');
-        for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-          // on hover, fade others
-          currentDisplay[i].element.style.color = c;
-        }
+        // var c = document.body.style.getPropertyValue('--element-color');
+        // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
+        //   // on hover, fade others
+        //   currentDisplay[i].element.style.color = c;
+        // }
       }
       currNeighbors = []; // reset currNeighbors list when not hovering
       animate();
@@ -574,14 +527,30 @@ function render() {
   renderer.render( scene, camera );
 }
 
+
+function redrawNeighbors(){
+  // change opacity of new neighbors with an upper limit on change
+  var c = (zoomLevel-zoomLevelShift)%10 ;
+  if(zoomLevel > maxZoom){
+    c = opacityVec.length-1;
+  }
+  for ( var i = 0; i < currNeighbors.length; i += 1 ) {
+    currNeighbors[i].element.style.opacity = opacityVec[c];
+  }
+  // keep center black
+  $("#gridContainer").mouseover(function(e){
+    if($(e.target).attr('class') == "letter"){
+  // $(".letter").mouseover(function(e){
+      if($(e.target).css('opacity') != 0){
+        $(e.target).css('opacity' , 1)}}});
+}
+
 // ZOOM behavior functions
 function zoomHandler(d3_transform) {
-  // zoomLevel = Math.floor(d3_transform.k*10);
-  // zoomLevelShift = zoomLevel%10;
 
   let scale = d3_transform.k;
-  let x =  -(d3_transform.x - width/2) / scale;
-  let y = (d3_transform.y - height/2) / scale;
+  let x =  -1.5*(d3_transform.x - width/2) / scale;
+  let y = 1.5*(d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
   camera.position.set(x, y, z);
 
@@ -589,48 +558,26 @@ function zoomHandler(d3_transform) {
 
   if (zoomLevel < Math.floor(d3_transform.k*10)){
     zoomLevel = Math.floor(d3_transform.k*10);
-    // console.log(zoomLevel); // DEBUG
     if ((zoomLevel-zoomLevelShift)%10 > opacityVec.length-1){ // zoom too big for vec
       zoomLevel = opacityVec.length-1+zoomLevelShift; // TODO - not super working.
-      // console.log((zoomLevel-zoomLevelShift)%10); // DEBUG
     }
     addOnZoom();
     if(currRadi > 1) currRadi -= 1; // tighten circle
   }
-  // zoomout -> grow circle of neighboors
+  // zoomout ->  supposed to grow circle of neighboors, in reality no good ux
   if (zoomLevel > Math.floor(d3_transform.k*10)){
-    // console.log(zoomLevel); // DEBUG
     zoomLevel = Math.floor(d3_transform.k*10);
-    if(currRadi <= 2) currRadi += 1;
+    // if(currRadi <= 2) currRadi += 1;
   }
 }
 
 function addOnZoom(){
+  // add new neighbors to currentDisplay
   logManager("AddingNeighbors of current");
   if (currNeighbors.length){
     redrawNeighbors();
-    // add new neighbors to currentDisplay
     currentDisplay.push.apply(currentDisplay, currNeighbors);
   }
-}
-
-function redrawNeighbors(){
-  // // change opacity of former neighbors? TODO
-  // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-  //   currentDisplay[i].element.style.opacity = opacityVec[(zoomLevel-zoomLevelShift+1)%10];
-  // }
-  // change opacity of new neighbors with an upper limit on change
-  var c = (zoomLevel-zoomLevelShift)%10 ;
-  if(zoomLevel > 24){
-    c = opacityVec.length-1;
-  }
-  for ( var i = 0; i < currNeighbors.length; i += 1 ) {
-    currNeighbors[i].element.style.opacity = opacityVec[c];
-  }
-  // keep center black
-  $(".letter").mouseover(function(e){
-    if($(e.target).css('opacity') != 0){
-      $(e.target).css('opacity' , 1)}});
 }
 
 function getScaleFromZ (camera_z_position) {
@@ -651,7 +598,7 @@ function getZFromScale(scale) {
 }
 
 function setUpZoom() {
-  view.call(zoom);//.on("click.zoom", null);
+  view.call(zoom);
   let initial_scale = getScaleFromZ(far);
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
