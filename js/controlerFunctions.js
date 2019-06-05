@@ -36,7 +36,7 @@ function updateWght(c,t) {
   var trgtclass = document.getElementsByClassName(t)[0];
   var v = currclass.getElementsByClassName("wghtParam")[0].value;
   trgtclass.style.fontVariationSettings = '"wght"' + v; // update value
-  currclass.getElementsByClassName("wghtLabel")[0].innerHTML = v; // update label
+  // currclass.getElementsByClassName("wghtLabel")[0].innerHTML = v; // update label
   updateText('"wght"' + v , 0);
 }
 
@@ -45,7 +45,7 @@ function updateCtrs(c,t) {
   var trgtclass = document.getElementsByClassName(t)[0];
   var v = currclass.getElementsByClassName("ctrsParam")[0].value;
   trgtclass.style.fontVariationSettings = '"ctrs"' + v; // update value
-  currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = v; // update label
+  // currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = v; // update label
   updateText('"ctrs"' + v , 1);
 }
 
@@ -54,7 +54,7 @@ function updateStyl(c,t) {
   var trgtclass = document.getElementsByClassName(t)[0];
   var v = currclass.getElementsByClassName("stylParam")[0].value;
   trgtclass.style.fontVariationSettings = '"styl"' + v; // update value
-  currclass.getElementsByClassName("stylLabel")[0].innerHTML = v; // update label
+  // currclass.getElementsByClassName("stylLabel")[0].innerHTML = v; // update label
   updateText('"styl"' + v , 2);
 }
 

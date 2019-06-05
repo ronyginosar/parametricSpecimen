@@ -12,7 +12,7 @@ var zoom, view;
 var message = "א";
 var letterinstances = [];
 var currentDisplay = [];
-var centerVertice = "40,0,0";
+var centerVertice = "40,0,4";
 // hex grid
 var instances = 6;
 var totalInstances = Math.pow(instances, 2);
@@ -61,12 +61,14 @@ function changeDisplay(center){
   var targetSettings = scene.getObjectByName("0,0,0").element.style.fontVariationSettings;
   logManager("changed to center settings " , targetSettings);
   document.body.style.setProperty('font-variation-settings' , targetSettings );
+  $(".tuner").css('font-variation-settings' , targetSettings );
+  updateSettingsTag(targetSettings); // reset settings tag TODO
 }
 
 // TOGGLE VAR MANAGER
 function toggleCheck() {
   if(document.getElementsByName("toggle")[0].checked === true){
-    centerVertice = "40,0,0";
+    centerVertice = "40,0,4";
     changeDisplay(centerVertice);
   } else if(document.getElementsByName("toggle")[0].checked === false){
     centerVertice = "80,40,4";
@@ -260,8 +262,8 @@ function drawLetters(){
           }
           break;
 
-        case "40,0,0":
-          // console.log("chosen 40,0,0");
+        case "40,0,4":
+          // console.log("chosen 40,0,4");
           if (i>=0 && j>=0 && i>=j){ // I+
             // letter.style.color = "blue";
             var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3);
@@ -269,7 +271,8 @@ function drawLetters(){
             // letter.textContent = ctrs ;
             var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
             wght = Math.abs(wght) * wghtInc + initWght;
-            var styl = 0;
+            // var styl = 0;
+            var styl = 4;
           } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
             // letter.style.color = "red";
             var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6); // or /2?
@@ -277,43 +280,56 @@ function drawLetters(){
             // var ctrs =(Math.abs(j) - (Math.abs(i) + Math.abs(i)%2)/2) - 2 ;
             var ctrs = i * (ctrsInc) ;
             // letter.textContent = ctrs ;
-            var styl = 0;
+            // var styl = 0;
+            var styl = 4;
           } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
             // letter.style.color = "green";
             var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
             var ctrs = i * (ctrsInc + 4) ;
             // var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) + Math.abs(i)%2)/2 - 1;
-            var styl = 0;
+            // var styl = 0;
+            var styl = 4;
           } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
             // letter.style.color = "pink";
             var wght = Math.abs(j) * wghtInc + initWght;
             // letter.textContent = wght ;
             var ctrs = 0;
-            var styl = Math.abs(i) - 1;
+            // var styl = Math.abs(i) - 1;
+            var styl = Math.abs(Math.abs(i) - 4);
+            // letter.textContent = styl ;
           } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
             // letter.style.color = "orange";
             var wght = (Math.abs(j) - 1) * wghtInc + initWght;
-            // letter.textContent = wght ;
+            // letter.textContent = styl ;
             var ctrs = 0;
-            var styl = Math.abs(i) - 1;
+            // var styl = Math.abs(i) - 1;
+            var styl = Math.abs(Math.abs(i) - 4);
+            // letter.textContent = styl ;
           } else if (i>=0 && j>=0 && i<j){ // I-
             // letter.style.color = "yellow";
             var wght = initWght;
             var ctrs =(Math.abs(j)) * ctrsInc;
+            // var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
             var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+            styl = Math.abs(styl-3);
+            // letter.textContent = styl ;
           } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
             // letter.style.color = "gray";
             var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
             wght = Math.abs(wght) * wghtInc + initWght;
             // letter.textContent = wght ;
             var ctrs =(Math.abs(j)) * ctrsInc;
-            var styl = Math.abs(i) - 1;
+            // var styl = Math.abs(i) - 1;
+            var styl = Math.abs(Math.abs(i) - 4);
+            // letter.textContent = styl ;
           } else { // IV-
             // letter.style.color = "purple";
             var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3);
             ctrs =(Math.abs(ctrs)) * ctrsInc;
             var wght = initWght;
-            var styl = Math.abs(i) - 1;
+            // var styl = Math.abs(i) - 1;
+            var styl = Math.abs(Math.abs(j) - 5);
+            // letter.textContent = styl ;
           }
           break;
       }
@@ -353,7 +369,7 @@ function initialLetters(){
   var centerLetter = scene.getObjectByName("0,0,0");
   var currSet = centerLetter.element.style.fontVariationSettings;
   document.body.style.fontVariationSettings = currSet; //init
-  updateSettingsTag(currSet); // reset settings tag
+  // updateSettingsTag(currSet); // reset settings tag TODO
   // document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , currSet );  //TODO
   centerLetter.element.style.opacity = 1;
   currentDisplay.push(centerLetter); // appened center to start of list
@@ -445,18 +461,20 @@ function updateSettingsTag(set){ // TODO
   settings = settings.replace(/ /g,'');
 
   var forSlider = settings.split(",");
+  // console.log(forSlider);
   // update sliders
-  // var currclass = document.getElementsByClassName("controlers")[1];
+  // var currclass = document.getElementsByClassName("controlers");
+  // console.log(currclass);
   // currclass.getElementsByClassName("wghtLabel")[0].innerHTML = forSlider[0];
   // // console.log(currclass.getElementsByClassName("wghtParam")[0].setAttribute('value', forSlider[0]));
-  // currclass.getElementsByClassName("wghtParam")[0].value = forSlider[0];
+  document.getElementsByClassName("wghtParam")[0].value = forSlider[0];
   // currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = forSlider[1];
-  // currclass.getElementsByClassName("ctrsParam")[0].value = forSlider[1];
+  document.getElementsByClassName("ctrsParam")[0].value = forSlider[1];
   // currclass.getElementsByClassName("stylLabel")[0].innerHTML = forSlider[2];
-  // currclass.getElementsByClassName("stylParam")[0].value =  forSlider[2];
+  document.getElementsByClassName("stylParam")[0].value =  forSlider[2];
 
   settings = settings.replace(/,/g,'.');
-  if(settings) settings += " עט.קונטרסט.משקל "
+  if(settings) settings += " סגנון.קונטרסט.משקל "
   $("#settingsTag").html(settings);
 }
 
@@ -496,7 +514,10 @@ $("#gridContainer").mouseover(function(e){
     if($(e.target).css('opacity') != 0){ // only if curently displaying
       // $("#settingsTag").css("opacity",0.5); // dont reset tag but lower opacity
       // $("#downloadIcon").css("opacity" , 0.5);
-      if(!show) $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
+      // if(!show && !($(e.target).children().length)){
+      if(!show){
+        $(e.target).css('opacity' , opacityVec[(zoomLevel-zoomLevelShift)%10]); // restore opacity level
+      }
       if (e.target.id && (!show)){
         for ( var i = 0; i < currNeighbors.length; i += 1 ) {
           if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
@@ -516,11 +537,21 @@ $("#gridContainer").mouseover(function(e){
 });
 
 
+// $("#settingsTag").on('click', function(e){
+//   // if(($(e.target).attr('class') == "letter")&& $(e.target).css('opacity') != 0) {
+//     // toggle visibitily
+//     document.querySelector('.tuner').classList.toggle('expand');
+//     // TODO add to letter div child
+//     $(e.target).append($('.tuner'));
+//   // }
+// });
+
 $("#gridContainer").on('click', function(e){
   if(($(e.target).attr('class') == "letter")&& $(e.target).css('opacity') != 0) {
     // toggle visibitily
     document.querySelector('.tuner').classList.toggle('expand');
     // TODO add to letter div child
+    // $(e.target).append($('.tuner'));
   }
 });
 

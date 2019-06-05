@@ -147,52 +147,60 @@ h3::selection {
 
 
 .tuner{
+  border-radius: 2px;
   position: absolute;
-  padding: var(--page-margins);
-  background-color:white;
+  padding: 5px;
+  padding-left: 20px;
+  background-color:var(--element-color);
   width: 150px;
-  margin: 0;
-  align-self: flex-end;
+  /* height: 100px; */
+  /* margin: 0; */
+  /* align-self: flex-end; */
   text-align: center;
-  display: none;
+  justify-content: space-evenly;
+  /* display: none; */
+  display: flex;
+  flex-direction: row;
+  opacity: 1;
+  z-index: 10;
+  left: 7%;
+  bottom: var(--page-margins);
+  z-index: 200;
+
+
+  /* transform: rotate(90deg); */
+  /* transform-origin: bottom right; */
+  /* right: 120px; */
+  /* top:120px */
 }
 
 .tuner.expand {
-  display: block;
-  /* left: 50px; */
+  /* display: block; */
+  display: flex;
+  flex-direction: row;
 }
 
 .tuner  span{
   font-size: 70pt;
-  height: 80px;
+  height: 75px;
   overflow: hidden;
-  line-height: 0.4;
-  color: var(--element-color);
-  display: block;
-  opacity: 0.7;
+  line-height: 0.5;
+  color: var(--bg-color);
+  display: inline-block;
+  opacity: 0.9;
 }
 
 .tuner .controlers{
-  /* width: 20%; */
-  /* flex-direction: column; */
-  position:relative;
+  color: var(--bg-color);
+  width: 60%;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  /* position:relative; */
+  /* display: inline-block; */
   /* z-index: 200; */
+  opacity: 1;
 }
-
-#settingsTag{
-  direction: ltr;
-  font-family: 'NarkisBlock';
-  color: var(--element-color);
-  /* padding-top: var(--page-margins); */
-  font-size: 11pt;
-  transform: rotate(-90deg);
-  transform-origin: top left;
-}
-
-#downloadIcon{
-  height: 23px;
-}
-
 
 /* bottomSection */
 
@@ -207,7 +215,9 @@ h3::selection {
 
 #messageInputBox{
   text-align: center;
-  height:20px;
+  /* height:23px; */
+  font-size: 11pt;
+  /* line-height: 0.1; */
   font-family: 'NarkisBlock';
   margin-bottom: 10px;
 }
@@ -215,6 +225,24 @@ h3::selection {
 #messageInputBox:focus {
   outline: 0px solid transparent;
 }
+
+#settingsTag{
+  direction: ltr;
+  font-family: 'NarkisBlock';
+  color: var(--element-color);
+  margin-top: var(--page-margins);
+  margin-bottom: var(--page-margins);
+  font-size: 11pt;
+  transform: rotate(-90deg);
+  transform-origin: top left;
+  /* letter-spacing: 1.5px; */
+  font-weight: lighter;
+}
+
+#downloadIcon{
+  height: 23px;
+}
+
 
 /* COLOR ICONS */
 
@@ -229,7 +257,7 @@ h3::selection {
 .icon{
   object-fit: contain;
   width: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .icon:focus {
