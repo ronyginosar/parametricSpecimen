@@ -35,7 +35,9 @@
               </input>
             </div>
             <h2 contenteditable="true" >
-              מרחב אותיות
+              מצבי
+              <br>
+              ביניים
             </h2>
             <h3 contenteditable="true" >
                 מאז מהפכת הדפוס צורת הספסמין כמעט ולא השתנתה / הספסמין היה ונותר קטלוג מודפס עם גדלים ומשקלים שונים / בווב נוספו סליידרים לאותן המטרות / צורת הספסמין עולה לשאלה לאור יציאת עוד ועוד גופנים פרמטרים אל אוויר העולם
@@ -50,14 +52,13 @@
                 <!-- המטרה של פרוייקט זה היא לבחון את שאלה זו בדיוק / איך ניתן להשתמש בתכונותיו המיוחדות של סוג הגופן לשם תצוגה אינטואיטיבית יותר ושימושית יותר / לעומת התצוגה הדיפולטיבית הקיימת כיום העושה שימוש יתר בסליידרים (דבר שגורם לבסוף לחוסר שימוש באותם הגופנים) -->
             </h3>
           </div>
-          <h1 contenteditable="true"  >
+          <!-- <h1 contenteditable="true"  >
             אבגדהוזחטיכךלמם
             <br>
             נןסעפףצץקרשת
-          </h1>
-          <div class="tuner">
+          </h1> -->
+          <!-- <div class="tuner">
             <div class="controlers">
-              <!-- TODO: update upon doc load -->
               <input class="styleslider stylParam" type="range" min="0" max="4" value="0" orient="vertical" oninput="updateStyl('controlers','tuner')">
                 <div class="stylesliderLabel stylLabel">0</div>
                 <p class="tooltiptext stylLabel">רוחב עט</p>
@@ -71,15 +72,14 @@
                 <p class="tooltiptext wghtLabel">משקל</p>
               </input>
             </div>
-            <!-- <span contenteditable="true" id="editor"> -->
             <span>
               א
             </span>
             <div id="settingsTag" > עט.קונטרסט.משקל </div>
             <input id="downloadIcon" type="image" src="data/downloadIcon.png" onclick="downloadParams()"></input>
-          </div>
+          </div> -->
         </div>
-      </section>
+      </section> <!-- END TESTER -->
       <section class = "bottomSection">
           <div class="colorControlers">
             <!-- TODO: ORGNIZE IN FLEX BOX... -->
@@ -88,7 +88,7 @@
               <input class="colorControlers" id=messageInputBox type="text" maxlength="2" size="3" name="messageInput" value="א">
             </form>
             <input type="image" src="data/bwicon.png" class="icon" onclick="colorinvert()"></input>
-            <input type="image" src="data/hexicon.png" class="icon" id="showall" onclick="changeResolution()"></input>
+            <input type="image" src="data/hexiconW.png" class="icon" id="showall" onclick="changeResolution()"></input>
           </div>
           <!-- <div id="settingsTag"></div> -->
           <!-- <a href="font/NoordzijTributev2GX.ttf" download>
@@ -117,6 +117,27 @@
         <script src="js/letterGrid.js" type="text/javascript"></script>
       </section> <!-- end three -->
     </section> <!-- end main -->
+      <!-- <div class="tuner">
+        <div class="controlers">
+          <input class="styleslider stylParam" type="range" min="0" max="4" value="0" orient="vertical" oninput="updateStyl('controlers','tuner')">
+            <div class="stylesliderLabel stylLabel">0</div>
+            <p class="tooltiptext stylLabel">רוחב עט</p>
+          </input>
+          <input class="styleslider ctrsParam" type="range" min="0" max="40" value="0" oninput="updateCtrs('controlers','tuner')">
+            <div class="stylesliderLabel ctrsLabel">0</div>
+            <p class="tooltiptext ctrsLabel">קונטרסט</p>
+          </input>
+          <input class="styleslider wghtParam" type="range" min="40" max="80" value="40" oninput="updateWght('controlers','tuner')">
+            <div class="stylesliderLabel wghtLabel">40</div>
+            <p class="tooltiptext wghtLabel">משקל</p>
+          </input>
+        </div>
+        <span>
+          א
+        </span>
+        <div id="settingsTag" > עט.קונטרסט.משקל </div>
+        <input id="downloadIcon" type="image" src="data/downloadIcon.png" onclick="downloadParams()"></input>
+      </div> -->
     <footer>
       <!-- TODO credits -->
     </footer>

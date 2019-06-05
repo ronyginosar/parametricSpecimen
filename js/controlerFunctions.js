@@ -101,23 +101,25 @@ function updateText(change , idx){
 
 // B&W INVERT
 function colorinvert(){
-  if (document.body.style.getPropertyValue('--bg-color') != "#232323"){
-    document.body.style.setProperty('--bg-color' , "#232323" );
-    document.getElementsByClassName('block1')[0].style.backgroundColor = "#0e0d0d";
-    document.getElementsByClassName('tuner')[0].style.backgroundColor = "#0e0d0d";
-    document.getElementsByTagName('h1')[0].style.backgroundColor = "#0e0d0d";
-    document.getElementsByClassName('tuner')[0].style.color = "#f7f6f4";
-    document.getElementsByTagName('h1')[0].style.color = "#f7f6f4";
+  if (document.body.style.getPropertyValue('--bg-color') != "#f7f6f4"){
+    // CHANGE TO W
+    document.body.style.setProperty('--bg-color' , "#f7f6f4" );
+    // document.getElementsByClassName('block1')[0].style.backgroundColor = "white";
+    // document.getElementsByClassName('tuner')[0].style.backgroundColor = "white";
+    document.body.style.setProperty('--element-color' , "#191919" );
+    $("#showall").attr('src','data/hexicon.png');
+    $("#downloadIcon").attr('src','data/downloadIcon.png');
+  } else {
+    // CHANGE TO B
+    document.body.style.setProperty('--bg-color' , "#191919" );
+    // document.getElementsByClassName('block1')[0].style.backgroundColor = "#0e0d0d";
+    // document.getElementsByClassName('tuner')[0].style.backgroundColor = "#0e0d0d";
+    // document.getElementsByTagName('h1')[0].style.backgroundColor = "#0e0d0d";
+    // document.getElementsByClassName('tuner')[0].style.color = "#f7f6f4";
+    // document.getElementsByTagName('h1')[0].style.color = "#f7f6f4";
     document.body.style.setProperty('--element-color' , "#f7f6f4" );
     $("#showall").attr('src','data/hexiconW.png');
     $("#downloadIcon").attr('src','data/downloadIconW.png');
-  } else {
-    document.body.style.setProperty('--bg-color' , "#f7f6f4" );
-    document.getElementsByClassName('block1')[0].style.backgroundColor = "white";
-    document.getElementsByClassName('tuner')[0].style.backgroundColor = "white";
-    document.body.style.setProperty('--element-color' , "#232323" );
-    $("#showall").attr('src','data/hexicon.png');
-    $("#downloadIcon").attr('src','data/downloadIcon.png');
   }
 }
 

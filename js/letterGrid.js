@@ -2,7 +2,7 @@
 // camera and zoom
 var container;
 var camera, scene, renderer;
-var width = window.innerWidth*0.7; // align with css properties
+var width = window.innerWidth*0.8; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
 var near = 700;
@@ -28,7 +28,7 @@ var zoomLevelShift = 8; //TODO!
 var maxZoom = 24; //TODO!
 
 // var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
-var opacityVec = [0.2,0.4,0.6,0.8,1];
+var opacityVec = [0.2,0.4,0.6,0.8,0.9];
 var wghtInc = 8;
 var ctrsInc = 8;
 var initWght = 40;
@@ -128,11 +128,11 @@ function changeResolution(){
     logManager("Show all");
     $(".letter").css('opacity' , 1);
     show = true;
-    $("#showall").attr('src','data/hexiconFull.png')
+    $("#showall").attr('src','data/hexiconFullW.png')
   } else{
     logManager("Hiding");
     show = false;
-    $("#showall").attr('src','data/hexicon.png');
+    $("#showall").attr('src','data/hexiconW.png');
     changeDisplay(centerVertice);
   }
 }
@@ -354,7 +354,7 @@ function initialLetters(){
   var currSet = centerLetter.element.style.fontVariationSettings;
   document.body.style.fontVariationSettings = currSet; //init
   updateSettingsTag(currSet); // reset settings tag
-  document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , currSet );  //TODO
+  // document.getElementsByClassName("tuner")[0].style.setProperty('font-variation-settings' , currSet );  //TODO
   centerLetter.element.style.opacity = 1;
   currentDisplay.push(centerLetter); // appened center to start of list
   var centerNs = getNthNeighbors(centerLetter.name , currRadi);
@@ -436,7 +436,7 @@ function getNthNeighbors ( currCenter , cRadi){
   return currNeighbors;
 }
 
-function updateSettingsTag(set){
+function updateSettingsTag(set){ // TODO
   // var settings = $(e.target).css('font-variation-settings');
   var settings = set;
   // cleaning string for parameter tag display
@@ -446,14 +446,14 @@ function updateSettingsTag(set){
 
   var forSlider = settings.split(",");
   // update sliders
-  var currclass = document.getElementsByClassName("controlers")[1];
-  currclass.getElementsByClassName("wghtLabel")[0].innerHTML = forSlider[0];
-  // console.log(currclass.getElementsByClassName("wghtParam")[0].setAttribute('value', forSlider[0]));
-  currclass.getElementsByClassName("wghtParam")[0].value = forSlider[0];
-  currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = forSlider[1];
-  currclass.getElementsByClassName("ctrsParam")[0].value = forSlider[1];
-  currclass.getElementsByClassName("stylLabel")[0].innerHTML = forSlider[2];
-  currclass.getElementsByClassName("stylParam")[0].value =  forSlider[2];
+  // var currclass = document.getElementsByClassName("controlers")[1];
+  // currclass.getElementsByClassName("wghtLabel")[0].innerHTML = forSlider[0];
+  // // console.log(currclass.getElementsByClassName("wghtParam")[0].setAttribute('value', forSlider[0]));
+  // currclass.getElementsByClassName("wghtParam")[0].value = forSlider[0];
+  // currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = forSlider[1];
+  // currclass.getElementsByClassName("ctrsParam")[0].value = forSlider[1];
+  // currclass.getElementsByClassName("stylLabel")[0].innerHTML = forSlider[2];
+  // currclass.getElementsByClassName("stylParam")[0].value =  forSlider[2];
 
   settings = settings.replace(/,/g,'.');
   if(settings) settings += " עט.קונטרסט.משקל "
@@ -515,6 +515,16 @@ $("#gridContainer").mouseover(function(e){
   }
 });
 
+
+$("#gridContainer").on('click', function(e){
+  if($(e.target).attr('class') == "letter"){
+    // console.log($(e.target));
+    // $(e.target).appendChild(document.getElementsByClassName(".tuner")[0]);
+    // $(e.target).append(document.getElementsByClassName(".tuner")[0]);
+    document.querySelector('.tuner').classList.toggle('expand');
+  }
+});
+
 function onDocumentMouseDown(){
   event.preventDefault();
 }
@@ -559,7 +569,7 @@ function zoomHandler(d3_transform) {
   let x =  -1.5*(d3_transform.x - width/2) / scale;
   let y = 1.5*(d3_transform.y - height/2) / scale;
   let z = getZFromScale(scale);
-  camera.position.set(x, y, z);
+  camera.position.set(x+width*0.03, y, z);
 
   // zoom level counter:
 
@@ -571,11 +581,12 @@ function zoomHandler(d3_transform) {
     addOnZoom();
     if(currRadi > 1) currRadi -= 1; // tighten circle
   }
+  // DISABLED ALL ON ZOOM OUT:
   // zoomout ->  supposed to grow circle of neighboors, in reality no good ux
-  if (zoomLevel > Math.floor(d3_transform.k*10)){
-    zoomLevel = Math.floor(d3_transform.k*10);
-    // if(currRadi <= 2) currRadi += 1;
-  }
+  // if (zoomLevel > Math.floor(d3_transform.k*10)){
+  //   zoomLevel = Math.floor(d3_transform.k*10);
+  //   // if(currRadi <= 2) currRadi += 1;
+  // }
 }
 
 function addOnZoom(){
@@ -609,7 +620,8 @@ function setUpZoom() {
   let initial_scale = getScaleFromZ(far);
   var initial_transform = d3.zoomIdentity.translate(width/2, height/2).scale(initial_scale);
   zoom.transform(view, initial_transform);
-  camera.position.set(0, 0, far);
+  // camera.position.set(0, 0, far);
+  camera.position.set(width*0.03, 0, far);
 }
 
 // From https://github.com/anvaka/three.map.control, used for panning

@@ -5,8 +5,10 @@
 
 /* declaring global CSS variables */
 :root {
-  --element-color: #232323;
-  --bg-color: #f7f6f4;
+  --element-color:  #f7f6f4;
+  --bg-color: #191919;
+  /* --element-color: #232323;
+  --bg-color: #f7f6f4; */
   --page-margins: 3%;
   --font-variation-settings: "wght" 40, "ctrs" 1, "styl" 1;
 }
@@ -37,14 +39,14 @@ body{
   overflow: hidden;
 }
 
-#instructions{
+/* #instructions{
   position: absolute;
   left: var(--page-margins);
   top: 6%;
   object-fit: contain;
   height: 50px;
   opacity: 0.7;
-}
+} */
 
 /* HEADER */
 
@@ -52,7 +54,6 @@ body{
 /* MAIN */
 
 .main{
-  margin-top: var(--page-margins);
 }
 
 #opener{
@@ -78,22 +79,25 @@ body{
   display: flex;
   direction: rtl;
   position: absolute;
-  width: 30%;
-  height: 89%;
-  right: var(--page-margins);
-  color: var(--element-color);
+  width: 25%;
+  height: 100%;
+  right: 0;
+  color: var(--bg-color);
   overflow:hidden;
-  justify-content: space-between;
+  background-color:var(--element-color);
 }
 
 .block1{
-  background-color:white;
-  /* margin-bottom: var(--page-margins); */
-  height: 50%;
+  position: relative;
+  padding: var(--page-margins);
+  margin: var(--page-margins);
+  width: 90%;
+  top: 30%;
   overflow:hidden;
+  vertical-align: middle;
 }
 
-h1{
+/* h1{
   background-color:white;
   padding: var(--page-margins) var(--page-margins) 6% var(--page-margins);
   font-size: 35pt;
@@ -101,21 +105,20 @@ h1{
   line-height: 0.9;
   z-index: 100;
   font-weight: normal;
-  /* TODO remove? */
   margin-top: var(--page-margins);
   margin-bottom: var(--page-margins);
-}
+} */
 
 h1::selection {
   color: pink;
 }
 
 h2{
-  padding: var(--page-margins);
-  font-size: 55pt;
+  padding-bottom: var(--page-margins);
+  font-size: 35pt;
   position: relative;
   margin: 0;
-  line-height: 0.7;
+  line-height: 0.8;
   z-index: 100;
   font-weight: normal;
 }
@@ -125,12 +128,9 @@ h2::selection {
 }
 
 h3{
-  font-size: 13pt;
+  font-size: 10pt;
   position: relative;
-  padding: var(--page-margins);
   margin: 0;
-  padding-top: 0;
-  line-height: 1.3;
   z-index: 100;
   font-weight: normal;
 }
@@ -148,9 +148,16 @@ h3::selection {
 .tuner{
   padding: var(--page-margins);
   background-color:white;
-  height: 40%;
+  width: 150px;
   align-self: flex-end;
   text-align: center;
+  /* position: absolute; */
+  visibility: collapse;
+}
+
+.tuner.expand {
+  visibility: visible;
+  left: 50px;
 }
 
 .tuner  span{
@@ -165,9 +172,9 @@ h3::selection {
 
 .tuner .controlers{
   /* width: 20%; */
-  /* flex-direction: column; /* for correct slider-label oreder */
+  /* flex-direction: column; */
   position:relative;
-  z-index: 200;
+  /* z-index: 200; */
 }
 
 #settingsTag{
@@ -191,15 +198,20 @@ h3::selection {
 /* bottomSection */
 
 .bottomSection{
-  padding-right: var(--page-margins);
-  padding-left: var(--page-margins);
+  display: flex;
+  align-items:flex-start;
+  position: absolute;
+  left: var(--page-margins);
+  bottom: var(--page-margins);
+  flex-direction: column;
+  z-index: 100;
 }
 
 #messageInputBox{
   text-align: center;
-  top:-30px;
-  height:20px;
+  height:30px;
   font-family: 'NarkisBlock';
+  margin-bottom: 10px;
 }
 
 #messageInputBox:focus {
@@ -209,12 +221,8 @@ h3::selection {
 /* COLOR ICONS */
 
 .colorControlers{
-  position: absolute;
-  left: var(--page-margins);
-  bottom: var(--page-margins);
   display: flex;
   flex-direction: column;
-  z-index:100;
 }
 
 .icon{
@@ -247,6 +255,7 @@ h3::selection {
     font-family: 'Noordzij';
     color: var(--element-color);
     line-height: 0.6;
+    position: relative;
 }
 .letter:hover{
   cursor: cell;
