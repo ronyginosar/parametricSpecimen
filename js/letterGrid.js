@@ -45,6 +45,17 @@ function logManager(logEntry){
   }
 }
 
+// INIT DISPLAY
+// $("#optionA").on('click', function(e){
+$("#opener").on('click', function(e){
+  // decide which opening letter
+  if($(e.target).attr('id') == 'optionA') centerVertice = "40,0,4";
+  if($(e.target).attr('id') == 'optionB') centerVertice = "80,40,4";
+  changeDisplay(centerVertice);
+  // make opener go away
+  $("#opener").css('display','none');
+});
+
 // DISPLAY MANAGER
 function changeDisplay(center){
   while(scene.children.length > 0){
@@ -59,7 +70,7 @@ function changeDisplay(center){
   animate(); // the secret is calling animate after every change.
   // change font to center font:
   var targetSettings = scene.getObjectByName("0,0,0").element.style.fontVariationSettings;
-  logManager("changed to center settings " , targetSettings);
+  logManager("changed to center settings " + targetSettings);
   document.body.style.setProperty('font-variation-settings' , targetSettings );
   $(".tuner").css('font-variation-settings' , targetSettings );
   updateSettingsTag(targetSettings); // reset settings tag TODO

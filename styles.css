@@ -58,21 +58,34 @@ body{
 }
 
 #opener{
-  z-index: 10;
+  z-index: 200;
   position: absolute;
-  left:20%;
-  top:20%;
-  background-color: white;
-  height: 50%;
-  width: 50%;
-  opacity: 1;
-  direction: rtl;
-  padding-right: 50px;
-  padding-left: 50px;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
+  background-image: url("data/openingPage.png");
+  background-repeat: no-repeat;
+  background-color:var(--element-color);
+  top:0;
+  height: 100%;
+  width: 100%;
+  background-size: contain;
 }
+
+.openingOptions{
+  font-size: 50pt;
+  font-family: 'Noordzij';
+  position: absolute;
+  top: 210px;
+  cursor: cell;
+}
+
+#optionA{
+  font-variation-settings: "wght" 40, "ctrs" 0, "styl" 4;
+  left: 570px;
+}
+#optionB{
+  font-variation-settings: "wght" 80, "ctrs" 40, "styl" 4;
+  left: 660px;
+}
+
 
 /* TEXT TESTER*/
 
@@ -129,7 +142,7 @@ h2::selection {
 }
 
 h3{
-  font-size: 10pt;
+  font-size: 11pt;
   position: relative;
   margin: 0;
   z-index: 100;
