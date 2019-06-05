@@ -55,6 +55,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
     font-weight: 100;
     border-radius: 10px;
     margin-left: 10px;
+    margin-right: 5px;
     text-align: center;
     font-size: 15px;
     letter-spacing: normal;
@@ -74,19 +75,15 @@ input[type=range].styleslider::-webkit-slider-thumb {
   font-family: 'NarkisBlock';
   font-size: 8pt;
   opacity: 0 ;
-  /* width: 120px; */
-  /* background-color: var(--bg-color); */
   color: var(--element-color));
-  /* color: var(--bg-color); */
   text-align: center;
   padding: 5px;
   border-radius: 6px;
-  /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
-  /* width: 20px; */
-  top: 10%;
-  /* margin-left: -10px; */
+  top: -30%;
+  direction: rtl;
+  right: -5px;
 }
 
 
@@ -124,15 +121,12 @@ input[type=range].styleslider::-webkit-slider-thumb {
 }
 
 .styleslider.stylParam:hover ~ .tooltiptext.stylLabel{
-    left: 80%;
     opacity:1;
 }
 .styleslider.wghtParam:hover ~ .tooltiptext.wghtLabel{
-    left: 15%;
     opacity:1;
 }
 .styleslider.ctrsParam:hover ~ .tooltiptext.ctrsLabel{
-    left: 47%;
     opacity:1;
 }
 
@@ -179,7 +173,7 @@ input[type="radio"].toggle.toggle-left+label::after{
     left: 100%
 }
 input[type="radio"].toggle.toggle-right+label{
-    margin-left: -5px;
+    margin-left: -4px;
 }
 input[type="radio"].toggle.toggle-right+label::after{
     left: -100%;

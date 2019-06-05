@@ -82,7 +82,7 @@ $("#gridContainer").mouseover(function(e){
     // console.log("DEBUG "+$(e.target).attr('class'));
     var targetSettings = $(e.target).css('font-variation-settings');
     if (targetSettings){
-      if (targetSettings != "normal") logManager("hovering over "+targetSettings);
+      // if (targetSettings != "normal") logManager("hovering over "+targetSettings);
       document.body.style.setProperty('font-variation-settings' , targetSettings );
       $(".tuner").css('font-variation-settings' , targetSettings); //TODO
     }
@@ -484,6 +484,7 @@ $("#gridContainer").mouseover(function(e){
   if($(e.target).attr('class') == "letter"){
     if($(e.target).css('opacity') != 0){ // only if curently displaying
       var settings = $(e.target).css('font-variation-settings');
+      if (settings != "normal") logManager("hovering over "+settings);
       updateSettingsTag(settings);
       // $("#settingsTag").css("opacity" , 1);
       // $("#downloadIcon").css("opacity" , 1);
@@ -550,8 +551,8 @@ $("#gridContainer").on('click', function(e){
   if(($(e.target).attr('class') == "letter")&& $(e.target).css('opacity') != 0) {
     // toggle visibitily
     document.querySelector('.tuner').classList.toggle('expand');
-    // TODO add to letter div child
-    // $(e.target).append($('.tuner'));
+    // log
+    logManager("clicked on: ", $(e.target).css('font-variation-settings'));
   }
 });
 
@@ -621,9 +622,16 @@ function zoomHandler(d3_transform) {
 
 function addOnZoom(){
   // add new neighbors to currentDisplay
-  logManager("AddingNeighbors of current");
+  //TODO print adding
   if (currNeighbors.length){
     redrawNeighbors();
+    // logManager("Adding Neighbors of current to display");
+    var nPrint = [];
+    currNeighbors.forEach(function(e) {
+      nPrint.push(e.element.style.fontVariationSettings);
+      nPrint.push("||");
+    });
+    logManager("Adding Neighbors of current to display: "+nPrint);
     currentDisplay.push.apply(currentDisplay, currNeighbors);
   }
 }

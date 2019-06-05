@@ -5,6 +5,7 @@ function updateSize(c,t) {
   var trgtclass = document.getElementsByTagName(t)[0];
   var v = currclass.getElementsByClassName("sizeInput")[0].value;
   trgtclass.style.fontSize = v + "px"; // update value
+  var temp = document.getElementsByTagName('h2')[0].style.fontSize;
   currclass.getElementsByClassName("sizeLabel")[0].innerHTML = v; // update label
   // update line height upon size update
   var updatedHeight = +v + +3;
