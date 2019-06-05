@@ -517,11 +517,10 @@ $("#gridContainer").mouseover(function(e){
 
 
 $("#gridContainer").on('click', function(e){
-  if($(e.target).attr('class') == "letter"){
-    // console.log($(e.target));
-    // $(e.target).appendChild(document.getElementsByClassName(".tuner")[0]);
-    // $(e.target).append(document.getElementsByClassName(".tuner")[0]);
+  if(($(e.target).attr('class') == "letter")&& $(e.target).css('opacity') != 0) {
+    // toggle visibitily
     document.querySelector('.tuner').classList.toggle('expand');
+    // TODO add to letter div child
   }
 });
 

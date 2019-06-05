@@ -18,8 +18,8 @@
   font-family: 'Noordzij';
   src: url('font/NoordzijTributev2GX.ttf');
   /* INITIAL font-variation-settings, defining NORMAL */
-  font-weight: 10;
-  font-style: 1;
+  font-weight: 40;
+  font-style: 4;
 }
 
 .Noordzij{
@@ -37,6 +37,7 @@ body{
   margin: 0;
   background-color: var(--bg-color);
   overflow: hidden;
+  height: 0;
 }
 
 /* #instructions{
@@ -146,23 +147,24 @@ h3::selection {
 
 
 .tuner{
+  position: absolute;
   padding: var(--page-margins);
   background-color:white;
   width: 150px;
+  margin: 0;
   align-self: flex-end;
   text-align: center;
-  /* position: absolute; */
-  visibility: collapse;
+  display: none;
 }
 
 .tuner.expand {
-  visibility: visible;
-  left: 50px;
+  display: block;
+  /* left: 50px; */
 }
 
 .tuner  span{
-  font-size: 150pt;
-  height: 130px;
+  font-size: 70pt;
+  height: 80px;
   overflow: hidden;
   line-height: 0.4;
   color: var(--element-color);
@@ -181,17 +183,14 @@ h3::selection {
   direction: ltr;
   font-family: 'NarkisBlock';
   color: var(--element-color);
-  padding-top: var(--page-margins);
-  font-size: 10pt;
-  display: inline-block;
+  /* padding-top: var(--page-margins); */
+  font-size: 11pt;
+  transform: rotate(-90deg);
+  transform-origin: top left;
 }
 
 #downloadIcon{
-  object-fit: contain;
-  height: 15px;
-  display: inline-block;
-  margin-bottom: -2px;
-  margin-right: 5px;
+  height: 23px;
 }
 
 
@@ -199,7 +198,6 @@ h3::selection {
 
 .bottomSection{
   display: flex;
-  align-items:flex-start;
   position: absolute;
   left: var(--page-margins);
   bottom: var(--page-margins);
@@ -209,7 +207,7 @@ h3::selection {
 
 #messageInputBox{
   text-align: center;
-  height:30px;
+  height:20px;
   font-family: 'NarkisBlock';
   margin-bottom: 10px;
 }
@@ -220,14 +218,17 @@ h3::selection {
 
 /* COLOR ICONS */
 
-.colorControlers{
+/* .colorControlers{
+  width: 40px;
+
   display: flex;
   flex-direction: column;
-}
+  /* align-items: flex-start;
+} */
 
 .icon{
   object-fit: contain;
-  height: 30px;
+  width: 25px;
   margin-bottom: 10px;
 }
 
