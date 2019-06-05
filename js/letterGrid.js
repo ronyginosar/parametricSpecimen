@@ -552,7 +552,7 @@ $("#gridContainer").on('click', function(e){
     // toggle visibitily
     document.querySelector('.tuner').classList.toggle('expand');
     // log
-    logManager("clicked on: ", $(e.target).css('font-variation-settings'));
+    logManager("clicked on: "+ $(e.target).css('font-variation-settings'));
   }
 });
 
