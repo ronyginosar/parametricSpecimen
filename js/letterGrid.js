@@ -84,7 +84,7 @@ $("#gridContainer").mouseover(function(e){
     if (targetSettings){
       // if (targetSettings != "normal") logManager("hovering over "+targetSettings);
       document.body.style.setProperty('font-variation-settings' , targetSettings );
-      $(".tuner").css('font-variation-settings' , targetSettings); //TODO
+      // $(".tuner").css('font-variation-settings' , targetSettings); //TODO
     }
   }
 });
@@ -550,9 +550,19 @@ $("#gridContainer").mouseover(function(e){
 $("#gridContainer").on('click', function(e){
   if(($(e.target).attr('class') == "letter")&& $(e.target).css('opacity') != 0) {
     // toggle visibitily
-    document.querySelector('.tuner').classList.toggle('expand');
+    if($('.tuner').css('display') == 'none'){
+      document.querySelector('.tuner').classList.toggle('expand');
+    }
+    // input to tuner
+    var targetSettings = $(e.target).css('font-variation-settings');
+    $(".tuner").css('font-variation-settings' , targetSettings); //TODO
     // log
     logManager("clicked on: "+ $(e.target).css('font-variation-settings'));
+  } else if (($(e.target).attr('class') == "letter") && $(e.target).css('opacity') == 0){
+    // toggle visibitily if clicked outside
+    if($('.tuner').css('display') != 'none'){
+      document.querySelector('.tuner').classList.toggle('expand');
+    }
   }
 });
 
