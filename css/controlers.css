@@ -148,7 +148,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
     position: relative;
     text-align: center;
     transition: background 600ms ease, color 600ms ease;
-    height: 15px;
+    height: 18px;
 }
 input[type="radio"].toggle {
     display: none;
