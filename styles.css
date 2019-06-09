@@ -27,10 +27,15 @@
 
 
 }
-/* numeric font */
+/* numeric&info font */
 @font-face {
     font-family: 'NarkisBlock';
     src: url('font/VC_NarkisBlock-Regular.otf');
+}
+@font-face {
+    font-family: 'NarkisBlockBold';
+    src: url('font/VC_NarkisBlock-Bold.otf');
+    font-weight: bold;
 }
 
 body{
@@ -66,24 +71,37 @@ body{
   top:0;
   height: 100%;
   width: 100%;
+  left: 0;
   background-size: contain;
+}
+
+.openingText{
+  direction: rtl;
+  font-size: 13pt;
+  font-family: 'NarkisBlock';
+  position: absolute;
+  top: 30%;
+  right: 30%;
+  font-weight: normal;
+}
+
+.openingText b{
+  font-family: 'NarkisBlockBold';
 }
 
 .openingOptions{
   font-size: 50pt;
   font-family: 'Noordzij';
-  position: absolute;
-  top: 210px;
   cursor: cell;
+  padding-right: 7px;
+  padding-left: 7px;
 }
 
 #optionA{
   font-variation-settings: "wght" 40, "ctrs" 0, "styl" 4;
-  left: 570px;
 }
 #optionB{
   font-variation-settings: "wght" 80, "ctrs" 40, "styl" 4;
-  left: 660px;
 }
 
 
@@ -129,7 +147,7 @@ h1::selection {
 
 h2{
   padding-bottom: var(--page-margins);
-  font-size: 35pt;
+  font-size: 45pt;
   position: relative;
   margin: 0;
   line-height: 0.8;
@@ -142,7 +160,7 @@ h2::selection {
 }
 
 h3{
-  font-size: 11pt;
+  font-size: 17pt;
   position: relative;
   margin: 0;
   z-index: 100;
@@ -152,7 +170,6 @@ h3{
 h3::selection {
   color: blue;
 }
-
 
 [contenteditable]:focus {
   outline: 0px solid transparent;
@@ -232,6 +249,10 @@ h3::selection {
   /* margin-bottom: 0; */
 }
 
+#downloadIcon:active{
+  opacity:0.6;
+}
+
 
 /* topSection */
 
@@ -303,4 +324,32 @@ h3::selection {
 }
 .letter:hover{
   cursor: cell;
+}
+
+/* BLINKING */
+.cursor {
+	position: relative;
+  display: inline-block;
+}
+.cursor	i {
+	position: absolute;
+	width: 1px;
+	height: 100%;
+	background-color: var(--bg-color);
+	/* left: 5px; */
+	/* top: 10%; */
+	animation-name: blink;
+	animation-duration: 1000ms;
+	animation-iteration-count: infinite;
+	opacity: 1;
+
+}
+
+.cursor input:focus + i {
+	display: none;
+}
+
+@keyframes blink {
+	from { opacity: 1; }
+	to { opacity: 0; }
 }

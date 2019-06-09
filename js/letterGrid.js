@@ -20,12 +20,12 @@ var hexRadius = 25;
 var hexWidth = hexRadius * 2;
 var hexHeight = (Math.sqrt(3)/2 * hexWidth);
 // visuals of zoom
-// var zoomLevel = 22; //TODO!
-// var zoomLevelShift = 2; //TODO!
-// var maxZoom = 31; //TODO!
-var zoomLevel = 18; //TODO!
-var zoomLevelShift = 8; //TODO!
-var maxZoom = 24; //TODO!
+var zoomLevel = 22; //TODO!
+var zoomLevelShift = 2; //TODO!
+var maxZoom = 31; //TODO!
+// var zoomLevel = 18; //TODO!
+// var zoomLevelShift = 8; //TODO!
+// var maxZoom = 24; //TODO!
 
 // var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 var opacityVec = [0.2,0.4,0.6,0.8,0.9];
@@ -49,11 +49,17 @@ function logManager(logEntry){
 // $("#optionA").on('click', function(e){
 $("#opener").on('click', function(e){
   // decide which opening letter
-  if($(e.target).attr('id') == 'optionA') centerVertice = "40,0,4";
-  if($(e.target).attr('id') == 'optionB') centerVertice = "80,40,4";
+  if($(e.target).attr('id') == 'optionA'){
+    centerVertice = "40,0,4";
+    $("#opener").css('display','none');
+  }
+  if($(e.target).attr('id') == 'optionB'){
+    // document.getElementsByName("toggle")[0].checked == true; //TODO move toggle
+    centerVertice = "80,40,4";
+    $("#opener").css('display','none');
+  }
   changeDisplay(centerVertice);
   // make opener go away
-  $("#opener").css('display','none');
 });
 
 // DISPLAY MANAGER
@@ -131,7 +137,13 @@ $('#messageInputBox').on('input',function(e){
 //   }
 // });
 
-
+// disable enter on editable h2
+$("h2[contenteditable]").keypress(function (evt) {
+  var keycode = evt.charCode || evt.keyCode;
+  if (keycode  == 13) { //Enter key's keycode
+    return false;
+  }
+});
 
 var show = false;
 
@@ -478,12 +490,27 @@ function updateSettingsTag(set){ // TODO
   // console.log(currclass);
   // currclass.getElementsByClassName("wghtLabel")[0].innerHTML = forSlider[0];
   // // console.log(currclass.getElementsByClassName("wghtParam")[0].setAttribute('value', forSlider[0]));
-  document.getElementsByClassName("wghtParam")[0].value = forSlider[0];
+  // document.getElementsByClassName("wghtParam")[0].value = forSlider[0];
   // currclass.getElementsByClassName("ctrsLabel")[0].innerHTML = forSlider[1];
-  document.getElementsByClassName("ctrsParam")[0].value = forSlider[1];
+  // document.getElementsByClassName("ctrsParam")[0].value = forSlider[1];
   // currclass.getElementsByClassName("stylLabel")[0].innerHTML = forSlider[2];
-  document.getElementsByClassName("stylParam")[0].value =  forSlider[2];
+  // document.getElementsByClassName("stylParam")[0].value =  forSlider[2];
 
+  settings = settings.replace(/,/g,'.');
+  if(settings) settings += " סגנון.קונטרסט.משקל "
+  $("#settingsTag").html(settings);
+}
+
+function updateSettingsTagByClick(set){ // TODO
+  var settings = set;
+  // cleaning string for parameter tag display
+  settings = settings.replace(/[a-zA-Z]/g,'');
+  settings = settings.replace(/""/g,'');
+  settings = settings.replace(/ /g,'');
+  var forSlider = settings.split(",");
+  document.getElementsByClassName("wghtParam")[0].value = forSlider[0];
+  document.getElementsByClassName("ctrsParam")[0].value = forSlider[1];
+  document.getElementsByClassName("stylParam")[0].value =  forSlider[2];
   settings = settings.replace(/,/g,'.');
   if(settings) settings += " סגנון.קונטרסט.משקל "
   $("#settingsTag").html(settings);
@@ -567,6 +594,8 @@ $("#gridContainer").on('click', function(e){
     // input to tuner
     var targetSettings = $(e.target).css('font-variation-settings');
     $(".tuner").css('font-variation-settings' , targetSettings); //TODO
+    // settings on sliders
+    updateSettingsTagByClick(targetSettings);
     // log
     logManager("clicked on: "+ $(e.target).css('font-variation-settings'));
   } else if (($(e.target).attr('class') == "letter") && $(e.target).css('opacity') == 0){
@@ -576,6 +605,23 @@ $("#gridContainer").on('click', function(e){
     }
   }
 });
+
+
+$(document).on('click', function(e){
+  if ($(e.target).attr('id') == 'tunerspan'){
+    // get current tuned settings
+    var targetSettings = $(e.target).css('font-variation-settings');
+    // update tester preview
+    document.body.style.setProperty('font-variation-settings' , targetSettings );
+    // settings on sliders
+    updateSettingsTag(targetSettings);
+    // log
+    logManager("clicked on tuner display: "+ targetSettings);
+  }
+});
+
+
+
 
 function onDocumentMouseDown(){
   event.preventDefault();

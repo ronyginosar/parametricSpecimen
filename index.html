@@ -32,8 +32,25 @@
       </header>
     </section>
     <section id="opener">
-      <div class="openingOptions" id="optionA">א</div>
-      <div class="openingOptions" id="optionB">א</div>
+      <div class="openingText">
+          <b>שוטט</b>
+          לגילוי גופנים נוספים/
+          <br>
+          <b>התקרב</b>
+          לתצוגה בכדי להוסיפם/
+          <br>
+          <b>לחץ</b>
+          להתאמה סופית והורדה/
+          <br>
+          <br>
+          בחר נקודת התחלה לשיטוט
+          <span class="openingOptions" id="optionA">א</span>
+          או
+          <span class="openingOptions" id="optionB">א</span>
+
+      </div>
+      <!-- <div class="openingOptions" id="optionA">א</div> -->
+      <!-- <div class="openingOptions" id="optionB">א</div> -->
     </section>
     <section class="main">
       <!-- <img id="instructions" type="image" src="data/hoverZoomIcon.png" class="icon"></img> -->
@@ -64,10 +81,11 @@
                 <!-- לפני כשנתיים יצאה לעולם טכנולוגיה חדשה לקבצי פונט – פונט פרמטרי / הצורך היה פרקטי / להאיץ את האינטרנט על ידי צמצום מספר הקבצים שנדרש להפעלת אתר / במקום פונט אחד רגיל אחד נטוי ואחד שמן  /כעת ניתן להשתמש בקובץ יחיד שאליו מוזנים משתנים שונים ומתקבלים גופנים שונים / מאותה המשפחה -->
                 <!-- <br> -->
                 <!-- <br> -->
-                לצד הצד הפרקטי / נוצר כלי עיצובי חזק בדמות עיצוב פונט כמערכת וגבולות גזרה / לעומת אינסטנס יחיד של גופן / אך איך אמור להיראות ספסמין של גופן כזה?
+                לצד הצד הפרקטי / נוצר כלי עיצובי חזק בדמות עיצוב פונט כמערכת וגבולות גזרה / לעומת אינסטנס יחיד של גופן / אך איך אמור להיראות ספסמין של גופן כזה
                 <!-- <br>
                 <br> -->
                 <!-- המטרה של פרוייקט זה היא לבחון את שאלה זו בדיוק / איך ניתן להשתמש בתכונותיו המיוחדות של סוג הגופן לשם תצוגה אינטואיטיבית יותר ושימושית יותר / לעומת התצוגה הדיפולטיבית הקיימת כיום העושה שימוש יתר בסליידרים (דבר שגורם לבסוף לחוסר שימוש באותם הגופנים) -->
+                <div class="cursor">? <i></i></div>
             </h3>
           </div>
           <!-- <h1 contenteditable="true"  >
@@ -162,7 +180,7 @@
             <p class="tooltiptext wghtLabel">משקל</p>
           </input>
         </div>
-        <span>
+        <span id="tunerspan">
           א
         </span>
         <!-- <div id="settingsTag" > עט.קונטרסט.משקל </div>

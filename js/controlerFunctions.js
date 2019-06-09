@@ -152,6 +152,5 @@ function downloadParams() {
   logManager("downloaded: " + name.split(" ")[0]);
 }
 
-
 // note: In chrome apps, Content Security Policy does not allow inline javascript.
 // https://stackoverflow.com/questions/36324333/refused-to-execute-inline-event-handler-because-it-violates-csp-sandbox/36349056
