@@ -27,8 +27,8 @@ var zoomLevel = 18; //TODO!
 var zoomLevelShift = 8; //TODO!
 var maxZoom = 24; //TODO!
 
-// var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
-var opacityVec = [0.2,0.4,0.6,0.8,0.9];
+var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];
+// var opacityVec = [0.2,0.4,0.6,0.8,0.9];
 var wghtInc = 8;
 var ctrsInc = 8;
 var initWght = 40;
