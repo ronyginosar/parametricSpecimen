@@ -18,8 +18,8 @@ var show = false;
 var instances = 6;
 var totalInstances = Math.pow(instances, 2);
 var hexRadius = 25;
-var hexWidth = hexRadius * 2;
-var hexHeight = (Math.sqrt(3)/2 * hexWidth);
+var hexWidth = hexRadius * 2 + 5;
+var hexHeight = (Math.sqrt(3)/2 * (hexRadius * 2)) -5;
 // visuals of zoom
 var zoomLevel = 22; //TODO!
 var zoomLevelShift = 2; //TODO!
@@ -42,8 +42,8 @@ var currNeighbors = [];
 
 // DRAWLETTERS
 function drawLetters(){
-  for ( var i = -instances-1; i < instances+1; i += 1 ) {
-    for ( var j = -instances; j < instances+1; j += 1 ) {
+  for ( var i = -instances-1; i < instances+2; i += 1 ) {
+    for ( var j = -instances-1; j < instances+2; j += 1 ) {
   // for ( var i = -instances+1; i < instances; i += 1 ) {
   //   for ( var j = -instances+1; j < instances; j += 1 ) {
 
