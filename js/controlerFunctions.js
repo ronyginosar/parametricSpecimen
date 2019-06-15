@@ -97,7 +97,6 @@ function updateText(change , idx){
 //     console.log("input event fired");
 // }, false);
 
-
 /// COLORS:
 
 // B&W INVERT

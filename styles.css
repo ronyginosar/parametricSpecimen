@@ -111,7 +111,7 @@ body{
   display: flex;
   direction: rtl;
   position: absolute;
-  width: 25%;
+  width: 35%;
   height: 100%;
   right: 0;
   color: var(--bg-color);
@@ -236,21 +236,22 @@ h3::selection {
   color: var(--element-color);
   /* margin-top: var(--page-margins); */
   /* margin-bottom: var(--page-margins); */
-  font-size: 12pt;
+  font-size: 20pt;
   transform: rotate(-90deg);
   transform-origin: top left;
-  /* letter-spacing: 1.5px; */
+  letter-spacing: 1px;
   font-weight: lighter;
 }
 
 #downloadIcon{
-  height: 23px;
-  margin-top: -5px;
+  height: 45px;
+  margin-top: -15px;
+  margin-left: 3%;
   /* margin-bottom: 0; */
 }
 
 #downloadIcon:active{
-  opacity:0.6;
+  opacity:0.2;
 }
 
 
@@ -259,13 +260,11 @@ h3::selection {
 .topSection{
   display: flex;
   position: absolute;
-  right: 28%;
+  right: 37%;
   top: var(--page-margins);
   flex-direction: column;
   z-index: 100;
 }
-
-
 
 #messageInputBox{
   text-align: center;
