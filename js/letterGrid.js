@@ -2,11 +2,11 @@
 // camera and zoom
 var container;
 var camera, scene, renderer;
-var width = window.innerWidth*0.7; // align with css properties
+var width = window.innerWidth*0.65; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
 var near = 700;
-var far = 1700;
+var far = 2100;
 var zoom, view;
 // letters
 var message = "א";
@@ -21,12 +21,12 @@ var hexRadius = 25;
 var hexWidth = hexRadius * 2;
 var hexHeight = (Math.sqrt(3)/2 * hexWidth);
 // visuals of zoom
-// var zoomLevel = 22; //TODO!
-// var zoomLevelShift = 2; //TODO!
-// var maxZoom = 31; //TODO!
-var zoomLevel = 18; //TODO!
-var zoomLevelShift = 8; //TODO!
-var maxZoom = 24; //TODO!
+var zoomLevel = 22; //TODO!
+var zoomLevelShift = 2; //TODO!
+var maxZoom = 31; //TODO!
+// var zoomLevel = 18; //TODO!
+// var zoomLevelShift = 8; //TODO!
+// var maxZoom = 24; //TODO!
 var currOpacity = 0;
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];
 var wghtInc = 8;
@@ -276,7 +276,7 @@ function updateSettingsTagByClick(set){ // TODO
   $("#settingsTag").html(settings);
 }
 
-
+var clicked = false;
 
 // display neighboors on hover (only over letter class) as hint
 // to use them - on zoom in, we add the temp currNeighbors to the general display list
@@ -295,7 +295,8 @@ $("#gridContainer").mouseover(function(e){
         currNeighbors = getNthNeighbors(currCenter,currRadi);
         for ( var i = 0; i < currNeighbors.length; i += 1 ) {
           // traverse neighboors and set opacity to light spot
-          currNeighbors[i].element.style.opacity = opacityVec[5];
+          // as long as i didn't use to be clicked ?
+          if (currNeighbors[i].element.style.opacity != 1) currNeighbors[i].element.style.opacity = opacityVec[4];
         }
       }
       // light up letter on hover
@@ -313,12 +314,14 @@ $("#gridContainer").mouseover(function(e){
 
       // if already bright - don't return to dark opacity level
       // if(!show && (currOpacity < opacityVec[2])){
-      if(!show){// && (currOpacity <= opacityVec[2])){
+      if(!show && !clicked){// && (currOpacity <= opacityVec[2])){
         // console.log("DEBUG opacity: "+ $(e.target).css('opacity'));
         // console.log("DEBUG currOpacity: "+ currOpacity);
       // if(!show && ($(e.target).css('opacity') < opacityVec[2])){
         $(e.target).css('opacity' , currOpacity); // restore opacity level
-      }
+
+      } else if (!show && clicked) $(e.target).css('opacity' , 1); //TODO
+
       if (e.target.id && (!show)){
         for ( var i = 0; i < currNeighbors.length; i += 1 ) {
           if (!currentDisplay.includes(currNeighbors[i])){ // patch to make it stop disappearing
@@ -327,6 +330,7 @@ $("#gridContainer").mouseover(function(e){
         }
       }
       currNeighbors = []; // reset currNeighbors list when not hovering
+      clicked = false;
       animate();
     }
   }
@@ -344,6 +348,8 @@ $("#gridContainer").on('click', function(e){
       $(e.target).css('opacity' , 1);
       // if clicked lit letter but then hover off - we still want it lit
       currOpacity = 1;
+      clicked = true;
+      // console.log("DEBUG lighting letter on click"+currOpacity)
       // input to tuner
       var targetSettings = $(e.target).css('font-variation-settings');
       $(".tuner").css('font-variation-settings' , targetSettings); //TODO
@@ -358,6 +364,12 @@ $("#gridContainer").on('click', function(e){
         document.querySelector('.tuner').classList.toggle('expand');
       }
     }
+    // turn off letter TODO
+    // else if ($(e.target).css('opacity') == 1){
+    //   clicked = false;
+    //   currOpacity = opacityVec[4];
+    //   $(e.target).css('opacity' , opacityVec[4]);
+    // }
 }});
 
 // UPDATE FONT VIA TUNER, EVEN IF HOVERED ELSEWHERE
@@ -489,10 +501,10 @@ function zoomHandler(d3_transform) {
   }
   // DISABLED ALL ON ZOOM OUT:
   // zoomout ->  supposed to grow circle of neighboors, in reality no good ux
-  // if (zoomLevel > Math.floor(d3_transform.k*10)){
-  //   zoomLevel = Math.floor(d3_transform.k*10);
+  if (zoomLevel > Math.floor(d3_transform.k*10)){
+    zoomLevel = Math.floor(d3_transform.k*10);
   //   // if(currRadi <= 2) currRadi += 1;
-  // }
+  }
 }
 
 function redrawNeighbors(){
@@ -503,14 +515,14 @@ function redrawNeighbors(){
   // }
   for ( var i = 0; i < currNeighbors.length; i += 1 ) {
     // currNeighbors[i].element.style.opacity = opacityVec[c];
-    currNeighbors[i].element.style.opacity = opacityVec[5];
+    // as long as i didn't use to be clicked ?
+    if (currNeighbors[i].element.style.opacity != 1) currNeighbors[i].element.style.opacity = opacityVec[4];
     // currNeighbors[i].element.style.opacity = opacityVec[opacityVec.length - 4];
   }
 }
 
 function addOnZoom(){
   // for ( var i = 0; i < currentDisplay.length; i += 1 ) {
-  //   // currNeighbors[i].element.style.opacity = opacityVec[c];
   //   currentDisplay[i].element.style.opacity = opacityVec[1];
   // }
   // add new neighbors to currentDisplay
@@ -524,7 +536,7 @@ function addOnZoom(){
     });
     logManager("Adding Neighbors of current to display: "+nPrint);
     currentDisplay.push.apply(currentDisplay, currNeighbors);
-    currOpacity = opacityVec[5];
+    currOpacity = opacityVec[4];
   }
 }
 

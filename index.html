@@ -6,7 +6,7 @@
     <meta charset="UTF-8" dir="rtl">
     <meta name="description" content="A suggestion of a Parametric Type specimine, to highlight it's extended features and encourage exploration of the available parameters.">
     <!-- NOTE order is relevant -->
-    <!-- <link rel="preload" href="font/NoordzijTributev2GX.ttf" as="font" type="font/ttf"> -->
+    <link rel="preload" href="font/NoordzijTributev2GX.ttf" as="font" type="font/ttf">
     <!-- <link rel="preload" href="data/openingPage.png" as="image"> -->
     <link rel="stylesheet" media="all" href="styles.css"/>
     <link rel="stylesheet" media="all" href="css/controlers.css"/>
@@ -58,13 +58,16 @@
           <div class="block1">
             <div class="controlers">
               <!-- TODO: update upon doc load -->
-              <input class="styleslider sizeInput" type="range" min="6" max="100" value="11" orient="vertical" oninput="updateSize('controlers','h3')">
-                <div class="stylesliderLabel sizeLabel">11</div>
+              <input class="styleslider sizeInput" type="range" min="6" max="140" value="17" orient="vertical" oninput="updateSize('controlers','h3')">
+                <p class="tooltiptext sizeLabel">גודל</p>
+                <div class="stylesliderLabel sizeLabel">17</div>
               </input>
               <input class="styleslider spacingInput" type="range" min="-8" max="8" value="1" oninput="updateSpacing('controlers','h3')">
+                <p class="tooltiptext spacingLabel">קרנינג</p>
                 <div class="stylesliderLabel spacingLabel">1</div>
               </input>
               <input class="styleslider heightInput" type="range" min="0" max="100" value="26" oninput="updateHeight('controlers','h3')">
+                <p class="tooltiptext heightLabel">לדינג</p>
                 <div class="stylesliderLabel heightLabel">26</div>
               </input>
             </div>
@@ -74,17 +77,21 @@
               ביניים
             </h2>
             <h3 contenteditable="true" >
-                מאז מהפכת הדפוס צורת הספסמין כמעט ולא השתנתה / הספסמין היה ונותר קטלוג מודפס עם גדלים ומשקלים שונים / בווב נוספו סליידרים לאותן המטרות / צורת הספסמין עולה לשאלה לאור יציאת עוד ועוד גופנים פרמטרים אל אוויר העולם
+                הקלד טקסט לבדיקה
+                <div class="cursor">/ <i></i></div>
                 <br>
                 <br>
+                מאז מהפכת הדפוס צורת הספסמין כמעט ולא השתנתה / הספסמין היה ונותר קטלוג מודפס עם גדלים ומשקלים שונים / בווב נוספו סליידרים לאותן המטרות.
+                <br>
+                <br>
+                צורת הספסמין עולה לשאלה לאור יציאת עוד ועוד גופנים פרמטרים אל אוויר העולם
                 <!-- לפני כשנתיים יצאה לעולם טכנולוגיה חדשה לקבצי פונט – פונט פרמטרי / הצורך היה פרקטי / להאיץ את האינטרנט על ידי צמצום מספר הקבצים שנדרש להפעלת אתר / במקום פונט אחד רגיל אחד נטוי ואחד שמן  /כעת ניתן להשתמש בקובץ יחיד שאליו מוזנים משתנים שונים ומתקבלים גופנים שונים / מאותה המשפחה -->
-                <!-- <br> -->
-                <!-- <br> -->
+                <br>
+                <br>
                 לצד הצד הפרקטי / נוצר כלי עיצובי חזק בדמות עיצוב פונט כמערכת וגבולות גזרה / לעומת אינסטנס יחיד של גופן / אך איך אמור להיראות ספסמין של גופן כזה
                 <!-- <br>
                 <br> -->
                 <!-- המטרה של פרוייקט זה היא לבחון את שאלה זו בדיוק / איך ניתן להשתמש בתכונותיו המיוחדות של סוג הגופן לשם תצוגה אינטואיטיבית יותר ושימושית יותר / לעומת התצוגה הדיפולטיבית הקיימת כיום העושה שימוש יתר בסליידרים (דבר שגורם לבסוף לחוסר שימוש באותם הגופנים) -->
-                <div class="cursor">? <i></i></div>
             </h3>
           </div>
           <!-- <h1 contenteditable="true"  >
@@ -117,8 +124,8 @@
       </section> <!-- END TESTER -->
       <section class = "bottomSection">
             <!-- NOTE: dont put anything after "onclick" -->
-            <div id="settingsTag" >40.0.4 סגנון.קונטרסט.משקל </div>
             <input id="downloadIcon" class="icon" type="image" src="data/downloadIconW.png" onclick="downloadParams()"></input>
+            <div id="settingsTag" >40.0.4 סגנון.קונטרסט.משקל </div>
             <!-- <form>
               <input class="icon" id=messageInputBox type="text" maxlength="2" size="3" name="messageInput" value="א">
             </form>
@@ -165,6 +172,9 @@
       </section> <!-- end three -->
     </section> <!-- end main -->
       <div class="tuner">
+        <span id="tunerspan">
+          א
+        </span>
         <div class="controlers">
           <input class="styleslider stylParam" type="range" min="0" max="4" value="4" orient="vertical" oninput="updateStyl('controlers','tuner')">
             <!-- <div class="stylesliderLabel stylLabel">0</div> -->
@@ -179,9 +189,7 @@
             <p class="tooltiptext wghtLabel">משקל</p>
           </input>
         </div>
-        <span id="tunerspan">
-          א
-        </span>
+
         <!-- <div id="settingsTag" > עט.קונטרסט.משקל </div>
         <input id="downloadIcon" type="image" src="data/downloadIcon.png" onclick="downloadParams()"></input> -->
       </div>

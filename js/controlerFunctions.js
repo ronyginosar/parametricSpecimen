@@ -80,6 +80,7 @@ function updateText(change , idx){
   logManager("changed params using tuner slider: " + change);
   logManager("current params are: " + currSettings); //TODO
   updateSettingsTag(currSettings);
+  animate();
   // c = change;
 }
 

@@ -6,10 +6,10 @@
   flex-direction: row-reverse; /* for correct slider-label oreder */
   justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
-  right: 5px;
+  /* margin-top: 5px; */
+  /* right: 5px; */
   z-index: 100;
-  opacity: 0;
+  /* opacity: 0; */
   position: relative;
 }
 
@@ -73,17 +73,17 @@ input[type=range].styleslider::-webkit-slider-thumb {
 
 .tooltiptext {
   font-family: 'NarkisBlock';
-  font-size: 8pt;
-  opacity: 0 ;
-  color: var(--element-color));
+  font-size: 9pt;
+  /* opacity: 0 ; */
+  color: var(--bg-color);
   text-align: center;
-  padding: 5px;
-  border-radius: 6px;
-  position: absolute;
+  margin: 5px;
+  /* border-radius: 6px; */
+  /* position: absolute; */
   z-index: 1;
-  top: -30%;
+  /* top: -30%; */
   direction: rtl;
-  right: -5px;
+  /* right: -5px; */
 }
 
 
@@ -102,13 +102,13 @@ input[type=range].styleslider::-webkit-slider-thumb {
 }
 
 
-.tuner:hover span{
+/* .tuner:hover span{
   opacity: 1;
 }
 
 .tuner:hover .controlers{
   opacity: 1;
-}
+} */
 
 .styleslider.stylParam:hover ~ .stylesliderLabel.stylLabel{
     opacity:1;
@@ -120,7 +120,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
     opacity:1;
 }
 
-.styleslider.stylParam:hover ~ .tooltiptext.stylLabel{
+/* .styleslider.stylParam:hover ~ .tooltiptext.stylLabel{
     opacity:1;
 }
 .styleslider.wghtParam:hover ~ .tooltiptext.wghtLabel{
@@ -128,7 +128,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
 }
 .styleslider.ctrsParam:hover ~ .tooltiptext.ctrsLabel{
     opacity:1;
-}
+} */
 
 
 
@@ -136,20 +136,19 @@ input[type=range].styleslider::-webkit-slider-thumb {
 /* VARTOGGLES */
 
 .btn{
-    border: 2px solid var(--element-color);
+    border: 3px solid var(--element-color);
     display: inline-block;
-    padding: 6px;
+    padding: 4px;
     position: relative;
     text-align: center;
     transition: background 600ms ease, color 600ms ease;
-    height: 18px;
+    height: 15px;
 }
 input[type="radio"].toggle {
     display: none;
 }
 input[type="radio"].toggle+label{
     cursor: pointer;
-    /* min-width: 10px; */
 }
 input[type="radio"].toggle+label:hover{
     background: none;
