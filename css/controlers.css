@@ -52,22 +52,22 @@ input[type=range].styleslider::-webkit-slider-thumb {
 .stylesliderLabel{
     color: var(--bg-color);
     font-family: 'NarkisBlock';
-    font-weight: 100;
-    border-radius: 10px;
+    /* font-weight: 100; */
+    /* border-radius: 10px; */
     margin-left: 10px;
     margin-right: 5px;
     text-align: center;
-    font-size: 15px;
-    letter-spacing: normal;
-    line-height: normal;
-    white-space: nowrap;
+    font-size: 13px;
+    /* letter-spacing: normal; */
+    /* line-height: normal; */
+    /* white-space: nowrap; */
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    transform: translate(0px,-10%);
+    transform: translate(0px,-20%);
     transition: opacity .2s ease,transform .2s ease;
-    opacity: 0;
+    /* opacity: 0; */
     width:50px; /* placeholder so '-' won't change margins*/
   }
 
@@ -78,6 +78,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
   color: var(--bg-color);
   text-align: center;
   margin: 5px;
+  margin-bottom: 9px;
   /* border-radius: 6px; */
   /* position: absolute; */
   z-index: 1;

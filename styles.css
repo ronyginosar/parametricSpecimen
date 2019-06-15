@@ -32,6 +32,7 @@
 @font-face {
     font-family: 'NarkisBlock';
     src: url('font/VC_NarkisBlock-Regular.otf');
+    font-weight: normal;
 }
 @font-face {
     font-family: 'NarkisBlockBold';
@@ -118,32 +119,15 @@ body{
   color: var(--bg-color);
   overflow:hidden;
   background-color:var(--element-color);
+  vertical-align: middle;
 }
 
 .block1{
   position: relative;
   padding: var(--page-margins);
   margin: var(--page-margins);
-  width: 90%;
-  top: 17%;
+  top: 15%;
   overflow:hidden;
-  vertical-align: middle;
-}
-
-/* h1{
-  background-color:white;
-  padding: var(--page-margins) var(--page-margins) 6% var(--page-margins);
-  font-size: 35pt;
-  position: relative;
-  line-height: 0.9;
-  z-index: 100;
-  font-weight: normal;
-  margin-top: var(--page-margins);
-  margin-bottom: var(--page-margins);
-} */
-
-h1::selection {
-  color: pink;
 }
 
 h2{
@@ -187,12 +171,13 @@ h3::selection {
   padding-left: 10px;
   background-color:var(--element-color);
   text-align: center;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   opacity: 1;
   z-index: 10;
   right: var(--toolbox-margin);
   bottom: 7%;
   z-index: 200;
+  align-items: center;
 
   /* TODO */
   display: none;
@@ -244,6 +229,7 @@ h3::selection {
 #settingsTag{
   direction: ltr;
   font-family: 'NarkisBlock';
+
   color: var(--element-color);
   /* margin-top: var(--page-margins); */
   /* margin-bottom: var(--page-margins); */
@@ -254,7 +240,7 @@ h3::selection {
   /* transform: rotate(-90deg); */
   /* transform-origin: top right; */
   letter-spacing: 1px;
-  font-weight: lighter;
+  /* font-weight: lighter; */
 }
 
 #downloadIcon{
