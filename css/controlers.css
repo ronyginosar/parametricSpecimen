@@ -137,19 +137,23 @@ input[type=range].styleslider::-webkit-slider-thumb {
 /* VARTOGGLES */
 
 .btn{
-    border: 3px solid var(--element-color);
+    /* border: 1px solid var(--element-color); */
     display: inline-block;
-    padding: 4px;
+    font-size: 18pt;
+    padding: 3px;
+    padding-bottom: 7px;
     position: relative;
     text-align: center;
     transition: background 600ms ease, color 600ms ease;
-    height: 17px;
+    /* height: 17px; */
+    line-height: 0.5;
 }
 input[type="radio"].toggle {
     display: none;
 }
 input[type="radio"].toggle+label{
     cursor: pointer;
+    color: var(--element-color);
 }
 input[type="radio"].toggle+label:hover{
     background: none;
@@ -168,12 +172,14 @@ input[type="radio"].toggle+label::after{
 
 input[type="radio"].toggle.toggle-left+label {
     border-right: 0;
+    font-variation-settings: "wght" 40, "ctrs" 0, "styl" 4;
 }
 input[type="radio"].toggle.toggle-left+label::after{
     left: 100%
 }
 input[type="radio"].toggle.toggle-right+label{
     margin-left: -4px;
+    font-variation-settings: "wght" 80, "ctrs" 40, "styl" 4;
 }
 input[type="radio"].toggle.toggle-right+label::after{
     left: -100%;

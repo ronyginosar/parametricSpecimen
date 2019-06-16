@@ -265,6 +265,7 @@ h3::selection {
   top: var(--page-margins);
   flex-direction: column;
   z-index: 100;
+  align-items: center;
 }
 
 #messageInputBox{
