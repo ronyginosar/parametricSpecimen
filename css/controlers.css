@@ -9,7 +9,7 @@
   /* margin-top: 5px; */
   /* right: 5px; */
   z-index: 100;
-  /* opacity: 0; */
+  opacity: 0;
   position: relative;
 }
 
@@ -67,7 +67,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
     user-select: none;
     transform: translate(0px,-20%);
     transition: opacity .2s ease,transform .2s ease;
-    /* opacity: 0; */
+    opacity: 0;
     width:50px; /* placeholder so '-' won't change margins*/
   }
 
@@ -143,7 +143,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
     position: relative;
     text-align: center;
     transition: background 600ms ease, color 600ms ease;
-    height: 15px;
+    height: 17px;
 }
 input[type="radio"].toggle {
     display: none;

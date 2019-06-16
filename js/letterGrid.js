@@ -6,7 +6,7 @@ var width = window.innerWidth*0.65; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
 var near = 700;
-var far = 2100;
+var far = 2000;
 var zoom, view;
 // letters
 var message = "א";
