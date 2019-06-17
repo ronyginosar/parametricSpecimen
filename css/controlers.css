@@ -73,7 +73,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
 
 .tooltiptext {
   font-family: 'NarkisBlock';
-  font-size: 1.1vw;
+  font-size: 1vw;
   /* font-size: 9pt; */
   /* opacity: 0 ; */
   color: var(--bg-color);

@@ -133,7 +133,7 @@ body{
 
 h2{
   padding-bottom: var(--page-margins);
-  font-size: 45pt;
+  font-size: 12vh;
   position: relative;
   margin: 0;
   line-height: 0.8;
@@ -210,6 +210,11 @@ h3::selection {
   align-items: flex-end;
   justify-content: space-evenly;
   opacity: 1;
+
+}
+
+.tuner .tooltiptext{
+  font-size: 0.9vw;
 }
 
 /* bottomSection */
