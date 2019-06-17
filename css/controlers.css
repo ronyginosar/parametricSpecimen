@@ -138,7 +138,8 @@ input[type=range].styleslider::-webkit-slider-thumb {
 /* VARTOGGLES */
 
 .btn{
-    /* border: 1px solid var(--element-color); */
+    border: 1px solid var(--element-color);
+    border-radius: 3px;
     display: inline-block;
     /* font-size: 18pt; */
     font-size: 3.5vh;
@@ -192,6 +193,8 @@ input[type="radio"].toggle:checked+label {
     cursor: default;
     color: var(--bg-color);
     transition: color 200ms;
+    border: 1px solid var(--bg-color);
+    border-radius: 3px;
 }
 input[type="radio"].toggle:checked+label::after{
     left: 0;
