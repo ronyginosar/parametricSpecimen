@@ -149,7 +149,7 @@ h2::selection {
 }
 
 h3{
-  padding-top: var(--header-margins);
+  /* padding-top: var(--header-margins); */
   font-size: 17pt;
   position: relative;
   margin: 0;
