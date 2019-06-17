@@ -234,7 +234,7 @@ h3::selection {
   color: var(--element-color);
   /* margin-top: var(--page-margins); */
   /* margin-bottom: var(--page-margins); */
-  font-size: 1.5vw;
+  font-size: 2.5vh;
   /* font-size: 15pt; */
   margin-left: 12px;
   /* transform: rotate(-90deg); */
@@ -242,14 +242,15 @@ h3::selection {
   /* transform: rotate(-90deg); */
   /* transform-origin: top right; */
   letter-spacing: 1px;
+  margin-bottom: 0;
   /* font-weight: lighter; */
 }
 
 #downloadIcon{
   /* width: 25px; */
-  height: 25px;
+  height: 20px;
   margin-left: 5px;
-  margin-bottom: 0;
+  margin-bottom: 5px;
 }
 
 #downloadIcon:active{
@@ -272,11 +273,14 @@ h3::selection {
 
 #messageInputBox{
   text-align: center;
-  /* height:23px; */
+  height:3.5vh;
   font-size: 1.5vw;
+  /* font-size: 3.5vh; */
+  line-height: 0.5;
   /* font-size: 11pt; */
   font-family: 'NarkisBlock';
   /* margin-bottom: 10px; */
+  padding-bottom: 1vh;
 }
 
 #messageInputBox:focus {

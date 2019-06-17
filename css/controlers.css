@@ -141,15 +141,15 @@ input[type=range].styleslider::-webkit-slider-thumb {
     /* border: 1px solid var(--element-color); */
     display: inline-block;
     /* font-size: 18pt; */
-    font-size: 2vw;
-    padding: 0.4vw;
+    font-size: 3.5vh;
+    padding: 1vh;
     /* padding: 3px; */
     /* padding-bottom: 7px; */
-    padding-bottom: 0.7vw;
+    padding-bottom: 1.6vh;
     position: relative;
     text-align: center;
     transition: background 600ms ease, color 600ms ease;
-    height:25px;
+    /* height:25px; */
     line-height: 0.5;
 }
 input[type="radio"].toggle {
