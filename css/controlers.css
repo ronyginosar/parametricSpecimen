@@ -142,7 +142,7 @@ input[type=range].styleslider::-webkit-slider-thumb {
     display: inline-block;
     /* font-size: 18pt; */
     font-size: 3.5vh;
-    padding: 1vh;
+    padding: 0.5vh;
     /* padding: 3px; */
     /* padding-bottom: 7px; */
     padding-bottom: 1.6vh;

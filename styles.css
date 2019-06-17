@@ -234,7 +234,7 @@ h3::selection {
   color: var(--element-color);
   /* margin-top: var(--page-margins); */
   /* margin-bottom: var(--page-margins); */
-  font-size: 2.5vh;
+  font-size: 2.2vh;
   /* font-size: 15pt; */
   margin-left: 12px;
   /* transform: rotate(-90deg); */
@@ -250,7 +250,7 @@ h3::selection {
   /* width: 25px; */
   height: 20px;
   margin-left: 5px;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
 }
 
 #downloadIcon:active{
@@ -289,7 +289,7 @@ h3::selection {
 
 .icon{
   object-fit: contain;
-  width: 25px;
+  width: 30px;
   /* width: 20px; */
   margin-bottom: 3.2vh;
   /* margin-bottom: 19px; */
