@@ -128,7 +128,7 @@ body{
   position: relative;
   padding: var(--page-margins);
   margin: var(--page-margins);
-  top: 15%;
+  top: 10%;
   overflow:hidden;
 }
 
@@ -139,7 +139,7 @@ h2{
   position: relative;
   margin: 0;
   /* margin-top: 15px; */
-  line-height: 0.6;
+  line-height: 0.75;
   z-index: 100;
   font-weight: normal;
 }
