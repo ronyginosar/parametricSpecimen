@@ -73,7 +73,8 @@ input[type=range].styleslider::-webkit-slider-thumb {
 
 .tooltiptext {
   font-family: 'NarkisBlock';
-  font-size: 9pt;
+  font-size: 1.1vw;
+  /* font-size: 9pt; */
   /* opacity: 0 ; */
   color: var(--bg-color);
   text-align: center;
@@ -139,13 +140,16 @@ input[type=range].styleslider::-webkit-slider-thumb {
 .btn{
     /* border: 1px solid var(--element-color); */
     display: inline-block;
-    font-size: 18pt;
-    padding: 3px;
-    padding-bottom: 7px;
+    /* font-size: 18pt; */
+    font-size: 2vw;
+    padding: 0.4vw;
+    /* padding: 3px; */
+    /* padding-bottom: 7px; */
+    padding-bottom: 0.7vw;
     position: relative;
     text-align: center;
     transition: background 600ms ease, color 600ms ease;
-    /* height: 17px; */
+    height:25px;
     line-height: 0.5;
 }
 input[type="radio"].toggle {

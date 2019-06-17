@@ -2,7 +2,7 @@
 // camera and zoom
 var container;
 var camera, scene, renderer;
-var width = window.innerWidth*0.65; // align with css properties
+var width = window.innerWidth*0.6; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
 var near = 700;

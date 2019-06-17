@@ -10,7 +10,7 @@
   /* --element-color: #232323;
   --bg-color: #f7f6f4; */
   --page-margins: 3%;
-  --toolbox-margin: 37%;
+  --toolbox-margin: 42%;
   --font-variation-settings: "wght" 40, "ctrs" 0, "styl" 4;
 }
 
@@ -234,7 +234,8 @@ h3::selection {
   color: var(--element-color);
   /* margin-top: var(--page-margins); */
   /* margin-bottom: var(--page-margins); */
-  font-size: 15pt;
+  font-size: 1.5vw;
+  /* font-size: 15pt; */
   margin-left: 12px;
   /* transform: rotate(-90deg); */
   /* transform-origin: top left; */
@@ -272,8 +273,8 @@ h3::selection {
 #messageInputBox{
   text-align: center;
   /* height:23px; */
-  font-size: 11pt;
-  /* line-height: 0.1; */
+  font-size: 1.5vw;
+  /* font-size: 11pt; */
   font-family: 'NarkisBlock';
   /* margin-bottom: 10px; */
 }
@@ -284,8 +285,10 @@ h3::selection {
 
 .icon{
   object-fit: contain;
-  width: 20px;
-  margin-bottom: 19px;
+  width: 25px;
+  /* width: 20px; */
+  margin-bottom: 3.2vh;
+  /* margin-bottom: 19px; */
 }
 
 .icon:focus {
