@@ -250,7 +250,7 @@ h3::selection {
   /* width: 25px; */
   height: 20px;
   margin-left: 5px;
-  /* margin-bottom: 5px; */
+  margin-bottom: 5px;
 }
 
 #downloadIcon:active{
