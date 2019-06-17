@@ -282,13 +282,13 @@ h3::selection {
 #messageInputBox{
   text-align: center;
   height:3.5vh;
-  font-size: 1.1vw;
+  font-size: 2vh;
   /* font-size: 3.5vh; */
   line-height: 0.5;
   /* font-size: 11pt; */
   font-family: 'NarkisBlock';
   /* margin-bottom: 10px; */
-  padding-bottom: 1vh;
+  padding-bottom: 0.5vh;
 }
 
 #messageInputBox:focus {
