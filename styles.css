@@ -217,9 +217,9 @@ h3::selection {
 
 }
 
-.tuner .tooltiptext{
+/* .tuner .tooltiptext{
   font-size: 0.9vw;
-}
+} */
 
 /* bottomSection */
 
@@ -251,15 +251,14 @@ h3::selection {
   /* transform: rotate(-90deg); */
   /* transform-origin: top right; */
   letter-spacing: 1px;
-  margin-bottom: 0;
   /* font-weight: lighter; */
 }
 
 #downloadIcon{
   /* width: 25px; */
-  height: 20px;
-  margin-left: 5px;
-  margin-bottom: 5px;
+  height: 25px;
+  /* margin-left: 5px; */
+  margin-bottom: 0;
 }
 
 #downloadIcon:active{
