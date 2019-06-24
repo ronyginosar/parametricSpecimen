@@ -68,8 +68,8 @@ body{
 #opener{
   z-index: 200;
   position: absolute;
-  background-image: url("data/openingPage.png");
-  background-repeat: no-repeat;
+  /* background-image: url("data/openingPage.png"); */
+  /* background-repeat: no-repeat; */
   background-color:var(--element-color);
   top:0;
   height: 100%;
@@ -98,6 +98,9 @@ body{
   cursor: cell;
   padding-right: 7px;
   padding-left: 7px;
+  /* border: 1px solid var(--bg-color); */
+  /* border-radius: 3px; */
+  /* padding-top: -3%; */
 }
 
 #optionA{
