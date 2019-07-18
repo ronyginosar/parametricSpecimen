@@ -347,7 +347,7 @@ h3::selection {
 	height: 100%;
 	background-color: var(--bg-color);
 	/* left: 5px; */
-	/* top: 10%; */
+	top: 10px;
 	animation-name: blink;
 	animation-duration: 1000ms;
 	animation-iteration-count: infinite;
@@ -357,6 +357,10 @@ h3::selection {
 
 .cursor input:focus + i {
 	display: none;
+}
+
+.cursor::selection {
+  color: green;
 }
 
 @keyframes blink {
