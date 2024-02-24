@@ -301,9 +301,7 @@ h3::selection {
 .icon{
   object-fit: contain;
   width: 30px;
-  /* width: 20px; */
   margin-bottom: 3.2vh;
-  /* margin-bottom: 19px; */
 }
 
 .icon:focus {

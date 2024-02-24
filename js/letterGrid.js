@@ -5,11 +5,14 @@ var camera, scene, renderer;
 var width = window.innerWidth*0.6; // align with css properties
 var height = window.innerHeight;
 var fov = 15;
+var fov = 100;
 var near = 700;
 var far = 2000;
 var zoom, view;
 // letters
-var message = "א";
+// var message = "א";
+var message = "נדבר מחר"; // TODO temp
+var lettersToSpace = 1; // I could just count...
 var letterinstances = [];
 var currentDisplay = [];
 var centerVertice = "40,0,4";
@@ -18,10 +21,10 @@ var show = false;
 var instances = 6;
 var totalInstances = Math.pow(instances, 2);
 var hexRadius = 25;
-var hexWidth = hexRadius * 2 + 5;
-var hexHeight = (Math.sqrt(3)/2 * (hexRadius * 2)) -5;
+var hexHeight = hexRadius * 2 + 5;
+var hexWidth = (Math.sqrt(3)/2 * (hexRadius * 2)) -5;
 // visuals of zoom
-var zoomLevel = 22; //TODO!
+var zoomLevel = 22; //TODO!  // TODO temp
 var zoomLevelShift = 2; //TODO!
 var maxZoom = 31; //TODO!
 // var zoomLevel = 18; //TODO!
@@ -34,6 +37,12 @@ var ctrsInc = 8;
 var initWght = 40;
 var currRadi = 4;
 var currNeighbors = [];
+
+// TODO
+var xWidth  = 3.2;
+// var xWidth  = 2;
+// var xWidth  = 6;
+var xHeight = 2;
 
 
 //////////////////////////////// FUNCTIONS ////////////////////////////////
@@ -51,7 +60,7 @@ function drawLetters(){
       var letter = document.createElement( 'div' );
       letter.className = 'letter';
       letter.textContent = message;
-      logManager("switch to "+centerVertice);
+      logManager("switch to "+ centerVertice);
 
       switch (centerVertice) {
 
@@ -149,20 +158,29 @@ function drawLetters(){
       var object = new THREE.CSS3DObject( letter );
       object.name = letter.id; // set name to match id
 
+      // var emWidth = parseFloat(getComputedStyle(object.element.style).fontSize);
+      // var emWidth = object.element.style;
+      // var xWidth = 5; // TODO from font render
+      // var xHeight = 5;
+      // console.log("emWidth "+ emWidth);
       // place on hex grid
-      var xSpacing = hexHeight * i;
-			var ySpacing = hexWidth * j * .75;
+      var xSpacing = hexWidth * i * lettersToSpace * xWidth ;
+      // get amount of chars in input box for ySpacing 
+      // var lettersToSpace = $("#messageInputBox");//[0].innerHTML;
+      // console.log("amount of letters ", lettersToSpace);
+			var ySpacing = hexHeight * j ;//* .75;//*  lettersToSpace ; // TODO 4poster - add factor of #of letters in input.
       if ((i % 2) == 0)
 			{
         object.position.x = xSpacing;
-        object.position.y = ySpacing;
+        object.position.y = ySpacing * xHeight ;
         object.position.z = 0;
       } else {
         object.position.x = xSpacing;
-        object.position.y = ySpacing + hexWidth / 2;
+        // object.position.y = (ySpacing*xHeight) + ((hexHeight / 2) * xHeight);
+        object.position.y = (ySpacing + (hexHeight / 2) ) * xHeight;
         object.position.z = 0;
       }
-      letterinstances.push( object ); // appened to end of list
+      letterinstances.push( object ); // append to end of list
       scene.add(object);
       // unless show toggle is on, init on opacity 0
       object.element.style.opacity = 0;
@@ -450,7 +468,10 @@ $('#messageInputBox').on('input',function(e){
     $.each(letterinstances, function( index, value ) {
       value.element.textContent = message;
     });
-    $(".tuner span")[0].innerHTML = message;
+    $(".tuner span")[0].innerHTML = message; // TODO 4poster tuner? 
+    // document.getElementById("messageInputBox").value = message; // not working, but not needed 
+    lettersToSpace = document.getElementById("messageInputBox").value.length;
+    console.log("amount of letters ", lettersToSpace); // Note: logManager not printing this smoothly
 });
 
 // disable enter on editable h2
