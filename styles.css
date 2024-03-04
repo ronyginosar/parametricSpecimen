@@ -15,7 +15,7 @@
   --font-variation-settings: "wght" 40, "ctrs" 0, "styl" 4;
 }
 
-/* font declerations */
+/* font declarations */
 @font-face {
   font-family: 'Noordzij';
   src: url('font/NoordzijTributev2GX.ttf');
@@ -62,8 +62,8 @@ body{
 
 /* MAIN */
 
-.main{
-}
+/* .main{
+} */
 
 #opener{
   z-index: 200;

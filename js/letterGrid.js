@@ -11,7 +11,8 @@ var far = 2000;
 var zoom, view;
 // letters
 // var message = "א";
-var message = "נדבר מחר"; // TODO temp
+var message = "אופציה"; // TODO temp
+var message = "סימפטיה"; // TODO temp
 var lettersToSpace = 1; // I could just count...
 var letterinstances = [];
 var currentDisplay = [];
@@ -39,7 +40,9 @@ var currRadi = 4;
 var currNeighbors = [];
 
 // TODO
-var xWidth  = 3.2;
+var xWidth  = 2.4;
+var xWidth  = 2.9;
+// var xWidth  = 1.5;
 // var xWidth  = 2;
 // var xWidth  = 6;
 var xHeight = 2;
