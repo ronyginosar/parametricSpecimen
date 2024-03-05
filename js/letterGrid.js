@@ -34,8 +34,9 @@ var maxZoom = 31; //TODO!
 // var maxZoom = 24; //TODO!
 var currOpacity = 0;
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];
-var wghtInc = 8;// 10; //8
-var ctrsInc = 8;// 10; //8
+var wghtIncrement = 8; // = 80-40/5
+var ctrsIncrement = 6; //TODO decide if initial view is max or half way. so 10 or 5
+var stylIncrement = 0.5; //TODO decide if initial view is max or half way. so 1 or .5
 var initWght = 40;
 var initCtrs = 0;
 var initStyl = 0;
@@ -79,49 +80,72 @@ function drawLetters(){
         case "80,40,4":
           if (i>=0 && j>=0 && i>=j){ // I+
             var ctrs = i-5;
-            ctrs = Math.abs(ctrs) * ctrsInc;
+            ctrs = Math.abs(ctrs) * ctrsIncrement;
             var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
-            wght = Math.abs(wght) * wghtInc + initWght;
+            wght = Math.abs(wght) * wghtIncrement + initWght;
             var styl = 4;
           } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
             var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 5 ;
-            wght = Math.abs(wght) * wghtInc + initWght;
+            wght = Math.abs(wght) * wghtIncrement + initWght;
             var ctrs = i-5 ;
-            ctrs = Math.abs(ctrs) * (ctrsInc + 4);
+            ctrs = Math.abs(ctrs) * (ctrsIncrement + 4);
             var styl = 4;
           } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
-            var wght = (j+5) * wghtInc + initWght;
+            var wght = (j+5) * wghtIncrement + initWght;
             var ctrs = Math.abs(i-5)*10;
             var styl = 4;
           } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
             var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/4) - 6 ;
-            wght = Math.abs(wght) * (wghtInc-2) + initWght;
+            wght = Math.abs(wght) * (wghtIncrement-2) + initWght;
             var ctrs = 40;
             var styl = Math.abs(Math.abs(i) - 5);
           } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
-            var wght = (j+5) * (wghtInc-2) + initWght;
+            var wght = (j+5) * (wghtIncrement-2) + initWght;
             var ctrs = 40;
             var styl = Math.abs(Math.abs(i) - 5);
           } else if (i>=0 && j>=0 && i<j){ // I-
             var wght = initWght+initWght;
-            var ctrs =(Math.abs(j-5)) * ctrsInc;
+            var ctrs =(Math.abs(j-5)) * ctrsIncrement;
             var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
             styl = Math.abs(styl-3);
           } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
             var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2) + 5;
-            wght = Math.abs(wght) * wghtInc + initWght;
+            wght = Math.abs(wght) * wghtIncrement + initWght;
             var ctrs = 40;
             var styl = Math.abs(Math.abs(i) - 5);
           } else { // IV-
             var wght = initWght+initWght;
             var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3)-5;
-            ctrs =(Math.abs(ctrs)) * ctrsInc;
+            ctrs =(Math.abs(ctrs)) * ctrsIncrement;
             var styl = Math.abs(Math.abs(j) - 5);
           }
           break;
 
         case "40,0,4":
-          if (i>0 && j>=0 && i>=j){ // new: top right, inc. diagonal to between top right to bottom right
+          if (i==0 && j>=0 && i<=j){ // top "40,40,0"
+            var wght = initWght; // same
+            var ctrs = initCtrs + (j*ctrsIncrement);
+            var styl = initStyl + Math.ceil(j*stylIncrement) ; 
+
+          } else if (i>0 && j>=0 && i<j){ // from top to top right
+              // var wght = initWght;
+              // var ctrs =(Math.abs(j)) * ctrsInc;
+              // var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+              // styl = Math.abs(styl-3);
+              // var wght = initWght; 
+              // var ctrs = initCtrs;
+              // var styl = initStyl; 
+  
+              // up to 
+              // var wght = initWght; // same
+              // var ctrs = initCtrs;
+              // var styl = maxStyl; 
+  
+              var ctrs = 80;
+              var wght = 80;
+              var styl = 80;
+          
+          } else if (i>0 && j>=0 && i>=j){ // top right "40,0,0", from top right to between top right and bottom right
             // var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3);
             // ctrs *= ctrsInc;
             // var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
@@ -130,7 +154,7 @@ function drawLetters(){
             var ctrs = 70;
             var wght = 70;
             var styl = 70;
-          } else if (i>0 && j<=0 && i>=Math.abs(j)){ // from between top right to bottom right, inc. diagonal
+          } else if (i>0 && j<=0 && i>=Math.abs(j)){ // bottom right "80,0,0", from between top right and bottom right to bottom right
             // var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6);
             // wght = wght * wghtInc + initWght;
             // var ctrs = i * (ctrsInc) ;
@@ -139,19 +163,31 @@ function drawLetters(){
             var ctrs = 60;
             var wght = 60;
             var styl = 60;
-          } else if (i>0 && j<0 && i<=(Math.abs(j)+1)){ // II- // new: from bottom to bottom right
+          } else if (i>0 && j<0 && i<=(Math.abs(j)+1)){ // from bottom right to bottom
             // var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
             // var ctrs = i * (ctrsInc + 4);
             // var styl = 4;
-            var ctrs = j;
-            var wght = i;
-            var styl = 40;
 
             var ctrs = 50;
             var wght = 50;
             var styl = 50;
-            
-          } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+ // new: between top left and bottom left
+
+          } else if (i==0 && j<0){ // bottom "80,0,4"
+            // var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+            // var ctrs = 0;
+            // var styl = Math.abs(Math.abs(i) - 4);
+            var ctrs = 0;
+            var wght = 0;
+            var styl = 0;
+          } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // from bottom to bottom left "80,40,4"
+            // var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+            // var ctrs = 0;
+            // var styl = Math.abs(Math.abs(i) - 4);
+            var ctrs = 40;
+            var wght = 40;
+            var styl = 40;
+
+          } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // from bottom left to between top left and bottom left
             // var wght = Math.abs(j) * wghtInc + initWght;
             // var ctrs = 0;
             // var styl = Math.abs(Math.abs(i) - 4);
@@ -162,65 +198,12 @@ function drawLetters(){
             var ctrs = 30;
             var wght = 30;
             var styl = 30;
-           
-          } else if (i==0 && j<0){ // new: bottom
-          // var wght = (Math.abs(j) - 1) * wghtInc + initWght;
-          // var ctrs = 0;
-          // var styl = Math.abs(Math.abs(i) - 4);
-          var ctrs = 0;
-          var wght = 0;
-          var styl = 0;
-
-          } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // new: between bottom to bottom left
-            // var wght = (Math.abs(j) - 1) * wghtInc + initWght;
-            // var ctrs = 0;
-            // var styl = Math.abs(Math.abs(i) - 4);
-            var ctrs = 40;
-            var wght = 40;
-            var styl = 40;
-
-          } else if (i>0 && j>=0 && i<=j){ // I-  // new: from top to top right
-          // } else if (i>0 && j>=0 && i==j){ // I-  // new: top right
-
-            // var wght = initWght;
-            // var ctrs =(Math.abs(j)) * ctrsInc;
-            // var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
-            // styl = Math.abs(styl-3);
-            // var wght = initWght; 
-            // var ctrs = initCtrs;
-            // var styl = initStyl; 
-
-            // up to 
-            // var wght = initWght; // same
-            // var ctrs = initCtrs;
-            // var styl = maxStyl; 
-
-            var ctrs = 80;
-            var wght = 80;
-            var styl = 80;
-
-          } else if (i==0 && j>=0 && i<=j){ // new: top 
-
-            
-            var wght = initWght; // same
-            var ctrs = initCtrs;
-            var styl = initStyl; // same
-            // up to 
-            var wght = initWght; // same
-            var ctrs = maxCtrs;
-            var styl = initStyl; // same
 
 
-          } else if (i<0 && j>0 && Math.abs(i)<Math.abs(j)){ // new: from top to top left
-            // var ctrs = j;
-            // var wght = i;
-            // var styl = 10;
-            
-            var ctrs = 10;
-            var wght = 10;
-            var styl = 10;
           
-          } else if (Math.abs(i)>=Math.abs(j)){ // IV+ // top left // note removed +1s to include diagonal
+          
+          } else if (Math.abs(i)>=Math.abs(j)){ // top left "40,40,4" from between top left and bottom left to top left 
+            // note removed +1s to include diagonal
             // var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
             // wght = Math.abs(wght) * wghtInc + initWght;
             // var ctrs =(Math.abs(j)) * ctrsInc;
@@ -238,7 +221,15 @@ function drawLetters(){
             var wght = 20;
             var styl = 20;
             
+          } else if (i<0 && j>0 && Math.abs(i)<Math.abs(j)){ // from top left to top
+            // var ctrs = j;
+            // var wght = i;
+            // var styl = 10;
             
+            var ctrs = 10;
+            var wght = 10;
+            var styl = 10;
+
           } else { // IV-
             // var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3);
             // ctrs =(Math.abs(ctrs)) * ctrsInc;
@@ -246,16 +237,16 @@ function drawLetters(){
             // var styl = Math.abs(Math.abs(j) - 5);
 
 
-            var ctrs = 0;
-            var wght = 0;
-            var styl = 0;
+            // var ctrs = 0;
+            // var wght = 0;
+            // var styl = 0;
             var ctrs = " ";
             var wght = " ";
             var styl = " ";
-            var ctrs = j;
-            var wght = i;
-            var styl = 0;
-            // logManager("error in define instance");
+            // var ctrs = j;
+            // var wght = i;
+            // var styl = 0;
+            logManager("error in define instance");
 
             if (i<j){
               var ctrs = 1;
@@ -266,6 +257,12 @@ function drawLetters(){
           }
           break;
       }
+
+      // for now, we clamp max val for each, can change later for wrapping
+      wght = Math.min(wght, maxWght);
+      ctrs = Math.min(ctrs, maxCtrs);
+      styl = Math.min(styl, maxStyl);
+
       // set vars for section
       letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
 
