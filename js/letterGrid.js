@@ -4,19 +4,20 @@ var container;
 var camera, scene, renderer;
 var width = window.innerWidth*0.6; // align with css properties
 var height = window.innerHeight;
-var fov = 15;
+// var fov = 15; // TODO according to window
+var fov = 50;
 var fov = 100;
 var near = 700;
 var far = 2000;
 var zoom, view;
 // letters
 // var message = "א";
-var message = "אופציה"; // TODO temp
+// var message = "אופציה"; // TODO temp
 var message = "סימפטיה"; // TODO temp
 var lettersToSpace = 1; // I could just count...
 var letterinstances = [];
 var currentDisplay = [];
-var centerVertice = "40,0,4";
+var centerVertex = "40,0,4";
 var show = false;
 // hex grid
 var instances = 6;
@@ -33,19 +34,27 @@ var maxZoom = 31; //TODO!
 // var maxZoom = 24; //TODO!
 var currOpacity = 0;
 var opacityVec = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];
-var wghtInc = 8;
-var ctrsInc = 8;
+var wghtInc = 8;// 10; //8
+var ctrsInc = 8;// 10; //8
 var initWght = 40;
+var initCtrs = 0;
+var initStyl = 0;
+var maxWght = 80;
+var maxCtrs = 40;
+var maxStyl = 4;
 var currRadi = 4;
 var currNeighbors = [];
 
 // TODO
-var xWidth  = 2.4;
+// var xWidth  = 2.4;
 var xWidth  = 2.9;
 // var xWidth  = 1.5;
 // var xWidth  = 2;
-// var xWidth  = 6;
+var xWidth  = 6;
 var xHeight = 2;
+
+// DEBUG flag
+debugInstances = true;
 
 
 //////////////////////////////// FUNCTIONS ////////////////////////////////
@@ -54,18 +63,18 @@ var xHeight = 2;
 
 // DRAWLETTERS
 function drawLetters(){
-  for ( var i = -instances-1; i < instances+2; i += 1 ) {
-    for ( var j = -instances-1; j < instances+2; j += 1 ) {
-  // for ( var i = -instances+1; i < instances; i += 1 ) {
-  //   for ( var j = -instances+1; j < instances; j += 1 ) {
+  for ( var i = -instances-1; i <= instances+1; ++i ) {
+    for ( var j = -instances-1; j <= instances+1; ++j ) {
 
       // create letter instance with css attrs
       var letter = document.createElement( 'div' );
       letter.className = 'letter';
       letter.textContent = message;
-      logManager("switch to "+ centerVertice);
+      logManager("switch to "+ centerVertex);
 
-      switch (centerVertice) {
+      // TODO make switch case and drawing for i,j
+
+      switch (centerVertex) {
 
         case "80,40,4":
           if (i>=0 && j>=0 && i>=j){ // I+
@@ -112,49 +121,159 @@ function drawLetters(){
           break;
 
         case "40,0,4":
-          if (i>=0 && j>=0 && i>=j){ // I+
-            var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3);
-            ctrs *= ctrsInc;
-            var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
-            wght = Math.abs(wght) * wghtInc + initWght;
-            var styl = 4;
-          } else if (i>=0 && j<0 && i>=Math.abs(j)-1){ // II+
-            var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6);
-            wght = wght * wghtInc + initWght;
-            var ctrs = i * (ctrsInc) ;
-            var styl = 4;
-          } else if (i>=0 && j<0 && i<Math.abs(j)){ // II-
-            var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
-            var ctrs = i * (ctrsInc + 4);
-            var styl = 4;
-          } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+
-            var wght = Math.abs(j) * wghtInc + initWght;
-            var ctrs = 0;
-            var styl = Math.abs(Math.abs(i) - 4);
-          } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // III-
-            var wght = (Math.abs(j) - 1) * wghtInc + initWght;
-            var ctrs = 0;
-            var styl = Math.abs(Math.abs(i) - 4);
-          } else if (i>=0 && j>=0 && i<j){ // I-
-            var wght = initWght;
-            var ctrs =(Math.abs(j)) * ctrsInc;
-            var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
-            styl = Math.abs(styl-3);
-          } else if (Math.abs(i)>=Math.abs(j)+1){ // IV+
-            var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
-            wght = Math.abs(wght) * wghtInc + initWght;
-            var ctrs =(Math.abs(j)) * ctrsInc;
-            var styl = Math.abs(Math.abs(i) - 4);
+          if (i>0 && j>=0 && i>=j){ // new: top right, inc. diagonal to between top right to bottom right
+            // var ctrs = Math.floor(Math.abs(i) + (Math.abs(j) - Math.abs(j)%2)/3);
+            // ctrs *= ctrsInc;
+            // var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
+            // wght = Math.abs(wght) * wghtInc + initWght;
+            // var styl = 4;
+            var ctrs = 70;
+            var wght = 70;
+            var styl = 70;
+          } else if (i>0 && j<=0 && i>=Math.abs(j)){ // from between top right to bottom right, inc. diagonal
+            // var wght = Math.floor(Math.abs(i) + (Math.abs(j) + Math.abs(j)%2)/6);
+            // wght = wght * wghtInc + initWght;
+            // var ctrs = i * (ctrsInc) ;
+            // var styl = 4;
+            // // i = 10;
+            var ctrs = 60;
+            var wght = 60;
+            var styl = 60;
+          } else if (i>0 && j<0 && i<=(Math.abs(j)+1)){ // II- // new: from bottom to bottom right
+            // var wght = (Math.abs(j) - 1) * wghtInc + initWght + 10;
+            // var ctrs = i * (ctrsInc + 4);
+            // var styl = 4;
+            var ctrs = j;
+            var wght = i;
+            var styl = 40;
+
+            var ctrs = 50;
+            var wght = 50;
+            var styl = 50;
+            
+          } else if (i<0 && j<0 && Math.abs(i)>=Math.abs(j)){ // III+ // new: between top left and bottom left
+            // var wght = Math.abs(j) * wghtInc + initWght;
+            // var ctrs = 0;
+            // var styl = Math.abs(Math.abs(i) - 4);
+            var ctrs = j;
+            var wght = i;
+            var styl = 0;
+
+            var ctrs = 30;
+            var wght = 30;
+            var styl = 30;
+           
+          } else if (i==0 && j<0){ // new: bottom
+          // var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+          // var ctrs = 0;
+          // var styl = Math.abs(Math.abs(i) - 4);
+          var ctrs = 0;
+          var wght = 0;
+          var styl = 0;
+
+          } else if (i<0 && j<0 && Math.abs(i)<Math.abs(j)){ // new: between bottom to bottom left
+            // var wght = (Math.abs(j) - 1) * wghtInc + initWght;
+            // var ctrs = 0;
+            // var styl = Math.abs(Math.abs(i) - 4);
+            var ctrs = 40;
+            var wght = 40;
+            var styl = 40;
+
+          } else if (i>0 && j>=0 && i<=j){ // I-  // new: from top to top right
+          // } else if (i>0 && j>=0 && i==j){ // I-  // new: top right
+
+            // var wght = initWght;
+            // var ctrs =(Math.abs(j)) * ctrsInc;
+            // var styl = Math.floor(Math.abs(j/2)) - (Math.abs(i) - Math.abs(i)%2)/2 ;
+            // styl = Math.abs(styl-3);
+            // var wght = initWght; 
+            // var ctrs = initCtrs;
+            // var styl = initStyl; 
+
+            // up to 
+            // var wght = initWght; // same
+            // var ctrs = initCtrs;
+            // var styl = maxStyl; 
+
+            var ctrs = 80;
+            var wght = 80;
+            var styl = 80;
+
+          } else if (i==0 && j>=0 && i<=j){ // new: top 
+
+            
+            var wght = initWght; // same
+            var ctrs = initCtrs;
+            var styl = initStyl; // same
+            // up to 
+            var wght = initWght; // same
+            var ctrs = maxCtrs;
+            var styl = initStyl; // same
+
+
+          } else if (i<0 && j>0 && Math.abs(i)<Math.abs(j)){ // new: from top to top left
+            // var ctrs = j;
+            // var wght = i;
+            // var styl = 10;
+            
+            var ctrs = 10;
+            var wght = 10;
+            var styl = 10;
+          
+          } else if (Math.abs(i)>=Math.abs(j)){ // IV+ // top left // note removed +1s to include diagonal
+            // var wght = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/2);
+            // wght = Math.abs(wght) * wghtInc + initWght;
+            // var ctrs =(Math.abs(j)) * ctrsInc;
+            // var styl = Math.abs(Math.abs(i) - 4);
+            var wght = initWght; // same
+            var ctrs = initCtrs;
+            var styl = initStyl; 
+
+            // up to 
+            var wght = initWght; // same
+            var ctrs = maxCtrs;
+            var styl = maxStyl; 
+
+            var ctrs = 20;
+            var wght = 20;
+            var styl = 20;
+            
+            
           } else { // IV-
-            var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3);
-            ctrs =(Math.abs(ctrs)) * ctrsInc;
-            var wght = initWght;
-            var styl = Math.abs(Math.abs(j) - 5);
+            // var ctrs = Math.floor(Math.abs(j) - (Math.abs(i) - Math.abs(i)%2)/3);
+            // ctrs =(Math.abs(ctrs)) * ctrsInc;
+            // var wght = initWght;
+            // var styl = Math.abs(Math.abs(j) - 5);
+
+
+            var ctrs = 0;
+            var wght = 0;
+            var styl = 0;
+            var ctrs = " ";
+            var wght = " ";
+            var styl = " ";
+            var ctrs = j;
+            var wght = i;
+            var styl = 0;
+            // logManager("error in define instance");
+
+            if (i<j){
+              var ctrs = 1;
+              var wght = 1;
+              var styl = 1;
+            }
+            
           }
           break;
       }
       // set vars for section
       letter.style.fontVariationSettings = '"wght"' +wght+ ', "ctrs"' +ctrs+ ' ,"styl"' +styl;
+
+      if (debugInstances) {
+        letter.textContent = [wght,ctrs,styl].map(String); // DEBUG
+        // letter.textContent = [i,j].map(String); // DEBUG
+      }
+
       letter.id = i + ',' + j + ',' + 0;
 
       // create an element for the letter instance
@@ -423,14 +542,14 @@ function logManager(logEntry){
 $("#opener").on('click', function(e){
   // decide which opening letter
   if($(e.target).attr('id') == 'optionA'){
-    centerVertice = "40,0,4";
+    centerVertex = "40,0,4";
     $("#opener").css('display','none');
   }
   if($(e.target).attr('id') == 'optionB'){
-    centerVertice = "80,40,4";
+    centerVertex = "80,40,4";
     $("#opener").css('display','none');
   }
-  changeDisplay(centerVertice);
+  changeDisplay(centerVertex);
 });
 
 // DISPLAY MANAGER
@@ -456,11 +575,11 @@ function changeDisplay(center){
 // TOGGLE CENTER MANAGER
 function toggleCheck() {
   if(document.getElementsByName("toggle")[0].checked === true){
-    centerVertice = "40,0,4";
-    changeDisplay(centerVertice);
+    centerVertex = "40,0,4";
+    changeDisplay(centerVertex);
   } else if(document.getElementsByName("toggle")[0].checked === false){
-    centerVertice = "80,40,4";
-    changeDisplay(centerVertice);
+    centerVertex = "80,40,4";
+    changeDisplay(centerVertex);
   }
 }
 
@@ -496,7 +615,7 @@ function changeResolution(){
     logManager("Hiding");
     show = false;
     $("#showall").attr('src','data/hexiconW.png');
-    changeDisplay(centerVertice);
+    changeDisplay(centerVertex);
   }
 }
 
